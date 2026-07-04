@@ -1,21 +1,19 @@
-# Centro Ejecutivo SBX - Fase 4.6 Top / Bottom
+# Centro Ejecutivo SBX - Fase 4.7 Mapa SVG
 
-Entrega incremental sobre Fase 4.5.
+Entrega incremental sobre Fase 4.6.
 
-## Ajustes incluidos
+## Incluye
 
-- Top 10 dinámico por KPI, mes y región.
-- Bottom 10 dinámico por KPI, mes y región.
-- Barras horizontales ejecutivas por tienda.
-- Medallas para Top 3 y alertas para Bottom 3.
-- Variación vs Meta y vs Año Anterior.
-- Regla ADT: ranking por diferencia ADT_26 - ADT_25.
-- Click en tienda preparado para Drill Down posterior.
-- Mantiene estructura de una sola pestaña dinámica.
+- Mapa SVG interactivo de 11 regiones operativas.
+- Colores dinamicos por desempeno: cumple, atencion y riesgo.
+- Tooltip ejecutivo por region con Real, Meta, vs Meta, AA y vs AA.
+- Click en region para filtrar todo el dashboard.
+- Panel lateral con Score Nacional y conteo de regiones por estado.
+- Integracion con KPI, Mes, Region, KPI Cards, Comparativo Regional, Tendencias y Top/Bottom.
 
-## Publicación GitHub Pages
+## Publicacion GitHub Pages
 
-Subir el contenido del ZIP a la raíz del repositorio:
+Subir el contenido del ZIP a la raiz del repositorio:
 
 - index.html
 - assets/

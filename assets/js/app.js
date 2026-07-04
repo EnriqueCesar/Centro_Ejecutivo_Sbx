@@ -357,6 +357,80 @@ function renderTrend() {
     <div class="trend-gap">${vals.map(v => { const gap = safeNum(v.real) === null || safeNum(v.meta) === null ? null : v.real - v.meta; const cls = statusClass(gap,k); const width = Math.max(4, Math.min(100, Math.abs(gap || 0) / Math.max(.0001, Math.max(...vals.map(x => Math.abs((safeNum(x.real) || 0) - (safeNum(x.meta) || 0))), .0001)) * 100)); return `<div><b>${v.m}</b><span class="gap-pill ${cls}" style="--w:${width}%"><i></i>${diffFmt(gap,k)}</span></div>`; }).join('')}</div>
   `;
 }
+
+const REGION_LAYOUT = {
+  'Noroeste':      { x: 42,  y: 58,  w: 168, h: 102, poly: '42,58 210,42 230,122 184,162 60,150' },
+  'Norte':         { x: 238, y: 45,  w: 164, h: 96,  poly: '238,55 390,40 416,108 352,150 250,132' },
+  'Norte Centro':  { x: 430, y: 70,  w: 170, h: 96,  poly: '430,78 584,62 612,130 545,174 438,148' },
+  'Occidente':     { x: 92,  y: 184, w: 168, h: 98,  poly: '96,194 238,172 270,236 218,288 92,270' },
+  'Centro Norte':  { x: 284, y: 174, w: 154, h: 96,  poly: '286,184 426,166 454,230 398,276 286,258' },
+  'Bajío':         { x: 462, y: 194, w: 132, h: 86,  poly: '466,204 586,186 612,244 558,292 468,272' },
+  'Centro Poniente': { x: 168, y: 308, w: 162, h: 86, poly: '170,318 312,300 338,354 288,404 178,388' },
+  'Centro Centro': { x: 350, y: 306, w: 144, h: 84,  poly: '354,316 480,300 504,350 458,400 356,384' },
+  'Centro Sur':    { x: 518, y: 310, w: 146, h: 88,  poly: '522,320 650,302 682,362 622,410 522,390' },
+  'Sur':           { x: 282, y: 430, w: 176, h: 92,  poly: '286,438 430,420 468,482 408,536 288,510' },
+  'Sureste':       { x: 492, y: 428, w: 188, h: 94,  poly: '496,438 650,420 690,480 630,542 504,514' }
+};
+
+function regionByName(regs) {
+  return new Map((regs || []).map(r => [r.region, r]));
+}
+function mapStatusLabel(scoreVal) {
+  return scoreVal >= 80 ? 'Cumple' : scoreVal >= 65 ? 'Atención' : 'Riesgo';
+}
+function renderMap(regs, nationalScore) {
+  const k = META[state.kpi].kind;
+  const byRegion = regionByName(regs);
+  const total = regs.length;
+  const counts = regs.reduce((acc, r) => {
+    acc[statusClass(r.difMeta, k)] = (acc[statusClass(r.difMeta, k)] || 0) + 1;
+    return acc;
+  }, { green: 0, amber: 0, red: 0 });
+  $('#mapSubtitle').textContent = `${META[state.kpi].short} · ${state.month} ${state.year}`;
+  $('#mapScore').textContent = nationalScore;
+  $('#mapStatus').textContent = mapStatusLabel(nationalScore);
+  $('#mapStats').innerHTML = `
+    <div><strong>${total}</strong><span>Regiones</span></div>
+    <div><strong>${counts.green || 0}</strong><span>Cumplen</span></div>
+    <div><strong>${counts.amber || 0}</strong><span>Atención</span></div>
+    <div><strong>${counts.red || 0}</strong><span>Riesgo</span></div>`;
+
+  const shapes = Object.entries(REGION_LAYOUT).map(([region, box]) => {
+    const r = byRegion.get(region) || { region, real: null, meta: null, aa: null, difMeta: null, difAA: null };
+    const st = statusClass(r.difMeta, k);
+    const active = state.region === region ? ' active' : '';
+    const title = `${region}\n${META[state.kpi].short}: ${fmt(r.real,k)}\nMeta: ${fmt(r.meta,k)}\nvs Meta: ${diffFmt(r.difMeta,k)}\nAA: ${fmt(r.aa,k)}\nvs AA: ${diffFmt(r.difAA,k)}`;
+    return `<g class="map-region ${st}${active}" data-region="${region}" tabindex="0" role="button" aria-label="${region}">
+      <polygon points="${box.poly}"></polygon>
+      <text x="${box.x + box.w/2}" y="${box.y + box.h/2 - 6}" text-anchor="middle">${region}</text>
+      <text class="map-value" x="${box.x + box.w/2}" y="${box.y + box.h/2 + 17}" text-anchor="middle">${fmt(r.real,k)}</text>
+      <title>${title}</title>
+    </g>`;
+  }).join('');
+
+  $('#mexicoSvgMap').innerHTML = `
+    <svg class="operational-map" viewBox="0 0 730 585" role="img" aria-label="Mapa operativo de regiones Starbucks México">
+      <defs>
+        <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#003b2b" flood-opacity=".12"/></filter>
+      </defs>
+      <path class="map-backdrop" d="M42 58 C160 0 320 20 410 42 C520 70 644 72 688 140 C736 214 676 318 694 414 C710 504 606 562 510 552 C410 542 334 576 238 530 C144 486 62 434 52 330 C42 224 8 132 42 58 Z"/>
+      ${shapes}
+    </svg>`;
+  const go = (el) => {
+    if (!el) return;
+    state.region = el.dataset.region;
+    render();
+  };
+  $('#mexicoSvgMap').onclick = e => go(e.target.closest('[data-region]'));
+  $('#mexicoSvgMap').onkeydown = e => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const g = e.target.closest('[data-region]');
+    if (!g) return;
+    e.preventDefault();
+    go(g);
+  };
+}
+
 function renderInsights(regs, national, scoreVal) {
   const k = META[state.kpi].kind;
   const best = regs[0];
@@ -393,6 +467,7 @@ function render() {
   $('#summaryText').innerHTML = `${dMeta === null ? 'Sin objetivo disponible' : (dMeta >= 0 ? 'Por arriba de la meta en ' : 'Por debajo de la meta en ') + diffFmt(dMeta,meta.kind)} y ${dAA === null ? 'sin comparativo AA' : (dAA >= 0 ? 'por arriba del AA en ' : 'por debajo del AA en ') + diffFmt(dAA,meta.kind)}.`;
   renderCards(real, obj, aa, dMeta, dAA, sc);
   const regs = regionAgg(state.kpi, 'YTD');
+  renderMap(regs, sc);
   renderRegionTable(regs, { real, meta: obj, aa, dMeta, dAA });
   renderRanks();
   renderTrend();

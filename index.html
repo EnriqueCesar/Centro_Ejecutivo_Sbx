@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#006241" />
-  <title>Centro Ejecutivo SBX · Fase 4.6 Top Bottom</title>
+  <title>Centro Ejecutivo SBX · Fase 4.7 Mapa SVG</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
@@ -41,6 +41,21 @@
           </div>
         </article>
         <div class="cards-strip" id="kpiCards"></div>
+      </section>
+
+      <section class="dashboard-grid map-area">
+        <article class="panel mexico-map-panel">
+          <div class="panel-title"><h3>MAPA OPERATIVO POR REGIÓN</h3><span id="mapSubtitle">Filtro ejecutivo</span></div>
+          <div class="map-layout">
+            <div id="mexicoSvgMap" class="mexico-svg-map"></div>
+            <aside class="map-side">
+              <div class="map-score"><span>Score Nacional</span><strong id="mapScore">--</strong><em id="mapStatus">Calculando</em></div>
+              <div class="map-stats" id="mapStats"></div>
+              <div class="map-legend"><span><i class="dot green"></i>Cumple</span><span><i class="dot amber"></i>Atención</span><span><i class="dot red"></i>Riesgo</span></div>
+              <p class="map-note">Haz click en una región para filtrar todo el Centro Ejecutivo.</p>
+            </aside>
+          </div>
+        </article>
       </section>
 
       <section class="dashboard-grid top-area">
