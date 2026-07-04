@@ -1,0 +1,9 @@
+{
+  "name": "Centro Ejecutivo SBX 4.0",
+  "short_name": "Centro Ejecutivo",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f8f6",
+  "theme_color": "#006241",
+  "icons": [{"src":"assets/img/centro-ejecutivo-logo.jpg","sizes":"512x512","type":"image/jpeg","purpose":"any maskable"}]
+}

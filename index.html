@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#006241" />
+  <title>Centro Ejecutivo SBX 4.0</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="assets/img/centro-ejecutivo-logo.jpg" alt="Centro Ejecutivo" />
+        <div><b>Centro Ejecutivo</b><span>Fase 4 · One Page Dynamic</span></div>
+      </div>
+      <nav>
+        <a href="#executive" class="active">Centro Ejecutivo</a>
+        <a href="#drill">Drill Down</a>
+        <a href="#data">Data Engine</a>
+      </nav>
+      <div class="side-foot">GitHub Pages · PWA · Vanilla JS</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="title-block">
+          <p class="eyebrow">CENTRO EJECUTIVO 4.0</p>
+          <h1 id="mainTitle">Resumen Ejecutivo</h1>
+          <span id="periodLabel">YTD JUN 2026</span>
+        </div>
+        <div class="actions">
+          <button id="executiveMode" class="btn ghost">Modo ejecutivo</button>
+          <button id="resetBtn" class="btn">Vista nacional</button>
+          <button id="printBtn" class="btn primary">Exportar PDF</button>
+        </div>
+      </header>
+
+      <section class="control-strip">
+        <label>KPI<select id="kpiSelect"></select></label>
+        <label>Mes<select id="monthSelect"></select></label>
+        <label>Región<select id="regionSelect"></select></label>
+        <label>Año<select id="yearSelect"></select></label>
+      </section>
+
+      <section id="status" class="status">Cargando datos...</section>
+
+      <section id="executive" class="hero-card">
+        <div class="summary-icon"><span>↗</span></div>
+        <div class="summary-copy">
+          <p class="eyebrow" id="summaryScope">NACIONAL · JUNIO</p>
+          <h2 id="summaryHeadline">Calculando desempeño...</h2>
+          <p id="summaryText">El motor está preparando el resumen ejecutivo.</p>
+        </div>
+        <div class="score-card">
+          <span>Executive Score</span>
+          <strong id="scoreValue">--</strong>
+          <em id="scoreLabel">Cargando</em>
+        </div>
+      </section>
+
+      <section class="kpi-grid" id="kpiCards"></section>
+
+      <section class="layout-grid">
+        <article class="panel region-panel">
+          <div class="panel-head"><h3>Desempeño por región (YTD)</h3><span id="regionSubtitle">11 regiones</span></div>
+          <div class="region-table-wrap"><table id="regionTable"></table></div>
+          <div class="legend"><i class="green"></i>Cumple / Supera <i class="amber"></i>Cerca de meta <i class="red"></i>No cumple</div>
+        </article>
+
+        <article class="panel rankings bottom-panel">
+          <div class="panel-head danger"><h3>Bottom 10</h3><span>mayor oportunidad</span></div>
+          <div id="bottomList" class="rank-list"></div>
+        </article>
+
+        <article class="panel rankings top-panel">
+          <div class="panel-head success"><h3>Top 10</h3><span>mejor desempeño</span></div>
+          <div id="topList" class="rank-list"></div>
+        </article>
+      </section>
+
+      <section class="wide-grid">
+        <article class="panel trend-panel">
+          <div class="panel-head"><h3 id="trendTitle">Tendencia mensual</h3><span>Real · Meta · AA</span></div>
+          <div id="trendChart" class="trend-chart"></div>
+        </article>
+        <article class="panel insight-panel">
+          <div class="panel-head"><h3>Insights clave</h3><span>generados automáticamente</span></div>
+          <div id="insights" class="insights"></div>
+        </article>
+      </section>
+
+      <section class="wide-grid drill-grid" id="drill">
+        <article class="panel map-panel">
+          <div class="panel-head"><h3>Mapa ejecutivo por región</h3><span>clic para filtrar</span></div>
+          <div id="map" class="map"></div>
+        </article>
+        <article class="panel recommendation-panel">
+          <div class="panel-head"><h3>Recomendaciones automáticas</h3><span>acciones sugeridas</span></div>
+          <div id="recommendations" class="recommendations"></div>
+        </article>
+      </section>
+
+      <section id="data" class="panel data-panel">
+        <div class="panel-head"><h3>Data Engine</h3><span id="dataStatus">modelo cargado</span></div>
+        <div id="audit" class="audit-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
