@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#006241" />
-  <title>Centro Ejecutivo SBX · Fase 4.2 KPI Dinámico</title>
+  <title>Centro Ejecutivo SBX · Fase 4.4 Comparativo Regional</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
@@ -46,8 +46,9 @@
       <section class="dashboard-grid top-area">
         <article class="panel region-performance">
           <div class="panel-title"><h3>DESEMPEÑO POR REGIÓN (YTD)</h3><span id="regionCount">11 regiones</span></div>
-          <div class="table-wrap"><table id="regionTable"></table></div>
-          <div class="legend"><span><i class="dot green"></i>Cumple / Supera (+)</span><span><i class="dot amber"></i>Cerca de meta</span><span><i class="dot red"></i>No cumple (-)</span></div>
+          <div id="regionBars" class="region-bars"></div>
+          <div class="table-wrap compact"><table id="regionTable"></table></div>
+          <div class="legend"><span><i class="dot green"></i>Cumple / Supera (+)</span><span><i class="dot amber"></i>Cerca de meta</span><span><i class="dot red"></i>No cumple (-)</span><span class="hint">Click en una región para filtrar</span></div>
         </article>
 
         <article class="panel ranking bottom">
@@ -80,24 +81,6 @@
     </main>
   </div>
   <script src="assets/js/app.js" defer></script>
-
-<!-- KPI Cards Fase 4.3 -->
-<section id="kpi-cards" style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:16px 0;">
-<div class="card"><h4>Real</h4><div id="card-real">--</div></div>
-<div class="card"><h4>Meta</h4><div id="card-meta">--</div></div>
-<div class="card"><h4>AA</h4><div id="card-aa">--</div></div>
-<div class="card"><h4>vs Meta</h4><div id="card-vsmeta">--</div></div>
-<div class="card"><h4>vs AA</h4><div id="card-vsaa">--</div></div>
-<div class="card"><h4>Score</h4><div id="card-score">--</div></div>
-</section>
-<script>
-window.updateKPICards=function(d){
-['real','meta','aa','vsmeta','vsaa','score'].forEach(k=>{
- const el=document.getElementById('card-'+k);
- if(el&&d&&d[k]!=null) el.textContent=d[k];
-});
-}
-</script>
 
 </body>
 </html>

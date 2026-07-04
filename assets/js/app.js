@@ -174,9 +174,46 @@ function renderCards(real, meta, aa, dMeta, dAA, scoreVal) {
 }
 function renderRegionTable(regs, national) {
   const k = META[state.kpi].kind;
+  const selectedRegion = state.region;
+  const maxReal = Math.max(1, ...regs.map(r => Math.abs(safeNum(r.real) || 0)));
+  const maxGap = Math.max(1, ...regs.map(r => Math.abs(safeNum(r.difMeta) || 0)));
+
+  $('#regionBars').innerHTML = regs.map((r, idx) => {
+    const status = statusClass(r.difMeta, k);
+    const realWidth = Math.max(3, Math.min(100, Math.abs(safeNum(r.real) || 0) / maxReal * 100));
+    const gapWidth = Math.max(3, Math.min(100, Math.abs(safeNum(r.difMeta) || 0) / maxGap * 100));
+    const isActive = selectedRegion === r.region;
+    return `
+      <button class="region-bar-row ${isActive ? 'active' : ''}" data-region="${r.region}" style="--w:${realWidth}%;--gap:${gapWidth}%">
+        <div class="rb-head">
+          <b>${idx + 1}. ${r.region}</b>
+          <span>${fmt(r.real, k)}</span>
+        </div>
+        <div class="rb-track"><i class="rb-fill ${status}"></i></div>
+        <div class="rb-foot">
+          <span>Meta ${fmt(r.meta, k)}</span>
+          <strong class="${r.difMeta < 0 ? 'txt-red' : 'txt-green'}">${diffFmt(r.difMeta, k)}</strong>
+        </div>
+      </button>`;
+  }).join('') || '<div class="empty">Sin regiones para comparar</div>';
+
+  $('#regionBars').onclick = e => {
+    const row = e.target.closest('[data-region]');
+    if (!row) return;
+    state.region = row.dataset.region;
+    render();
+  };
+
   $('#regionTable').innerHTML = `<thead><tr><th>Región</th><th>${META[state.kpi].short} Real</th><th>Meta</th><th>AA</th><th>Dif Meta</th><th>Dif AA</th><th>Semáforo</th></tr></thead><tbody>` +
-    regs.map(r => `<tr data-region="${r.region}"><td>${r.region}</td><td>${fmt(r.real,k)}</td><td>${fmt(r.meta,k)}</td><td>${fmt(r.aa,k)}</td><td class="${r.difMeta < 0 ? 'txt-red':'txt-green'}">${diffFmt(r.difMeta,k)}</td><td class="${r.difAA < 0 ? 'txt-red':'txt-green'}">${diffFmt(r.difAA,k)}</td><td><i class="semaforo ${statusClass(r.difMeta,k)}"></i></td></tr>`).join('') +
+    regs.map(r => `<tr data-region="${r.region}" class="${selectedRegion === r.region ? 'selected' : ''}"><td>${r.region}</td><td>${fmt(r.real,k)}</td><td>${fmt(r.meta,k)}</td><td>${fmt(r.aa,k)}</td><td class="${r.difMeta < 0 ? 'txt-red':'txt-green'}">${diffFmt(r.difMeta,k)}</td><td class="${r.difAA < 0 ? 'txt-red':'txt-green'}">${diffFmt(r.difAA,k)}</td><td><i class="semaforo ${statusClass(r.difMeta,k)}"></i></td></tr>`).join('') +
     `<tr class="national"><td>NACIONAL</td><td>${fmt(national.real,k)}</td><td>${fmt(national.meta,k)}</td><td>${fmt(national.aa,k)}</td><td>${diffFmt(national.dMeta,k)}</td><td>${diffFmt(national.dAA,k)}</td><td><i class="semaforo ${statusClass(national.dMeta,k)}"></i></td></tr></tbody>`;
+
+  $('#regionTable').onclick = e => {
+    const tr = e.target.closest('tr[data-region]');
+    if (!tr) return;
+    state.region = tr.dataset.region;
+    render();
+  };
 }
 function renderRanks() {
   const k = META[state.kpi].kind;

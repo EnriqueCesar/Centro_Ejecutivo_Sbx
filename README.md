@@ -1,20 +1,20 @@
-# Centro Ejecutivo SBX - Fase 4.2 KPI Dinámico
+# Centro Ejecutivo SBX - Fase 4.4
 
-Esta entrega mantiene la estructura de Fase 4.1 y agrega selector de KPI realmente dinámico.
+Entrega incremental: **Comparativo regional ejecutivo**.
 
 ## Qué cambia
 
-- Lee los KPIs disponibles desde `data/kpi-data.json`.
-- Genera las pestañas de KPI automáticamente.
-- Al cambiar KPI se actualizan: título, periodo, summary, cards, tabla regional, Top 10, Bottom 10, tendencia, insights y recomendaciones.
-- Usa años disponibles del modelo y compara contra el año anterior detectado.
-- Respeta el modelo base: una sola pestaña ejecutiva.
+- Se mantiene una sola pestaña dinámica.
+- Se conserva el selector de KPI, mes y región.
+- Se agrega un comparativo regional visual con barras ejecutivas.
+- Cada región muestra Real, Meta y brecha vs Meta.
+- El color del comparativo usa el semáforo: verde, ámbar o rojo.
+- Click en una región filtra toda la vista.
+- La tabla regional queda como respaldo analítico compacto.
 
-## Publicación
+## Cómo subir
 
-Subir el contenido del ZIP a la raíz del repositorio GitHub Pages.
-
-Estructura esperada:
+Subir el contenido del ZIP en la raíz del repositorio de GitHub Pages:
 
 ```text
 index.html
@@ -24,3 +24,5 @@ manifest.json
 sw.js
 README.md
 ```
+
+No subir la carpeta contenedora completa.
