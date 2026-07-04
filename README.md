@@ -1,19 +1,20 @@
-# Centro Ejecutivo SBX - Fase 4.1 Layout
+# Centro Ejecutivo SBX - Fase 4.2 KPI Dinámico
 
-Entrega enfocada en el layout del Centro Ejecutivo en una sola pestaña dinámica.
+Esta entrega mantiene la estructura de Fase 4.1 y agrega selector de KPI realmente dinámico.
 
-## Incluye
-- Header ejecutivo tipo resumen.
-- Selector dinámico de KPI, mes y región.
-- Executive Summary.
-- KPI Cards.
-- Desempeño por región YTD.
-- Top 10 / Bottom 10.
-- Tendencia mensual.
-- Insights y recomendaciones de layout.
+## Qué cambia
 
-## Subida a GitHub Pages
-Sube el contenido de esta carpeta a la raíz del repositorio:
+- Lee los KPIs disponibles desde `data/kpi-data.json`.
+- Genera las pestañas de KPI automáticamente.
+- Al cambiar KPI se actualizan: título, periodo, summary, cards, tabla regional, Top 10, Bottom 10, tendencia, insights y recomendaciones.
+- Usa años disponibles del modelo y compara contra el año anterior detectado.
+- Respeta el modelo base: una sola pestaña ejecutiva.
+
+## Publicación
+
+Subir el contenido del ZIP a la raíz del repositorio GitHub Pages.
+
+Estructura esperada:
 
 ```text
 index.html
@@ -23,5 +24,3 @@ manifest.json
 sw.js
 README.md
 ```
-
-No subas la carpeta contenedora completa.
