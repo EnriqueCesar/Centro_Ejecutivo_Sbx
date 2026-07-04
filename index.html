@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#006241" />
-  <title>Centro Ejecutivo SBX · v4.9 Geo Executive</title>
+  <title>Centro Ejecutivo SBX · v5.1 Executive</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
@@ -15,7 +15,7 @@
         <img src="assets/img/centro-ejecutivo-logo.jpg" alt="Centro Ejecutivo SBX" onerror="this.style.display='none'">
         <div>
           <span>Centro Ejecutivo SBX</span>
-          <h1>Geo Executive v4.9</h1>
+          <h1>Executive v5.1</h1>
         </div>
       </div>
       <div class="topbar-actions">
@@ -55,35 +55,10 @@
         <div class="kpi-cards" id="kpiCards"></div>
       </section>
 
-      <section class="geo-layout">
-        <article class="panel map-panel">
-          <div class="panel-head">
-            <div>
-              <h3>Mapa México · Heatmap regional</h3>
-              <span id="mapSubtitle">Estados agrupados por región operativa</span>
-            </div>
-            <button id="centerZoomBtn" class="mini-btn">Zoom Centro</button>
-          </div>
-          <div class="map-body">
-            <div class="map-canvas" id="mexicoMap"></div>
-            <aside class="map-aside">
-              <div class="score-card">
-                <span>Score Ejecutivo</span>
-                <strong id="mapScore">--</strong>
-                <em id="mapStatus">Calculando</em>
-              </div>
-              <div id="mapStats" class="stat-stack"></div>
-              <div class="heat-legend">
-                <span>Riesgo</span><i></i><b></b><em></em><strong></strong><span>Cumple</span>
-              </div>
-              <p class="map-note">Click en un estado o región para filtrar. Selección múltiple desde filtros.</p>
-            </aside>
-          </div>
-        </article>
-
-        <article class="panel insight-panel compact-panel">
-          <div class="panel-head"><h3>Insights narrativos</h3><span>Automáticos</span></div>
-          <div id="insights" class="insights-list"></div>
+      <section class="insight-layout">
+        <article class="panel insight-panel executive-insights-panel">
+          <div class="panel-head"><h3>Insights narrativos</h3><span>Automáticos · sin mapa</span></div>
+          <div id="insights" class="insights-list executive-insights"></div>
         </article>
       </section>
 

@@ -100,14 +100,25 @@ function aggregateStoreRows(kpi=STATE.kpi, months=selectedMonths(), regions=sele
     const info = storeInfo(ceco);
     const region = info.region || 'Sin Región';
     if (regions.length && !regions.includes(region)) return;
-    const real = avg(months.map(m => valueFor(kpi, ceco, year, m)));
-    const aa = avg(months.map(m => valueFor(kpi, ceco, aaYear, m)));
+
+    let real, aa, comparableMonths = months;
+    if (kpi === 'adt') {
+      // V5.1: ADT sólo considera tiendas comparables.
+      // Una tienda entra al cálculo sólo si tiene dato 2026 y 2025 en el mismo mes seleccionado.
+      comparableMonths = months.filter(m => valueFor(kpi, ceco, year, m) !== null && valueFor(kpi, ceco, aaYear, m) !== null);
+      if (!comparableMonths.length) return;
+      real = avg(comparableMonths.map(m => valueFor(kpi, ceco, year, m)));
+      aa = avg(comparableMonths.map(m => valueFor(kpi, ceco, aaYear, m)));
+    } else {
+      real = avg(months.map(m => valueFor(kpi, ceco, year, m)));
+      aa = avg(months.map(m => valueFor(kpi, ceco, aaYear, m)));
+    }
     if (real === null) return;
-    const meta = avg(months.map(m => objective(kpi, m)));
+    const meta = avg(comparableMonths.map(m => objective(kpi, m)));
     const difMeta = meta === null ? null : real-meta;
     const difAA = aa === null ? null : real-aa;
-    const metric = kpi === 'adt' ? (aa === null ? null : real-aa) : real;
-    out.push({ceco, tienda:info.tienda || ceco, region, estado:info.estado || '', ciudad:info.ciudad || '', real, aa, meta, difMeta, difAA, metric, score:scoreFor(real, meta, aa, kpi), status:statusFromGap(difMeta)});
+    const metric = kpi === 'adt' ? real-aa : real;
+    out.push({ceco, tienda:info.tienda || ceco, region, estado:info.estado || '', ciudad:info.ciudad || '', real, aa, meta, difMeta, difAA, metric, comparableMonths: comparableMonths.length, score:scoreFor(real, meta, aa, kpi), status:statusFromGap(difMeta)});
   });
   return out;
 }
@@ -185,11 +196,11 @@ function ensureState(){
 function bindGlobal(){
   $('#resetBtn').onclick = () => { STATE.regions=['Todas']; STATE.level='region'; STATE.selectedRegion=null; render(); };
   $('#backLevelBtn').onclick = () => { STATE.level='region'; STATE.selectedRegion=null; render(); };
-  $('#centerZoomBtn').onclick = () => { STATE.regions = ['Centro Centro','Centro Norte','Centro Poniente','Centro Sur']; STATE.level='region'; render(); };
+  $('#centerZoomBtn') && ($('#centerZoomBtn').onclick = () => { STATE.regions = ['Centro Centro','Centro Norte','Centro Poniente','Centro Sur']; STATE.level='region'; render(); });
   $('#tableSearch').oninput = e => { STATE.search = e.target.value.trim().toLowerCase(); renderTable(); };
   $('#exportBtn').onclick = () => window.print();
 }
-function render(){ ensureState(); renderControls(); renderBreadcrumb(); renderSummary(); renderCards(); renderMap(); renderTable(); renderTrend(); renderRanks(); renderInsights(); renderRecommendations(); }
+function render(){ ensureState(); renderControls(); renderBreadcrumb(); renderSummary(); renderCards(); renderTable(); renderTrend(); renderRanks(); renderInsights(); renderRecommendations(); }
 function renderControls(){
   $('#kpiTabs').innerHTML = Object.keys(DB.kpis || {}).map(k => `<button class="chip ${STATE.kpi===k?'active':''}" data-kpi="${k}">${KPI_CONFIG[k]?.short || DB.kpis[k].label || k}</button>`).join('');
   $('#kpiTabs').onclick = e => { const b=e.target.closest('[data-kpi]'); if(!b) return; STATE.kpi=b.dataset.kpi; STATE.months=[availableMonths(STATE.kpi).at(-1)||'Jun']; STATE.level='region'; render(); };
@@ -310,15 +321,40 @@ function cellValue(r,key,k){
 }
 function renderTrend(){
   const k=currentKind(); const months=availableMonths();
-  const vals = months.map(m => { const regs=aggregateRegions(STATE.kpi,[m]).filter(r => selectedRegions().includes(r.region) || STATE.regions.includes('Todas')); return {m, real:avg(regs.map(r=>r.real)), meta:objective(STATE.kpi,m)}; });
-  const all = vals.flatMap(v => [v.real, v.meta]).map(num).filter(v=>v!==null); const min=Math.min(...all), max=Math.max(...all); const span=Math.max(.0001, max-min);
+  const regsFilter = selectedRegions();
+  const vals = months.map(m => {
+    const regs=aggregateRegions(STATE.kpi,[m]).filter(r => regsFilter.includes(r.region) || STATE.regions.includes('Todas'));
+    return {m, real:avg(regs.map(r=>r.real)), meta:objective(STATE.kpi,m), aa:avg(regs.map(r=>r.aa))};
+  });
+  const series = STATE.kpi === 'adt'
+    ? [{key:'real',label:'ADT Real',cls:'real'},{key:'aa',label:'ADT AA',cls:'aa'},{key:'gap',label:'Dif vs AA',cls:'gap'}]
+    : STATE.kpi === 'segundas'
+      ? [{key:'real',label:'Real',cls:'real'},{key:'meta',label:'Meta',cls:'meta'},{key:'aa',label:'AA',cls:'aa'}]
+      : [{key:'real',label:'Real',cls:'real'},{key:'meta',label:'Meta',cls:'meta'}];
+  const points = vals.map(v => ({...v, gap: (v.real!==null && v.aa!==null) ? v.real-v.aa : null}));
+  const all = points.flatMap(v => series.map(s=>v[s.key])).map(num).filter(v=>v!==null);
+  if (!all.length) { $('#trendChart').innerHTML = '<p class="map-note">Sin datos suficientes para construir tendencia.</p>'; return; }
+  let min=Math.min(...all), max=Math.max(...all); if (min===max) { min-=1; max+=1; }
+  const pad=(max-min)*.12; min-=pad; max+=pad; const span=max-min;
+  const W=920,H=300, left=58, top=22, right=28, bottom=52, cw=W-left-right, ch=H-top-bottom;
+  const x=i => left + (points.length<=1?0:i*(cw/(points.length-1)));
+  const y=v => top + ch - (((v-min)/span)*ch);
+  const pathFor = key => points.map((p,i)=> num(p[key])===null ? null : `${i===0?'M':'L'} ${x(i).toFixed(1)} ${y(p[key]).toFixed(1)}`).filter(Boolean).join(' ');
+  const dotFor = (key,cls) => points.map((p,i)=> num(p[key])===null ? '' : `<circle class="line-dot ${cls}" cx="${x(i)}" cy="${y(p[key])}" r="4"><title>${p.m}: ${key==='gap'?diffFmt(p[key],k):fmt(p[key],k)}</title></circle>`).join('');
   $('#trendTitle').textContent = `Tendencia dinámica · ${KPI_CONFIG[STATE.kpi].label}`;
   $('#axisHint').textContent = KPI_CONFIG[STATE.kpi].axis;
-  $('#trendChart').innerHTML = `<span class="axis-note">Rango ${fmt(min,k)} → ${fmt(max,k)}</span>` + vals.map(v => { const h1 = 8 + ((v.real-min)/span)*92; const h2 = 8 + ((v.meta-min)/span)*92; return `<div class="bar-col"><div class="bar-wrap"><i class="bar" title="Real ${fmt(v.real,k)}" style="height:${h1}%"></i><i class="bar meta" title="Meta ${fmt(v.meta,k)}" style="height:${h2}%"></i></div><span class="bar-label">${v.m}</span></div>`; }).join('');
+  const legend = series.map(s=>`<span class="legend-dot ${s.cls}"></span>${s.label}`).join(' ');
+  $('#trendChart').innerHTML = `<div class="line-legend">${legend}</div><span class="axis-note">Rango ${fmt(min,k)} → ${fmt(max,k)}</span><svg class="line-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <g class="grid-lines">${[0,1,2,3].map(i=>`<line x1="${left}" x2="${W-right}" y1="${top+i*ch/3}" y2="${top+i*ch/3}"/>`).join('')}</g>
+    <g class="month-labels">${points.map((p,i)=>`<text x="${x(i)}" y="${H-18}" text-anchor="middle">${p.m}</text>`).join('')}</g>
+    ${series.map(s=>`<path class="line-path ${s.cls}" d="${pathFor(s.key)}"></path>${dotFor(s.key,s.cls)}`).join('')}
+  </svg>`;
 }
 function renderRanks(){
-  const rows = aggregateStoreRows().filter(r => num(r.metric)!==null); const max=Math.max(.001,...rows.map(r=>Math.abs(r.metric||0)));
-  const top=[...rows].sort((a,b)=>b.metric-a.metric).slice(0,10); const bottom=[...rows].sort((a,b)=>a.metric-b.metric).slice(0,10);
+  const rows = aggregateStoreRows().filter(r => num(r.metric)!==null);
+  const max=Math.max(.001,...rows.map(r=>Math.abs(r.metric||0)));
+  const top=[...rows].sort((a,b)=>b.metric-a.metric).slice(0,10);
+  const bottom=[...rows].sort((a,b)=>a.metric-b.metric).slice(0,10);
   $('#topList').innerHTML = top.map((r,i)=>rankHtml(r,i,'top',max)).join('') || '<p class="map-note">Sin datos</p>';
   $('#bottomList').innerHTML = bottom.map((r,i)=>rankHtml(r,i,'bottom',max)).join('') || '<p class="map-note">Sin datos</p>';
 }
@@ -326,14 +362,17 @@ function rankHtml(r,i,type,max){ const k=currentKind(); const value = STATE.kpi=
 function renderInsights(){
   const regs=aggregateRegions(); const stores=aggregateStoreRows(); const k=currentKind();
   const best=[...regs].sort((a,b)=>b.real-a.real)[0]; const risk=[...regs].sort((a,b)=>(a.difMeta??999)-(b.difMeta??999))[0]; const growth=[...regs].sort((a,b)=>(b.difAA??-999)-(a.difAA??-999))[0]; const drop=[...regs].sort((a,b)=>(a.difAA??999)-(b.difAA??999))[0]; const top=[...stores].sort((a,b)=>b.metric-a.metric)[0]; const bottom=[...stores].sort((a,b)=>a.metric-b.metric)[0];
+  const totalStores = Object.keys(DB.kpis?.[STATE.kpi]?.records || {}).length;
+  const comparableNote = STATE.kpi === 'adt' ? ['amber','Tiendas comparables',`ADT considera ${stores.length} de ${totalStores} tiendas con dato en 2026 y 2025 para el mismo mes seleccionado. Las tiendas nuevas sin AA quedan fuera de Top, Bottom, Score, tendencia y promedios.`] : null;
   const data=[
+    comparableNote,
     ['green','Mejor desempeño', best?`${best.region} lidera ${KPI_CONFIG[STATE.kpi].short} con ${fmt(best.real,k)} (${diffFmt(best.difMeta,k)} vs meta).`:'Sin datos.'],
     ['red','Mayor oportunidad', risk?`${risk.region} requiere foco ejecutivo: ${diffFmt(risk.difMeta,k)} contra meta y score ${risk.score}.`:'Sin datos.'],
     ['green','Mayor avance vs AA', growth?`${growth.region} muestra el mejor avance vs ${priorYear()}: ${diffFmt(growth.difAA,k)}.`:'Sin datos.'],
     ['amber','Retroceso a vigilar', drop?`${drop.region} presenta la caída relativa más relevante vs AA: ${diffFmt(drop.difAA,k)}.`:'Sin datos.'],
     ['green','Tienda referente', top?`${top.tienda} (${top.region}) aparece como referencia del filtro actual.`:'Sin datos.'],
     ['red','Tienda crítica', bottom?`${bottom.tienda} (${bottom.region}) debe revisarse primero en el ranking Bottom.`:'Sin datos.']
-  ];
+  ].filter(Boolean);
   $('#insights').innerHTML = data.map(x=>`<article class="insight ${x[0]}"><strong>${x[1]}</strong><p>${x[2]}</p></article>`).join('');
 }
 function renderRecommendations(){
@@ -347,4 +386,4 @@ function renderRecommendations(){
   ];
   $('#recommendations').innerHTML = recs.map(r=>`<article class="recommendation"><span class="priority ${r[0]}">${r[1]}</span><h4>${KPI_CONFIG[STATE.kpi].label}</h4><p>${r[2]}</p></article>`).join('');
 }
-boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo v4.9: ${err.message}</pre>`; });
+boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo v5.1: ${err.message}</pre>`; });

@@ -1,12 +1,17 @@
-# Centro Ejecutivo SBX - v5 Geo Premium
+# Centro Ejecutivo SBX - v5.1 Executive
 
-Versión lista para GitHub Pages basada en v4.9.
+Versión candidata para producción enfocada en análisis ejecutivo sin mapa.
 
-## Ajuste principal
-- Mapa visual premium de México por regiones operativas.
-- Se eliminan cajas/estado tipo cuadrícula del mapa anterior.
-- El mapa ahora prioriza color, lectura ejecutiva y filtro por región.
-- Zoom Centro mantiene CDMX/EdoMex en vista premium.
-- Mantiene filtros existentes de Indicador, Mes múltiple y Región múltiple.
+## Cambios v5.1
 
-La estructura y datos se mantienen compatibles con la versión previa.
+- Se elimina el mapa para liberar espacio analítico.
+- ADT usa únicamente tiendas comparables: una tienda sólo entra si tiene dato 2026 y 2025 en el mismo mes seleccionado.
+- Top/Bottom de ADT, Score, Tendencia, Promedios e Insights excluyen tiendas no comparables.
+- Tendencias rediseñadas en líneas estilo ejecutivo Starbucks, no barras.
+- Cada KPI cambia dinámicamente su escala, formato y series.
+- Insights narrativos incluyen conteo de comparables para ADT.
+- Se mantiene diseño Starbucks Premium y estructura GitHub Pages.
+
+## Carga en GitHub Pages
+
+Subir todo el contenido de este ZIP a la raíz del repositorio.
