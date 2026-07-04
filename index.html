@@ -80,5 +80,24 @@
     </main>
   </div>
   <script src="assets/js/app.js" defer></script>
+
+<!-- KPI Cards Fase 4.3 -->
+<section id="kpi-cards" style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:16px 0;">
+<div class="card"><h4>Real</h4><div id="card-real">--</div></div>
+<div class="card"><h4>Meta</h4><div id="card-meta">--</div></div>
+<div class="card"><h4>AA</h4><div id="card-aa">--</div></div>
+<div class="card"><h4>vs Meta</h4><div id="card-vsmeta">--</div></div>
+<div class="card"><h4>vs AA</h4><div id="card-vsaa">--</div></div>
+<div class="card"><h4>Score</h4><div id="card-score">--</div></div>
+</section>
+<script>
+window.updateKPICards=function(d){
+['real','meta','aa','vsmeta','vsaa','score'].forEach(k=>{
+ const el=document.getElementById('card-'+k);
+ if(el&&d&&d[k]!=null) el.textContent=d[k];
+});
+}
+</script>
+
 </body>
 </html>
