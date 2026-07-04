@@ -224,12 +224,74 @@ function renderRanks() {
   $('#topList').innerHTML = top.map((x,i) => row({...x, i:i+1})).join('') || '<div class="empty">Sin datos</div>';
   $('#bottomList').innerHTML = bottom.map((x,i) => row({...x, i:i+1})).join('') || '<div class="empty">Sin datos</div>';
 }
+function trendStats(vals) {
+  const valid = vals.filter(v => safeNum(v.real) !== null);
+  const first = valid[0]?.real ?? null;
+  const last = valid.at(-1)?.real ?? null;
+  const prev = valid.length > 1 ? valid.at(-2).real : null;
+  const best = valid.length ? [...valid].sort((a,b) => b.real - a.real)[0] : null;
+  const worst = valid.length ? [...valid].sort((a,b) => a.real - b.real)[0] : null;
+  return {
+    first, last, prev, best, worst,
+    change: first === null || last === null ? null : last - first,
+    mom: prev === null || last === null ? null : last - prev,
+    avg: avg(valid, 'real')
+  };
+}
+function svgPath(points) {
+  return points.map((p,i) => `${i ? 'L' : 'M'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+}
 function renderTrend() {
   const k = META[state.kpi].kind;
-  const vals = availableMonths(state.kpi).map(m => ({ m, real: avg(valuesFor(state.kpi, state.year, m, state.region)), meta: objective(state.kpi, m) }));
-  const max = Math.max(1, ...vals.flatMap(v => [v.real || 0, v.meta || 0]));
+  const months = availableMonths(state.kpi);
+  const vals = months.map(m => ({
+    m,
+    real: avg(valuesFor(state.kpi, state.year, m, state.region)),
+    meta: objective(state.kpi, m)
+  }));
+  const realVals = vals.map(v => safeNum(v.real)).filter(v => v !== null);
+  const metaVals = vals.map(v => safeNum(v.meta)).filter(v => v !== null);
+  const all = [...realVals, ...metaVals];
+  const min = all.length ? Math.min(...all) : 0;
+  const max = all.length ? Math.max(...all) : 1;
+  const pad = (max - min) * 0.14 || 1;
+  const lo = min - pad;
+  const hi = max + pad;
+  const w = 760, h = 268, left = 46, right = 18, top = 22, bottom = 42;
+  const innerW = w - left - right;
+  const innerH = h - top - bottom;
+  const x = i => left + (months.length <= 1 ? innerW/2 : i * innerW / (months.length - 1));
+  const y = v => top + (hi - v) * innerH / (hi - lo);
+  const realPts = vals.map((v,i) => safeNum(v.real) === null ? null : ({x:x(i), y:y(v.real), value:v.real, m:v.m})).filter(Boolean);
+  const metaPts = vals.map((v,i) => safeNum(v.meta) === null ? null : ({x:x(i), y:y(v.meta), value:v.meta, m:v.m})).filter(Boolean);
+  const s = trendStats(vals);
+  const cards = [
+    ['Promedio', fmt(s.avg, k), 'Promedio mensual real'],
+    ['Último mes', fmt(s.last, k), `${months.at(-1) || state.month} ${state.year}`],
+    ['Cambio periodo', diffFmt(s.change, k), `${months[0] || 'Inicio'} vs ${months.at(-1) || 'Fin'}`],
+    ['MoM', diffFmt(s.mom, k), 'Variación vs mes anterior']
+  ];
+  const area = realPts.length > 1 ? `${svgPath(realPts)} L ${realPts.at(-1).x.toFixed(1)} ${h-bottom} L ${realPts[0].x.toFixed(1)} ${h-bottom} Z` : '';
   $('#trendTitle').textContent = `TENDENCIA MENSUAL ${META[state.kpi].short.toUpperCase()}`;
-  $('#trendChart').innerHTML = vals.map(v => `<div class="bar-col"><div class="bar-wrap"><div title="Real ${fmt(v.real,k)}" class="bar" style="height:${Math.max(4,(v.real || 0)/max*210)}px"></div><div title="Meta ${fmt(v.meta,k)}" class="bar meta" style="height:${Math.max(4,(v.meta || 0)/max*210)}px"></div></div><div class="bar-label">${v.m}</div></div>`).join('');
+  $('#trendChart').innerHTML = `
+    <div class="trend-kpis">${cards.map(c => `<div class="trend-mini ${String(c[1]).startsWith('-') ? 'bad' : ''}"><span>${c[0]}</span><strong>${c[1]}</strong><em>${c[2]}</em></div>`).join('')}</div>
+    <div class="trend-svg-wrap">
+      <svg class="trend-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Tendencia mensual real y meta">
+        <defs><linearGradient id="trendArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#006241" stop-opacity=".20"/><stop offset="100%" stop-color="#006241" stop-opacity="0"/></linearGradient></defs>
+        <line x1="${left}" y1="${top}" x2="${left}" y2="${h-bottom}" class="axis"/>
+        <line x1="${left}" y1="${h-bottom}" x2="${w-right}" y2="${h-bottom}" class="axis"/>
+        ${[0,.25,.5,.75,1].map(t => `<line x1="${left}" x2="${w-right}" y1="${top + innerH*t}" y2="${top + innerH*t}" class="gridline"/>`).join('')}
+        ${area ? `<path d="${area}" class="area"/>` : ''}
+        ${metaPts.length > 1 ? `<path d="${svgPath(metaPts)}" class="meta-line"/>` : ''}
+        ${realPts.length > 1 ? `<path d="${svgPath(realPts)}" class="real-line"/>` : ''}
+        ${vals.map((v,i) => `<text x="${x(i)}" y="${h-16}" text-anchor="middle" class="month-tick">${v.m}</text>`).join('')}
+        ${realPts.map(p => `<g class="point"><circle cx="${p.x}" cy="${p.y}" r="5"/><title>${p.m}: ${fmt(p.value,k)}</title></g>`).join('')}
+        ${metaPts.map(p => `<circle class="meta-point" cx="${p.x}" cy="${p.y}" r="3.5"><title>Meta ${p.m}: ${fmt(p.value,k)}</title></circle>`).join('')}
+      </svg>
+      <div class="trend-legend"><span><i class="solid"></i>Real</span><span><i class="dash"></i>Meta</span><span class="trend-note">${s.best ? `Mejor mes: ${s.best.m} · ${fmt(s.best.real,k)}` : 'Sin datos mensuales'}</span></div>
+    </div>
+    <div class="trend-gap">${vals.map(v => { const gap = safeNum(v.real) === null || safeNum(v.meta) === null ? null : v.real - v.meta; const cls = statusClass(gap,k); const width = Math.max(4, Math.min(100, Math.abs(gap || 0) / Math.max(.0001, Math.max(...vals.map(x => Math.abs((safeNum(x.real) || 0) - (safeNum(x.meta) || 0))), .0001)) * 100)); return `<div><b>${v.m}</b><span class="gap-pill ${cls}" style="--w:${width}%"><i></i>${diffFmt(gap,k)}</span></div>`; }).join('')}</div>
+  `;
 }
 function renderInsights(regs, national, scoreVal) {
   const k = META[state.kpi].kind;

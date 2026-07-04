@@ -26,3 +26,15 @@ README.md
 ```
 
 No subir la carpeta contenedora completa.
+
+
+## Fase 4.5 - Tendencias
+
+Esta entrega agrega una vista de tendencia ejecutiva para el KPI seleccionado:
+
+- Línea Real mensual.
+- Línea Meta mensual.
+- Área visual de desempeño.
+- KPIs de tendencia: promedio, último mes, cambio del periodo y variación MoM.
+- Brecha mensual contra meta.
+- La tendencia se actualiza con KPI, mes y región sin cambiar de pestaña.
