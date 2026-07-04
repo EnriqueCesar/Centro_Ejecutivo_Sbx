@@ -33,7 +33,14 @@ let REGION_COLOR_CACHE = new Map();
 
 const norm = v => String(v ?? '').trim();
 const cleanKey = v => norm(v).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_');
-const num = v => { const n = Number(v); return Number.isFinite(n) ? n : null; };
+// v5.5 Auditada: no interpretar celdas vacías/null como 0.
+// Esto evita que Real se grafique en meses futuros sin captura.
+const num = v => {
+  if (v === null || v === undefined) return null;
+  if (typeof v === 'string' && v.trim() === '') return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+};
 const avg = arr => { const v = arr.map(num).filter(x => x !== null); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; };
 const pct = (n,d) => d ? n/d : 0;
 
@@ -72,6 +79,10 @@ function objective(kpi, month){
   return num(row[key] ?? row[KPI_CONFIG[kpi]?.label] ?? row[KPI_CONFIG[kpi]?.short] ?? row[kpi]);
 }
 function valueFor(kpi, ceco, year, month){ return num(DB.kpis?.[kpi]?.records?.[ceco]?.[String(year)]?.[month]); }
+function hasCapturedReal(kpi, ceco, year, month){
+  const raw = DB.kpis?.[kpi]?.records?.[ceco]?.[String(year)]?.[month];
+  return num(raw) !== null;
+}
 function budgetFor(kpi, ceco, year, month){
   if (kpi !== 'adt') return objective(kpi, month);
   return num(DB.kpis?.adt?.budgetRecords?.[ceco]?.[String(year)]?.[month]);
@@ -386,7 +397,10 @@ function renderTrend(){
   const regsFilter = selectedRegions();
   const vals = months.map(m => {
     const regs=aggregateRegions(STATE.kpi,[m]).filter(r => regsFilter.includes(r.region) || STATE.regions.includes('Todas'));
-    const real = avg(regs.map(r=>r.real));
+    const capturedRows = aggregateStoreRows(STATE.kpi, [m], regsFilter);
+    // Regla crítica v5.5 auditada: Real sólo se grafica si existe captura real válida.
+    // No se sustituyen blancos/null/undefined por 0, por lo tanto la línea termina en el último mes capturado.
+    const real = capturedRows.length ? avg(capturedRows.map(r=>r.real)) : null;
     const aa = avg(regs.map(r=>r.aa));
     const meta = STATE.kpi === 'adt' ? avg(regs.map(r=>r.meta)) : objective(STATE.kpi,m);
     return {m, real, meta, aa};
@@ -496,4 +510,4 @@ function setupPWA(){
 }
 setupPWA();
 
-boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo SBX v5.5: ${err.message}</pre>`; });
+boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo SBX v5.5 Auditada: ${err.message}</pre>`; });
