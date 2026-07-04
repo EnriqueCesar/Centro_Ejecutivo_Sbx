@@ -1,17 +1,8 @@
-# Centro Ejecutivo SBX v5.4
+# Centro Ejecutivo SBX v5.5 PRODUCTION READY
 
-Versión limpia para GitHub Pages.
-
-## Incluye
-
-- Tendencia dinámica con eje Y visible y escala automática.
-- Proyección anual a 12 meses con Real, Meta y AA para Conexión, Bebida, TPLH y Segundas Cx.
-- Indicador Órdenes con ADT Real, ADT AA y Dif vs AA.
-- Dif vs AA en Órdenes con color verde/rojo según signo.
-- Tabla regional especial para Órdenes con ADT_26, Ordenes_Ppto_26, ADT_25, Dif AA, Cumplen y Semáforo.
-- ADT/Órdenes sólo considera tiendas comparables cuando hay dato 2026 y 2025.
-- PWA activa con manifest y service worker actualizados.
-
-## Deploy
-
-Subir todo el contenido de este ZIP en la raíz del repositorio `Centro_Ejecutivo_Sbx`.
+- Tendencia dinámica sin ceros futuros en Real.
+- Selector de series: Real / Meta / AA, y en Órdenes: ADT Real / ADT AA / Dif vs AA.
+- Eje Y recalculado sólo con series visibles.
+- Meta y AA proyectadas a 12 meses cuando existen.
+- Excel actualizado integrado y kpi-data.json regenerado.
+- Compatible con GitHub Pages + PWA.

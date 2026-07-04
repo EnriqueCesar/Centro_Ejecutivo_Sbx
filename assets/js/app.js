@@ -25,7 +25,7 @@ const KPI_CONFIG = {
 };
 const $ = s => document.querySelector(s);
 let DB = null;
-let STATE = { kpi:'conexion', months:['Jun'], regions:['Todas'], level:'region', selectedRegion:null, sort:{key:'real', dir:'desc'}, search:'' };
+let STATE = { kpi:'conexion', months:['Jun'], regions:['Todas'], level:'region', selectedRegion:null, sort:{key:'real', dir:'desc'}, search:'', series:{normal:['real','meta','aa'], adt:['real','aa','gap']} };
 let DEFERRED_INSTALL_PROMPT = null;
 let STORE_META = new Map();
 let REGION_BY_STATE = new Map();
@@ -57,8 +57,12 @@ function latestYear(kpi=STATE.kpi){
 }
 function priorYear(kpi=STATE.kpi){ return latestYear(kpi)-1; }
 function availableMonths(kpi=STATE.kpi){ return (DB?.kpis?.[kpi]?.months || DB?.months || MONTHS).filter(m => MONTHS.includes(m)); }
+function hasRealDataForMonth(kpi, month){ const y=latestYear(kpi); const rec=DB?.kpis?.[kpi]?.records || {}; return Object.values(rec).some(o => num(o?.[String(y)]?.[month]) !== null); }
 function selectedMonths(){ return STATE.months.includes('Todos') ? availableMonths() : STATE.months; }
 function selectedRegions(){ return STATE.regions.includes('Todas') ? (DB.regions || []) : STATE.regions; }
+function seriesMode(){ return STATE.kpi === 'adt' ? 'adt' : 'normal'; }
+function visibleSeries(){ return STATE.series?.[seriesMode()] || (seriesMode()==='adt' ? ['real','aa','gap'] : ['real','meta','aa']); }
+function isValidValue(v){ return Number.isFinite(Number(v)); }
 function storeInfo(ceco){ return STORE_META.get(norm(ceco)) || {}; }
 function objective(kpi, month){
   const bebidaObj = {Ene:.630,Feb:.635,Mar:.640,Abr:.650,May:.655,Jun:.660,Jul:.670,Ago:.680,Sep:.690,Oct:.700,Nov:.710,Dic:.720};
@@ -197,7 +201,7 @@ function guessRegion(ab){
 }
 function ensureState(){
   const kpis = Object.keys(DB.kpis || {}); if (!kpis.includes(STATE.kpi)) STATE.kpi = kpis[0];
-  const months = availableMonths(); if (!STATE.months.some(m => m === 'Todos' || months.includes(m))) STATE.months = [months.at(-1) || 'Jun'];
+  const months = availableMonths(); if (!STATE.months.some(m => m === 'Todos' || months.includes(m))) STATE.months = [months.filter(m=>hasRealDataForMonth(STATE.kpi,m)).at(-1) || months.at(-1) || 'Jun'];
   const regs = DB.regions || []; if (!STATE.regions.some(r => r === 'Todas' || regs.includes(r))) STATE.regions = ['Todas'];
 }
 function bindGlobal(){
@@ -223,7 +227,7 @@ function bindGlobal(){
 function render(){ ensureState(); renderControls(); renderBreadcrumb(); renderSummary(); renderCards(); renderTable(); renderTrend(); renderRanks(); renderInsights(); renderRecommendations(); }
 function renderControls(){
   $('#kpiTabs').innerHTML = Object.keys(DB.kpis || {}).map(k => `<button class="chip ${STATE.kpi===k?'active':''}" data-kpi="${k}">${KPI_CONFIG[k]?.short || DB.kpis[k].label || k}</button>`).join('');
-  $('#kpiTabs').onclick = e => { const b=e.target.closest('[data-kpi]'); if(!b) return; STATE.kpi=b.dataset.kpi; STATE.months=[availableMonths(STATE.kpi).at(-1)||'Jun']; STATE.level='region'; render(); };
+  $('#kpiTabs').onclick = e => { const b=e.target.closest('[data-kpi]'); if(!b) return; STATE.kpi=b.dataset.kpi; STATE.months=[availableMonths(STATE.kpi).filter(m=>hasRealDataForMonth(STATE.kpi,m)).at(-1)||availableMonths(STATE.kpi).at(-1)||'Jun']; STATE.level='region'; render(); };
   const months = availableMonths();
   $('#monthChips').innerHTML = `<button class="chip all ${STATE.months.includes('Todos')?'active':''}" data-month="Todos">Todos</button>` + months.map(m => `<button class="chip ${STATE.months.includes(m)?'active':''}" data-month="${m}">${m}</button>`).join('');
   $('#monthChips').onclick = e => { const b=e.target.closest('[data-month]'); if(!b) return; toggleMulti(STATE.months, b.dataset.month, 'Todos'); render(); };
@@ -347,35 +351,73 @@ function cellValue(r,key,k){
   if(key==='score') return `<b class="${r.score>=80?'txt-green':r.score>=65?'txt-amber':'txt-red'}">${r.score}</b>`;
   return r[key] ?? '--';
 }
+function renderSeriesControls(series){
+  const host = $('#seriesControls');
+  if (!host) return;
+  const visible = visibleSeries();
+  host.innerHTML = series.map(s => `<button type="button" class="series-toggle ${visible.includes(s.key)?'':'off'}" data-series="${s.key}">${s.label}</button>`).join('');
+  host.querySelectorAll('[data-series]').forEach(btn => {
+    btn.onclick = () => {
+      const mode = seriesMode();
+      const key = btn.dataset.series;
+      const arr = STATE.series[mode] || [];
+      const i = arr.indexOf(key);
+      if (i >= 0 && arr.length > 1) arr.splice(i,1);
+      else if (i < 0) arr.push(key);
+      renderTrend();
+    };
+  });
+}
+function toSegments(points, key, x, y){
+  const segs = [];
+  let current = [];
+  points.forEach((p,i) => {
+    const v = num(p[key]);
+    if (v === null) {
+      if (current.length) { segs.push(current); current = []; }
+    } else current.push([x(i), y(v)]);
+  });
+  if (current.length) segs.push(current);
+  return segs.map(seg => seg.map((pt,i) => `${i===0?'M':'L'} ${pt[0].toFixed(1)} ${pt[1].toFixed(1)}`).join(' '));
+}
 function renderTrend(){
   const k=currentKind();
-  const months=MONTHS; // v5.4: siempre 12 meses para proyección anual
+  const months=MONTHS; // v5.5: proyección anual; Real termina en último mes con dato real válido.
   const regsFilter = selectedRegions();
   const vals = months.map(m => {
     const regs=aggregateRegions(STATE.kpi,[m]).filter(r => regsFilter.includes(r.region) || STATE.regions.includes('Todas'));
-    return {m, real:avg(regs.map(r=>r.real)), meta:STATE.kpi === 'adt' ? avg(regs.map(r=>r.meta)) : objective(STATE.kpi,m), aa:avg(regs.map(r=>r.aa))};
+    const real = avg(regs.map(r=>r.real));
+    const aa = avg(regs.map(r=>r.aa));
+    const meta = STATE.kpi === 'adt' ? avg(regs.map(r=>r.meta)) : objective(STATE.kpi,m);
+    return {m, real, meta, aa};
   });
-  const series = STATE.kpi === 'adt'
+  const allSeries = STATE.kpi === 'adt'
     ? [{key:'real',label:'ADT Real',cls:'real'},{key:'aa',label:'ADT AA',cls:'aa'},{key:'gap',label:'Dif vs AA',cls:'gap'}]
     : [{key:'real',label:'Real',cls:'real'},{key:'meta',label:'Meta',cls:'meta'},{key:'aa',label:'AA',cls:'aa'}];
+  renderSeriesControls(allSeries);
+  const visibleKeys = new Set(visibleSeries());
+  const series = allSeries.filter(s => visibleKeys.has(s.key));
   const points = vals.map(v => ({...v, gap: (v.real!==null && v.aa!==null) ? v.real-v.aa : null}));
   const all = points.flatMap(v => series.map(s=>v[s.key])).map(num).filter(v=>v!==null);
-  if (!all.length) { $('#trendChart').innerHTML = '<p class="map-note">Sin datos suficientes para construir tendencia.</p>'; return; }
+  if (!all.length) { $('#trendChart').innerHTML = '<p class="no-data-note">Sin datos suficientes para construir tendencia con las series visibles.</p>'; return; }
   let min=Math.min(...all), max=Math.max(...all); if (min===max) { min-=1; max+=1; }
-  const pad=(max-min)*.14; min-=pad; max+=pad; const span=max-min;
-  const W=1080,H=470, left=78, top=38, right=44, bottom=72, cw=W-left-right, ch=H-top-bottom;
+  const pad=(max-min)*.14 || 1; min-=pad; max+=pad; const span=max-min;
+  const W=1080,H=520, left=84, top=44, right=48, bottom=76, cw=W-left-right, ch=H-top-bottom;
   const x=i => left + (points.length<=1?0:i*(cw/(points.length-1)));
   const y=v => top + ch - (((v-min)/span)*ch);
-  const pathFor = key => points.map((p,i)=> num(p[key])===null ? null : `${i===0?'M':'L'} ${x(i).toFixed(1)} ${y(p[key]).toFixed(1)}`).filter(Boolean).join(' ');
-  const gapSegments = () => {
-    let html='';
-    for(let i=1;i<points.length;i++){
-      const a=points[i-1], b=points[i];
-      if(num(a.gap)===null || num(b.gap)===null) continue;
-      const cls = b.gap >= 0 ? 'gap-pos' : 'gap-neg';
-      html += `<path class="line-path ${cls}" d="M ${x(i-1).toFixed(1)} ${y(a.gap).toFixed(1)} L ${x(i).toFixed(1)} ${y(b.gap).toFixed(1)}"></path>`;
+  const renderPath = (s) => {
+    if (s.key === 'gap') {
+      let html='';
+      for(let i=1;i<points.length;i++){
+        const a=points[i-1], b=points[i];
+        if(num(a.gap)===null || num(b.gap)===null) continue;
+        const cls = b.gap >= 0 ? 'gap-pos' : 'gap-neg';
+        html += `<path class="line-path ${cls}" d="M ${x(i-1).toFixed(1)} ${y(a.gap).toFixed(1)} L ${x(i).toFixed(1)} ${y(b.gap).toFixed(1)}"></path>`;
+      }
+      return html;
     }
-    return html;
+    const segs = toSegments(points, s.key, x, y);
+    return segs.map(d => `<path class="line-path ${s.cls} ${d?'':'empty'}" d="${d}"></path>`).join('');
   };
   const dotFor = (key,cls) => points.map((p,i)=> {
     const val = num(p[key]); if (val===null) return '';
@@ -383,8 +425,8 @@ function renderTrend(){
     const extra = key==='gap' ? (val>=0 ? ' gap-pos' : ' gap-neg') : '';
     return `<circle class="line-dot ${cls}${extra}" cx="${x(i)}" cy="${y(val)}" r="5.5"><title>${p.m}: ${text}</title></circle><text class="line-value ${cls}${extra}" x="${x(i)}" y="${y(val)-13}" text-anchor="middle">${text}</text>`;
   }).join('');
-  const yTicks = [0,1,2,3,4].map(i => {
-    const val=max - i*(span/4); const yy=top+i*(ch/4);
+  const yTicks = [0,1,2,3,4,5].map(i => {
+    const val=max - i*(span/5); const yy=top+i*(ch/5);
     return `<g><line x1="${left}" x2="${W-right}" y1="${yy}" y2="${yy}"/><text class="y-axis-label" x="${left-12}" y="${yy+4}" text-anchor="end">${fmt(val,k)}</text></g>`;
   }).join('');
   $('#trendTitle').textContent = `Tendencia dinámica · ${KPI_CONFIG[STATE.kpi].label}`;
@@ -393,8 +435,8 @@ function renderTrend(){
   $('#trendChart').innerHTML = `<div class="line-legend">${legend}</div><svg class="line-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
     <g class="grid-lines">${yTicks}</g>
     <line class="y-axis" x1="${left}" x2="${left}" y1="${top}" y2="${top+ch}"/>
-    <g class="month-labels">${points.map((p,i)=>`<text x="${x(i)}" y="${H-22}" text-anchor="middle">${p.m}</text>`).join('')}</g>
-    ${series.map(s=> s.key==='gap' ? `${gapSegments()}${dotFor(s.key,s.cls)}` : `<path class="line-path ${s.cls}" d="${pathFor(s.key)}"></path>${dotFor(s.key,s.cls)}`).join('')}
+    <g class="month-labels">${points.map((p,i)=>`<text x="${x(i)}" y="${H-24}" text-anchor="middle">${p.m}</text>`).join('')}</g>
+    ${series.map(s=> `${renderPath(s)}${dotFor(s.key,s.cls)}`).join('')}
   </svg>`;
 }
 function renderRanks(){
@@ -454,4 +496,4 @@ function setupPWA(){
 }
 setupPWA();
 
-boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo SBX v5.4: ${err.message}</pre>`; });
+boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo SBX v5.5: ${err.message}</pre>`; });

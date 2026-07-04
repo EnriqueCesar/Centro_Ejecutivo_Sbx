@@ -1,4 +1,4 @@
-const CACHE = 'centro-ejecutivo-sbx-v5-4-prod';
+const CACHE = 'centro-ejecutivo-sbx-v5-5-prod';
 const ASSETS = [
   './',
   './index.html',
