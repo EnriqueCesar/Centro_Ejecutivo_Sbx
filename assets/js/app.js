@@ -247,17 +247,37 @@ function renderMap(){
 function regionByName(name){ return aggregateRegions().find(r => r.region === name); }
 function mexicoSvg(){
   const sel = selectedRegions();
-  const rects = STATE_GRID.map(([ab,x,y,w,h]) => {
-    const reg = REGION_BY_STATE.get(ab) || 'Sin Región'; const r = regionByName(reg); const active = !sel.length || sel.includes(reg);
-    const col = r ? heatColor(r.difMeta) : '#cdd8d3'; const op = active ? 1 : .28;
-    return `<g data-region="${reg}" data-state="${ab}"><rect class="state ${active?'active':''}" x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="${col}" opacity="${op}"></rect><text class="state-label" x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle">${ab}</text></g>`;
-  }).join('');
-  return `<svg class="mx-svg" viewBox="0 0 1050 610" role="img" aria-label="Mapa ejecutivo de México"><rect x="14" y="14" width="1022" height="582" rx="24" fill="transparent" stroke="#dbe6e1"/>${rects}<text class="region-label" x="65" y="28">Noroeste</text><text class="region-label" x="390" y="88">Norte</text><text class="region-label" x="310" y="158">Norte Centro</text><text class="region-label" x="290" y="286">Occidente</text><text class="region-label" x="420" y="250">Bajío</text><text class="region-label" x="525" y="320">Centro</text><text class="region-label" x="520" y="445">Sur</text><text class="region-label" x="815" y="430">Sureste</text></svg>`;
+  const active = reg => sel.includes('Todas') || sel.includes(reg);
+  const fill = reg => { const r = regionByName(reg); return r ? heatColor(r.difMeta) : '#cdd8d3'; };
+  const op = reg => active(reg) ? 1 : .20;
+  const paths = [
+    ['Noroeste','M92 74 C122 42 177 36 219 70 L278 124 L305 197 L284 271 L222 293 L160 240 L118 168 Z','Noroeste',188,154],
+    ['Norte','M288 65 C362 42 441 58 501 105 L552 162 L535 232 L456 245 L373 214 L315 160 Z','Norte',423,145],
+    ['Norte Centro','M314 218 L458 246 L544 238 L598 306 L561 369 L441 360 L335 313 Z','Norte Centro',461,301],
+    ['Occidente','M214 294 L327 318 L438 365 L418 438 L318 475 L229 423 L172 344 Z','Occidente',315,391],
+    ['Bajío','M444 363 L560 370 L626 422 L596 487 L496 491 L420 440 Z','Bajío',526,428],
+    ['Centro Poniente','M590 365 L654 387 L650 442 L596 485 L565 427 Z','Centro Poniente',616,412],
+    ['Centro Norte','M641 340 L706 354 L710 413 L654 442 L650 386 Z','Centro Norte',680,386],
+    ['Centro Centro','M659 444 L714 425 L761 455 L737 508 L681 502 Z','Centro Centro',710,465],
+    ['Centro Sur','M583 493 L676 504 L731 545 L695 602 L584 573 L526 520 Z','Centro Sur',625,543],
+    ['Sur','M692 510 L770 462 L881 478 L965 545 L916 620 L790 630 L699 596 Z','Sur',814,548],
+    ['Sureste','M876 444 L1000 396 L1145 416 L1268 498 L1216 582 L1061 560 L954 523 Z','Sureste',1082,478]
+  ];
+  const shapes = paths.map(([reg,d,label,x,y]) => `<g class="mx-region" data-region="${reg}"><path class="map-region ${active(reg)?'active':''}" d="${d}" fill="${fill(reg)}" opacity="${op(reg)}"></path><text class="map-region-label" x="${x}" y="${y}" text-anchor="middle">${label}</text></g>`).join('');
+  return `<svg class="mx-svg premium-map" viewBox="0 0 1340 710" role="img" aria-label="Mapa ejecutivo premium de México por región"><defs><filter id="mapShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#002f22" flood-opacity=".18"/></filter><linearGradient id="waterGlow" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f7fcfa"/><stop offset="1" stop-color="#e8f4ef"/></linearGradient></defs><rect x="20" y="20" width="1300" height="670" rx="30" fill="url(#waterGlow)" stroke="#dbe6e1"/><path class="country-backdrop" d="M78 83 C162 10 259 30 325 78 C414 19 541 66 602 150 C711 173 773 243 806 338 C972 331 1133 358 1279 481 C1240 610 1097 662 911 644 C787 677 602 641 509 567 C379 526 241 515 166 410 C76 325 45 183 78 83Z"/><g filter="url(#mapShadow)">${shapes}</g><g class="map-pin" transform="translate(650 452)"><circle r="16"/><circle r="6"/></g></svg>`;
 }
 function centerSvg(){
   const sel = selectedRegions();
-  const items = CENTER_MAP.map(([reg,x,y,w,h]) => { const r=regionByName(reg); const col=r?heatColor(r.difMeta):'#cdd8d3'; const active=sel.includes('Todas')||sel.includes(reg); return `<g data-region="${reg}"><rect class="state ${active?'active':''}" x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="${col}" opacity="${active?1:.28}"></rect><text class="region-label" x="${x+w/2}" y="${y+h/2+5}" text-anchor="middle">${reg}</text></g>`; }).join('');
-  return `<svg class="mx-svg" viewBox="0 0 760 430" role="img" aria-label="Zoom Centro CDMX EdoMex"><rect class="zoom-card" x="18" y="18" width="724" height="394" rx="28"/><text x="380" y="28" text-anchor="middle" class="state-label">ZOOM CENTRO · CDMX / ESTADO DE MÉXICO</text>${items}</svg>`;
+  const active = reg => sel.includes('Todas') || sel.includes(reg);
+  const fill = reg => { const r = regionByName(reg); return r ? heatColor(r.difMeta) : '#cdd8d3'; };
+  const op = reg => active(reg) ? 1 : .22;
+  const items = [
+    ['Centro Norte','M114 68 C180 30 303 34 368 91 L346 186 L204 194 L105 143 Z',238,128],
+    ['Centro Poniente','M93 165 L202 207 L337 198 L357 300 L225 353 L82 290 Z',215,270],
+    ['Centro Centro','M372 103 L522 78 L630 151 L605 261 L437 276 L348 196 Z',488,178],
+    ['Centro Sur','M355 309 L500 283 L632 286 L689 391 L581 491 L411 465 L302 389 Z',497,383]
+  ].map(([reg,d,x,y]) => `<g class="mx-region" data-region="${reg}"><path class="map-region ${active(reg)?'active':''}" d="${d}" fill="${fill(reg)}" opacity="${op(reg)}"></path><text class="map-region-label center" x="${x}" y="${y}" text-anchor="middle">${reg}</text></g>`).join('');
+  return `<svg class="mx-svg premium-map center-premium" viewBox="0 0 780 560" role="img" aria-label="Zoom premium Centro CDMX EdoMex"><defs><filter id="centerShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#002f22" flood-opacity=".18"/></filter></defs><rect x="18" y="18" width="744" height="524" rx="32" fill="#f7fcfa" stroke="#dbe6e1"/><text x="390" y="54" text-anchor="middle" class="map-title">ZOOM CENTRO · CDMX / ESTADO DE MÉXICO</text><path class="country-backdrop center" d="M82 122 C145 58 256 38 355 75 C461 37 604 80 675 166 C742 253 730 376 643 459 C545 540 391 526 283 488 C168 448 66 352 62 241 C60 195 63 154 82 122Z"/><g filter="url(#centerShadow)">${items}</g></svg>`;
 }
 function bindMapEvents(){
   const tt = $('#tooltip');

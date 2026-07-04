@@ -1,33 +1,12 @@
-# Centro Ejecutivo SBX v4.9 · Geo Executive
+# Centro Ejecutivo SBX - v5 Geo Premium
 
-Versión lista para GitHub Pages.
+Versión lista para GitHub Pages basada en v4.9.
 
-## Cambios principales v4.9
+## Ajuste principal
+- Mapa visual premium de México por regiones operativas.
+- Se eliminan cajas/estado tipo cuadrícula del mapa anterior.
+- El mapa ahora prioriza color, lectura ejecutiva y filtro por región.
+- Zoom Centro mantiene CDMX/EdoMex en vista premium.
+- Mantiene filtros existentes de Indicador, Mes múltiple y Región múltiple.
 
-- Mapa SVG geográfico de México con estados agrupados por región operativa.
-- Zoom automático para regiones Centro: Centro Centro, Centro Norte, Centro Poniente y Centro Sur.
-- Filtro de Indicador se mantiene como controlador principal.
-- Filtros ejecutivos multiselección para Mes y Región.
-- Filtro Vista eliminado.
-- Heatmap dinámico por brecha vs meta.
-- Tabla ejecutiva expandida y ordenable.
-- Drill-down Región → Tiendas en la misma página.
-- Insights narrativos automáticos.
-- Breadcrumb Nacional → Región → Tiendas.
-- Gráficas y formatos dinámicos según el KPI: Conexión, Bebida, TPLH, Segundas Cx y ADT.
-- ADT se presenta como diferencia ADT_26 - ADT_25.
-
-## Publicación
-
-Subir el contenido del ZIP a la raíz del repositorio de GitHub Pages:
-
-```text
-index.html
-manifest.json
-sw.js
-assets/
-data/
-README.md
-```
-
-No subir la carpeta contenedora completa; subir su contenido.
+La estructura y datos se mantienen compatibles con la versión previa.
