@@ -1,612 +1,330 @@
-const MONTH_ORDER = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+'use strict';
 
-let DB = null;
-let META = {};
-let state = { kpi: null, month: 'Jun', region: 'Nacional', year: '2026', view: 'nacional' };
-
-const $ = (s) => document.querySelector(s);
-const safeNum = (v) => {
-  if (v === null || v === undefined || v === '') return null;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : null;
+const MONTHS = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const CENTER_REGIONS = new Set(['Centro Centro','Centro Norte','Centro Poniente','Centro Sur']);
+const STATE_ALIAS = {
+  'Ciudad De México':'CDMX','Estado De México':'MEX','Nuevo León':'NL','Baja California':'BC','Baja California Sur':'BCS','Sonora':'SON','Sinaloa':'SIN','Chihuahua':'CHH','Coahuila':'COA','Tamaulipas':'TAM','Durango':'DGO','Zacatecas':'ZAC','San Luis Potosí':'SLP','Aguascalientes':'AGS','Jalisco':'JAL','Nayarit':'NAY','Colima':'COL','Michoacán':'MIC','Guanajuato':'GTO','Querétaro':'QRO','Hidalgo':'HGO','Puebla':'PUE','Tlaxcala':'TLX','Morelos':'MOR','Guerrero':'GRO','Oaxaca':'OAX','Veracruz':'VER','Chiapas':'CHP','Tabasco':'TAB','Campeche':'CAM','Yucatán':'YUC','Quintana Roo':'QROO'
 };
-const norm = (v) => String(v ?? '').trim();
+const STATE_FULL = Object.fromEntries(Object.entries(STATE_ALIAS).map(([k,v]) => [v,k]));
+const STATE_GRID = [
+  ['BC', 40, 20, 52, 120], ['SON', 95, 48, 100, 92], ['CHH', 190, 40, 120, 105], ['COA', 325, 75, 105, 84], ['NL', 438, 105, 64, 56], ['TAM', 505, 130, 74, 92],
+  ['BCS', 70, 175, 62, 118], ['SIN', 176, 166, 76, 78], ['DGO', 265, 164, 82, 70], ['ZAC', 352, 173, 75, 66], ['SLP', 434, 188, 76, 64],
+  ['NAY', 228, 248, 58, 56], ['AGS', 350, 245, 45, 44], ['GTO', 394, 255, 68, 50], ['QRO', 470, 263, 55, 46], ['HGO', 530, 268, 60, 44],
+  ['JAL', 285, 292, 102, 72], ['COL', 320, 372, 44, 32], ['MIC', 390, 325, 95, 64], ['MEX', 502, 323, 56, 44], ['CDMX', 565, 340, 34, 34], ['MOR', 545, 385, 46, 34],
+  ['GRO', 430, 410, 116, 65], ['PUE', 592, 355, 74, 55], ['TLX', 668, 342, 35, 30], ['VER', 665, 386, 104, 66], ['OAX', 555, 455, 112, 74], ['CHP', 690, 500, 92, 62], ['TAB', 790, 455, 64, 50], ['CAM', 860, 430, 76, 62], ['YUC', 928, 390, 76, 54], ['QROO', 954, 464, 66, 90]
+];
+const CENTER_MAP = [
+  ['Centro Norte', 50, 35, 245, 80], ['Centro Poniente', 45, 150, 245, 95], ['Centro Centro', 330, 110, 230, 95], ['Centro Sur', 310, 245, 270, 105], ['Bajío', 610, 88, 120, 92]
+];
+const KPI_CONFIG = {
+  conexion:{label:'Conexión', short:'Conexión', kind:'percent', goal:'Conexión', higher:true, axis:'Porcentaje de conexión', action:'Refuerza ritual de conexión, saludo y cierre de experiencia.'},
+  bebida:{label:'Bebida', short:'Bebida', kind:'percent', goal:'Bebida', higher:true, axis:'Calidad / ejecución de bebida', action:'Audita estándares de preparación y calibración por turno.'},
+  tplh:{label:'TPLH', short:'TPLH', kind:'number', goal:'TPLH', higher:true, axis:'Transacciones por labor hour', action:'Optimiza cobertura, roles por franja y productividad de piso.'},
+  segundas:{label:'Segundas Cx', short:'Segundas', kind:'number', goal:'Segundas Cx', higher:true, axis:'Segundas conexiones', action:'Activa impulso de segunda conexión y venta sugerida.'},
+  adt:{label:'ADT Δ 26-25', short:'ADT', kind:'number', goal:'ADT', higher:true, axis:'Diferencia ADT 26 vs 25', action:'Prioriza recuperación de tráfico, horarios pico y activaciones locales.'}
+};
+const $ = s => document.querySelector(s);
+let DB = null;
+let STATE = { kpi:'conexion', months:['Jun'], regions:['Todas'], level:'region', selectedRegion:null, sort:{key:'real', dir:'desc'}, search:'' };
+let STORE_META = new Map();
+let REGION_BY_STATE = new Map();
+let REGION_COLOR_CACHE = new Map();
 
-function buildMeta() {
-  const fallbackTitles = {
-    conexion: 'RESUMEN CONEXIÓN | CONEXIÓN CON EL CLIENTE',
-    bebida: 'RESUMEN BEBIDA | CALIDAD DE BEBIDAS',
-    tplh: 'RESUMEN PRODUCTIVIDAD | TPLH',
-    segundas: 'RESUMEN SEGUNDAS VENTAS |',
-    adt: 'RESUMEN ADTS | TIENDAS COMPARABLES'
-  };
-  META = Object.fromEntries(Object.entries(DB.kpis || {}).map(([id, k]) => {
-    const label = k.label || id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    const isPercent = Boolean(k.isPercent || k.unit === '%');
-    return [id, {
-      id,
-      title: fallbackTitles[id] || `RESUMEN ${label.toUpperCase()} | CENTRO EJECUTIVO`,
-      short: label,
-      goal: k.goalKey || k.objective || label,
-      unit: k.unit || (isPercent ? '%' : ''),
-      kind: isPercent ? 'percent' : 'number',
-      months: (k.months && k.months.length ? k.months : MONTH_ORDER).filter(m => MONTH_ORDER.includes(m)),
-      direction: k.direction || 'higher_is_better'
-    }];
-  }));
-}
+const norm = v => String(v ?? '').trim();
+const cleanKey = v => norm(v).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_');
+const num = v => { const n = Number(v); return Number.isFinite(n) ? n : null; };
+const avg = arr => { const v = arr.map(num).filter(x => x !== null); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; };
+const pct = (n,d) => d ? n/d : 0;
 
-function getYearsForKpi(kpi) {
-  const years = new Set();
-  Object.values(DB.kpis?.[kpi]?.records || {}).forEach(rec => Object.keys(rec || {}).forEach(y => years.add(y)));
-  return [...years].sort();
+function fmt(v, kind = currentKind()) {
+  const n = num(v); if (n === null) return '--';
+  if (kind === 'percent') return `${(n*100).toFixed(1)}%`;
+  if (Math.abs(n) >= 100) return Math.round(n).toLocaleString('es-MX');
+  return (Math.round(n*10)/10).toLocaleString('es-MX');
 }
-function latestYearFor(kpi) { return getYearsForKpi(kpi).at(-1) || '2026'; }
-function priorYearFor(kpi) {
-  const years = getYearsForKpi(kpi);
-  const latest = state.year || years.at(-1);
-  const idx = years.indexOf(latest);
-  return idx > 0 ? years[idx - 1] : String(Number(latest) - 1);
+function diffFmt(v, kind = currentKind()) {
+  const n = num(v); if (n === null) return '--';
+  const s = n > 0 ? '+' : '';
+  if (kind === 'percent') return `${s}${(n*100).toFixed(1)} pp`;
+  return `${s}${(Math.round(n*10)/10).toLocaleString('es-MX')}`;
 }
-function availableMonths(kpi) {
-  const m = META[kpi]?.months?.length ? META[kpi].months : (DB.months || MONTH_ORDER);
-  return m.filter(x => MONTH_ORDER.includes(x));
+function currentKind(){ return KPI_CONFIG[STATE.kpi]?.kind || 'number'; }
+function latestYear(kpi=STATE.kpi){
+  const rec = DB?.kpis?.[kpi]?.records || {}; const yrs = new Set();
+  Object.values(rec).forEach(o => Object.keys(o||{}).forEach(y => yrs.add(Number(y))));
+  return Math.max(...[...yrs].filter(Number.isFinite), 2026);
 }
-function storeMap() { return new Map((DB.stores || []).map(s => [norm(s.ceco), s])); }
-
-function objective(kpi, month) {
-  const meta = META[kpi];
-  if (!meta) return null;
+function priorYear(kpi=STATE.kpi){ return latestYear(kpi)-1; }
+function availableMonths(kpi=STATE.kpi){ return (DB?.kpis?.[kpi]?.months || DB?.months || MONTHS).filter(m => MONTHS.includes(m)); }
+function selectedMonths(){ return STATE.months.includes('Todos') ? availableMonths() : STATE.months; }
+function selectedRegions(){ return STATE.regions.includes('Todas') ? (DB.regions || []) : STATE.regions; }
+function storeInfo(ceco){ return STORE_META.get(norm(ceco)) || {}; }
+function objective(kpi, month){
+  const key = KPI_CONFIG[kpi]?.goal || kpi;
   const row = DB.objectives?.[month] || {};
-  const direct = row[meta.goal] ?? row[meta.short] ?? row[kpi];
-  return safeNum(direct);
+  return num(row[key] ?? row[KPI_CONFIG[kpi]?.label] ?? row[KPI_CONFIG[kpi]?.short] ?? row[kpi]);
 }
-
-function valuesFor(kpi, year = state.year, month = 'YTD', region = state.region) {
-  const kp = DB.kpis?.[kpi];
-  if (!kp) return [];
-  const sm = storeMap();
+function valueFor(kpi, ceco, year, month){ return num(DB.kpis?.[kpi]?.records?.[ceco]?.[String(year)]?.[month]); }
+function metricFor(row, kpi=STATE.kpi){
+  if (kpi === 'adt') {
+    if (row.real === null || row.aa === null) return null;
+    return row.real - row.aa;
+  }
+  return row.real;
+}
+function statusFromGap(gap, kind=currentKind()){
+  const g = num(gap); if (g === null) return 'amber';
+  const t1 = kind === 'percent' ? -0.005 : -0.15;
+  const t2 = kind === 'percent' ? -0.025 : -0.6;
+  if (g >= 0) return 'green';
+  if (g >= t1) return 'lime';
+  if (g >= t2) return 'amber';
+  return 'red';
+}
+function heatColor(gap, kind=currentKind()){
+  const s = statusFromGap(gap, kind);
+  return {green:'#00754a', lime:'#8fbf3f', amber:'#f5a623', red:'#d64545'}[s] || '#e87522';
+}
+function scoreFor(real, meta, aa, kpi=STATE.kpi){
+  const r = num(real); if (r === null) return 0;
+  const kind = KPI_CONFIG[kpi]?.kind || 'number';
+  let s = 62;
+  if (num(meta) !== null) { const d = r-meta; s += d>=0 ? 28 : Math.max(-35, d*(kind==='percent'?900:26)); }
+  if (num(aa) !== null) { const d = r-aa; s += d>=0 ? 10 : Math.max(-12, d*(kind==='percent'?250:8)); }
+  return Math.max(0, Math.min(100, Math.round(s)));
+}
+function aggregateStoreRows(kpi=STATE.kpi, months=selectedMonths(), regions=selectedRegions()){
+  const year = latestYear(kpi), aaYear = priorYear(kpi);
   const out = [];
-  Object.entries(kp.records || {}).forEach(([ceco, years]) => {
-    const y = years?.[year];
-    if (!y) return;
-    const value = safeNum(y[month]);
-    if (value === null) return;
-    const s = sm.get(norm(ceco)) || {};
-    const storeRegion = s.region || 'Sin Región';
-    if (region !== 'Nacional' && storeRegion !== region) return;
-    const aa = safeNum(years?.[priorYearFor(kpi)]?.[month]);
-    out.push({ ceco, tienda: s.tienda || ceco, region: storeRegion, value, aa });
+  Object.keys(DB.kpis?.[kpi]?.records || {}).forEach(ceco => {
+    const info = storeInfo(ceco);
+    const region = info.region || 'Sin Región';
+    if (regions.length && !regions.includes(region)) return;
+    const real = avg(months.map(m => valueFor(kpi, ceco, year, m)));
+    const aa = avg(months.map(m => valueFor(kpi, ceco, aaYear, m)));
+    if (real === null) return;
+    const meta = avg(months.map(m => objective(kpi, m)));
+    const difMeta = meta === null ? null : real-meta;
+    const difAA = aa === null ? null : real-aa;
+    const metric = kpi === 'adt' ? (aa === null ? null : real-aa) : real;
+    out.push({ceco, tienda:info.tienda || ceco, region, estado:info.estado || '', ciudad:info.ciudad || '', real, aa, meta, difMeta, difAA, metric, score:scoreFor(real, meta, aa, kpi), status:statusFromGap(difMeta)});
   });
   return out;
 }
-function avg(arr, field = 'value') {
-  const vals = arr.map(x => safeNum(x[field])).filter(v => v !== null);
-  return vals.length ? vals.reduce((a,b) => a + b, 0) / vals.length : null;
+function aggregateRegions(kpi=STATE.kpi, months=selectedMonths()){
+  return (DB.regions || []).map(region => {
+    const rows = aggregateStoreRows(kpi, months, [region]);
+    const real = avg(rows.map(r=>r.real)), aa = avg(rows.map(r=>r.aa)), meta = avg(months.map(m=>objective(kpi,m)));
+    const difMeta = meta === null || real === null ? null : real-meta;
+    const difAA = aa === null || real === null ? null : real-aa;
+    const complies = rows.filter(r => (num(r.difMeta) ?? -1) >= 0).length;
+    const risk = rows.filter(r => r.status === 'red').length;
+    return {region, real, aa, meta, difMeta, difAA, stores:rows.length, complies, risk, attention:Math.max(0, rows.length-complies-risk), score:scoreFor(real, meta, aa, kpi), status:statusFromGap(difMeta)};
+  }).filter(r => r.real !== null);
 }
-function fmt(v, k) {
-  const n = safeNum(v);
-  if (n === null) return '--';
-  if (k === 'percent') return `${(n * 100).toFixed(1)}%`;
-  if (Math.abs(n) >= 100) return Math.round(n).toLocaleString('es-MX');
-  return (Math.round(n * 10) / 10).toLocaleString('es-MX');
-}
-function diffFmt(v, k) {
-  const n = safeNum(v);
-  if (n === null) return '--';
-  const sign = n > 0 ? '+' : '';
-  if (k === 'percent') return `${sign}${(n * 100).toFixed(1)} pp`;
-  return `${sign}${Math.round(n * 10) / 10}`;
-}
-function statusClass(d, k) {
-  const n = safeNum(d);
-  if (n === null) return 'amber';
-  const t = k === 'percent' ? 0.005 : 0.5;
-  return n >= 0 ? 'green' : (n >= -t ? 'amber' : 'red');
-}
-function score(real, meta, aa, kpi) {
-  const r = safeNum(real);
-  if (r === null) return 0;
-  const kind = META[kpi]?.kind || 'number';
-  let s = 60;
-  if (safeNum(meta) !== null) {
-    const d = r - meta;
-    s += d >= 0 ? 30 : Math.max(-30, d * (kind === 'percent' ? 900 : 25));
-  }
-  if (safeNum(aa) !== null) {
-    const d = r - aa;
-    s += d >= 0 ? 10 : Math.max(-10, d * (kind === 'percent' ? 250 : 8));
-  }
-  return Math.max(0, Math.min(100, Math.round(s)));
-}
-function regionAgg(kpi, month = 'YTD') {
-  return (DB.regions || []).map(r => {
-    const rows = valuesFor(kpi, state.year, month, r);
-    const aaRows = valuesFor(kpi, priorYearFor(kpi), month, r);
-    const real = avg(rows);
-    const aa = avg(aaRows);
-    const meta = objective(kpi, state.month);
-    return { region: r, real, meta, aa, difMeta: meta === null || real === null ? null : real - meta, difAA: aa === null || real === null ? null : real - aa, count: rows.length };
-  }).filter(x => x.real !== null).sort((a,b) => b.real - a.real);
+function nationalAgg(){
+  const regs = aggregateRegions();
+  const real=avg(regs.map(r=>r.real)), aa=avg(regs.map(r=>r.aa)), meta=avg(selectedMonths().map(m=>objective(STATE.kpi,m)));
+  return {real, aa, meta, difMeta: meta===null||real===null?null:real-meta, difAA: aa===null||real===null?null:real-aa, score:scoreFor(real, meta, aa)};
 }
 
-function ensureState() {
-  const kpis = Object.keys(DB.kpis || {});
-  if (!state.kpi || !DB.kpis[state.kpi]) state.kpi = kpis[0];
-  state.year = latestYearFor(state.kpi);
-  const months = availableMonths(state.kpi);
-  if (!months.includes(state.month)) state.month = months.at(-1) || 'Jun';
-  if (state.region !== 'Nacional' && !(DB.regions || []).includes(state.region)) state.region = 'Nacional';
-}
-
-function renderControls() {
-  const kpis = Object.keys(DB.kpis || {});
-  $('#kpiTabs').innerHTML = kpis.map(k => `
-    <button class="tab ${k === state.kpi ? 'active' : ''}" data-kpi="${k}" title="Cambiar a ${META[k]?.short || k}">
-      <span class="tab-dot"></span>${META[k]?.short || k}
-    </button>`).join('');
-  $('#kpiTabs').onclick = e => {
-    const b = e.target.closest('button[data-kpi]');
-    if (!b) return;
-    state.kpi = b.dataset.kpi;
-    ensureState();
-    render();
-  };
-  $('#monthSelect').innerHTML = availableMonths(state.kpi).map(m => `<option ${m === state.month ? 'selected' : ''}>${m}</option>`).join('');
-  $('#regionSelect').innerHTML = ['Nacional', ...(DB.regions || [])].map(r => `<option ${r === state.region ? 'selected' : ''}>${r}</option>`).join('');
-  $('#viewMode').value = state.view;
-  $('#monthSelect').onchange = e => { state.month = e.target.value; render(); };
-  $('#regionSelect').onchange = e => { state.region = e.target.value; render(); };
-  $('#viewMode').onchange = e => { state.view = e.target.value; document.body.dataset.mode = state.view; };
-}
-function renderCards(real, meta, aa, dMeta, dAA, scoreVal) {
-  const k = META[state.kpi].kind;
-  const status = scoreVal >= 80 ? 'CUMPLE' : scoreVal >= 65 ? 'CERCA' : 'RIESGO';
-  const cards = [
-    ['REAL YTD', fmt(real,k), 'Resultado acumulado', ''],
-    ['META YTD', fmt(meta,k), 'Objetivo dinámico', ''],
-    ['DIF vs META', diffFmt(dMeta,k), 'Brecha', dMeta >= 0 ? 'positive' : dMeta < 0 ? 'negative' : 'warning'],
-    [`AA YTD ${priorYearFor(state.kpi)}`, fmt(aa,k), 'Año anterior', ''],
-    ['DIF vs AA', diffFmt(dAA,k), 'Comparativo', dAA >= 0 ? 'positive' : dAA < 0 ? 'negative' : 'warning'],
-    ['SCORE', `${scoreVal}`, status, scoreVal >= 80 ? 'positive' : scoreVal >= 65 ? 'warning' : 'negative']
-  ];
-  $('#kpiCards').innerHTML = cards.map(c => `<article class="metric-card ${c[3]}"><header>${c[0]}</header><strong>${c[1]}</strong><em>${c[2]}</em></article>`).join('');
-}
-function renderRegionTable(regs, national) {
-  const k = META[state.kpi].kind;
-  const selectedRegion = state.region;
-  const maxReal = Math.max(1, ...regs.map(r => Math.abs(safeNum(r.real) || 0)));
-  const maxGap = Math.max(1, ...regs.map(r => Math.abs(safeNum(r.difMeta) || 0)));
-
-  $('#regionBars').innerHTML = regs.map((r, idx) => {
-    const status = statusClass(r.difMeta, k);
-    const realWidth = Math.max(3, Math.min(100, Math.abs(safeNum(r.real) || 0) / maxReal * 100));
-    const gapWidth = Math.max(3, Math.min(100, Math.abs(safeNum(r.difMeta) || 0) / maxGap * 100));
-    const isActive = selectedRegion === r.region;
-    return `
-      <button class="region-bar-row ${isActive ? 'active' : ''}" data-region="${r.region}" style="--w:${realWidth}%;--gap:${gapWidth}%">
-        <div class="rb-head">
-          <b>${idx + 1}. ${r.region}</b>
-          <span>${fmt(r.real, k)}</span>
-        </div>
-        <div class="rb-track"><i class="rb-fill ${status}"></i></div>
-        <div class="rb-foot">
-          <span>Meta ${fmt(r.meta, k)}</span>
-          <strong class="${r.difMeta < 0 ? 'txt-red' : 'txt-green'}">${diffFmt(r.difMeta, k)}</strong>
-        </div>
-      </button>`;
-  }).join('') || '<div class="empty">Sin regiones para comparar</div>';
-
-  $('#regionBars').onclick = e => {
-    const row = e.target.closest('[data-region]');
-    if (!row) return;
-    state.region = row.dataset.region;
-    render();
-  };
-
-  $('#regionTable').innerHTML = `<thead><tr><th>Región</th><th>${META[state.kpi].short} Real</th><th>Meta</th><th>AA</th><th>Dif Meta</th><th>Dif AA</th><th>Semáforo</th></tr></thead><tbody>` +
-    regs.map(r => `<tr data-region="${r.region}" class="${selectedRegion === r.region ? 'selected' : ''}"><td>${r.region}</td><td>${fmt(r.real,k)}</td><td>${fmt(r.meta,k)}</td><td>${fmt(r.aa,k)}</td><td class="${r.difMeta < 0 ? 'txt-red':'txt-green'}">${diffFmt(r.difMeta,k)}</td><td class="${r.difAA < 0 ? 'txt-red':'txt-green'}">${diffFmt(r.difAA,k)}</td><td><i class="semaforo ${statusClass(r.difMeta,k)}"></i></td></tr>`).join('') +
-    `<tr class="national"><td>NACIONAL</td><td>${fmt(national.real,k)}</td><td>${fmt(national.meta,k)}</td><td>${fmt(national.aa,k)}</td><td>${diffFmt(national.dMeta,k)}</td><td>${diffFmt(national.dAA,k)}</td><td><i class="semaforo ${statusClass(national.dMeta,k)}"></i></td></tr></tbody>`;
-
-  $('#regionTable').onclick = e => {
-    const tr = e.target.closest('tr[data-region]');
-    if (!tr) return;
-    state.region = tr.dataset.region;
-    render();
-  };
-}
-function rankMetric(row, kpi = state.kpi) {
-  const value = safeNum(row.value);
-  const aa = safeNum(row.aa);
-  if (value === null) return null;
-  // Regla ejecutiva: ADT se evalúa como diferencia ADT_26 - ADT_25.
-  if (kpi === 'adt') return aa === null ? null : value - aa;
-  return value;
-}
-function medal(i, type) {
-  if (i === 0) return type === 'top' ? '🥇' : '⚠';
-  if (i === 1) return type === 'top' ? '🥈' : '⚠';
-  if (i === 2) return type === 'top' ? '🥉' : '⚠';
-  return String(i + 1);
-}
-function enrichRankRows(month = state.month) {
-  const k = META[state.kpi].kind;
-  const meta = objective(state.kpi, month);
-  return valuesFor(state.kpi, state.year, month, state.region)
-    .map(r => {
-      const metric = rankMetric(r);
-      const value = safeNum(r.value);
-      const aa = safeNum(r.aa);
-      const difMeta = meta === null || value === null ? null : value - meta;
-      const difAA = aa === null || value === null ? null : value - aa;
-      return { ...r, metric, meta, difMeta, difAA, value, aa, status: statusClass(difMeta, k) };
-    })
-    .filter(r => safeNum(r.metric) !== null);
-}
-function renderRankList(target, rows, type, maxAbs) {
-  const k = META[state.kpi].kind;
-  const label = state.kpi === 'adt' ? 'Δ ADT' : 'Real';
-  const item = (x, i) => {
-    const width = Math.max(4, Math.min(100, Math.abs(x.metric || 0) / Math.max(maxAbs, .0001) * 100));
-    const good = type === 'top';
-    const deltaClass = (x.difMeta ?? x.difAA ?? x.metric) < 0 ? 'txt-red' : 'txt-green';
-    const mainValue = state.kpi === 'adt' ? diffFmt(x.metric, 'number') : fmt(x.value, k);
-    const secondary = state.kpi === 'adt'
-      ? `Real ${fmt(x.value,'number')} · AA ${fmt(x.aa,'number')}`
-      : `Meta ${fmt(x.meta,k)} · vs Meta ${diffFmt(x.difMeta,k)}`;
-    return `<button class="rank-card ${type}" data-ceco="${x.ceco}" title="${x.tienda}">
-      <span class="rank-medal">${medal(i, type)}</span>
-      <span class="rank-info"><strong>${x.tienda}</strong><em>${x.ceco} · ${x.region}</em></span>
-      <span class="rank-value ${deltaClass}">${mainValue}</span>
-      <span class="rank-track"><i class="${good ? 'green' : 'red'}" style="--rank-w:${width}%"></i></span>
-      <span class="rank-sub">${label} · ${secondary} · vs AA ${diffFmt(x.difAA,k)}</span>
-    </button>`;
-  };
-  $(target).innerHTML = rows.map(item).join('') || '<div class="empty">Sin datos para el filtro actual</div>';
-}
-function renderRanks() {
-  const rows = enrichRankRows(state.month);
-  const sorted = [...rows].sort((a,b) => b.metric - a.metric);
-  const top = sorted.slice(0,10);
-  const bottom = [...rows].sort((a,b) => a.metric - b.metric).slice(0,10);
-  const maxAbs = Math.max(1, ...rows.map(r => Math.abs(safeNum(r.metric) || 0)));
-  const scope = `${state.region === 'Nacional' ? 'Nacional' : state.region} · ${state.month} ${state.year}`;
-  document.querySelector('.ranking.top .panel-title span').textContent = `Top 10 · ${scope}`;
-  document.querySelector('.ranking.bottom .panel-title span').textContent = `Bottom 10 · ${scope}`;
-  renderRankList('#topList', top, 'top', maxAbs);
-  renderRankList('#bottomList', bottom, 'bottom', maxAbs);
-
-  const clickHandler = e => {
-    const card = e.target.closest('[data-ceco]');
-    if (!card) return;
-    const name = card.querySelector('strong')?.textContent || card.dataset.ceco;
-    const value = card.querySelector('.rank-value')?.textContent || '';
-    $('#summaryText').innerHTML = `Drill Down preparado: <b>${name}</b> (${card.dataset.ceco}) · ${META[state.kpi].short} ${value}.`;
-    document.querySelectorAll('.rank-card.selected').forEach(x => x.classList.remove('selected'));
-    card.classList.add('selected');
-  };
-  $('#topList').onclick = clickHandler;
-  $('#bottomList').onclick = clickHandler;
-}
-function trendStats(vals) {
-  const valid = vals.filter(v => safeNum(v.real) !== null);
-  const first = valid[0]?.real ?? null;
-  const last = valid.at(-1)?.real ?? null;
-  const prev = valid.length > 1 ? valid.at(-2).real : null;
-  const best = valid.length ? [...valid].sort((a,b) => b.real - a.real)[0] : null;
-  const worst = valid.length ? [...valid].sort((a,b) => a.real - b.real)[0] : null;
-  return {
-    first, last, prev, best, worst,
-    change: first === null || last === null ? null : last - first,
-    mom: prev === null || last === null ? null : last - prev,
-    avg: avg(valid, 'real')
-  };
-}
-function svgPath(points) {
-  return points.map((p,i) => `${i ? 'L' : 'M'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
-}
-function renderTrend() {
-  const k = META[state.kpi].kind;
-  const months = availableMonths(state.kpi);
-  const vals = months.map(m => ({
-    m,
-    real: avg(valuesFor(state.kpi, state.year, m, state.region)),
-    meta: objective(state.kpi, m)
-  }));
-  const realVals = vals.map(v => safeNum(v.real)).filter(v => v !== null);
-  const metaVals = vals.map(v => safeNum(v.meta)).filter(v => v !== null);
-  const all = [...realVals, ...metaVals];
-  const min = all.length ? Math.min(...all) : 0;
-  const max = all.length ? Math.max(...all) : 1;
-  const pad = (max - min) * 0.14 || 1;
-  const lo = min - pad;
-  const hi = max + pad;
-  const w = 760, h = 268, left = 46, right = 18, top = 22, bottom = 42;
-  const innerW = w - left - right;
-  const innerH = h - top - bottom;
-  const x = i => left + (months.length <= 1 ? innerW/2 : i * innerW / (months.length - 1));
-  const y = v => top + (hi - v) * innerH / (hi - lo);
-  const realPts = vals.map((v,i) => safeNum(v.real) === null ? null : ({x:x(i), y:y(v.real), value:v.real, m:v.m})).filter(Boolean);
-  const metaPts = vals.map((v,i) => safeNum(v.meta) === null ? null : ({x:x(i), y:y(v.meta), value:v.meta, m:v.m})).filter(Boolean);
-  const s = trendStats(vals);
-  const cards = [
-    ['Promedio', fmt(s.avg, k), 'Promedio mensual real'],
-    ['Último mes', fmt(s.last, k), `${months.at(-1) || state.month} ${state.year}`],
-    ['Cambio periodo', diffFmt(s.change, k), `${months[0] || 'Inicio'} vs ${months.at(-1) || 'Fin'}`],
-    ['MoM', diffFmt(s.mom, k), 'Variación vs mes anterior']
-  ];
-  const area = realPts.length > 1 ? `${svgPath(realPts)} L ${realPts.at(-1).x.toFixed(1)} ${h-bottom} L ${realPts[0].x.toFixed(1)} ${h-bottom} Z` : '';
-  $('#trendTitle').textContent = `TENDENCIA MENSUAL ${META[state.kpi].short.toUpperCase()}`;
-  $('#trendChart').innerHTML = `
-    <div class="trend-kpis">${cards.map(c => `<div class="trend-mini ${String(c[1]).startsWith('-') ? 'bad' : ''}"><span>${c[0]}</span><strong>${c[1]}</strong><em>${c[2]}</em></div>`).join('')}</div>
-    <div class="trend-svg-wrap">
-      <svg class="trend-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Tendencia mensual real y meta">
-        <defs><linearGradient id="trendArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#006241" stop-opacity=".20"/><stop offset="100%" stop-color="#006241" stop-opacity="0"/></linearGradient></defs>
-        <line x1="${left}" y1="${top}" x2="${left}" y2="${h-bottom}" class="axis"/>
-        <line x1="${left}" y1="${h-bottom}" x2="${w-right}" y2="${h-bottom}" class="axis"/>
-        ${[0,.25,.5,.75,1].map(t => `<line x1="${left}" x2="${w-right}" y1="${top + innerH*t}" y2="${top + innerH*t}" class="gridline"/>`).join('')}
-        ${area ? `<path d="${area}" class="area"/>` : ''}
-        ${metaPts.length > 1 ? `<path d="${svgPath(metaPts)}" class="meta-line"/>` : ''}
-        ${realPts.length > 1 ? `<path d="${svgPath(realPts)}" class="real-line"/>` : ''}
-        ${vals.map((v,i) => `<text x="${x(i)}" y="${h-16}" text-anchor="middle" class="month-tick">${v.m}</text>`).join('')}
-        ${realPts.map(p => `<g class="point"><circle cx="${p.x}" cy="${p.y}" r="5"/><title>${p.m}: ${fmt(p.value,k)}</title></g>`).join('')}
-        ${metaPts.map(p => `<circle class="meta-point" cx="${p.x}" cy="${p.y}" r="3.5"><title>Meta ${p.m}: ${fmt(p.value,k)}</title></circle>`).join('')}
-      </svg>
-      <div class="trend-legend"><span><i class="solid"></i>Real</span><span><i class="dash"></i>Meta</span><span class="trend-note">${s.best ? `Mejor mes: ${s.best.m} · ${fmt(s.best.real,k)}` : 'Sin datos mensuales'}</span></div>
-    </div>
-    <div class="trend-gap">${vals.map(v => { const gap = safeNum(v.real) === null || safeNum(v.meta) === null ? null : v.real - v.meta; const cls = statusClass(gap,k); const width = Math.max(4, Math.min(100, Math.abs(gap || 0) / Math.max(.0001, Math.max(...vals.map(x => Math.abs((safeNum(x.real) || 0) - (safeNum(x.meta) || 0))), .0001)) * 100)); return `<div><b>${v.m}</b><span class="gap-pill ${cls}" style="--w:${width}%"><i></i>${diffFmt(gap,k)}</span></div>`; }).join('')}</div>
-  `;
-}
-
-const REGION_LAYOUT = {
-  'Noroeste':      { x: 42,  y: 58,  w: 168, h: 102, poly: '42,58 210,42 230,122 184,162 60,150' },
-  'Norte':         { x: 238, y: 45,  w: 164, h: 96,  poly: '238,55 390,40 416,108 352,150 250,132' },
-  'Norte Centro':  { x: 430, y: 70,  w: 170, h: 96,  poly: '430,78 584,62 612,130 545,174 438,148' },
-  'Occidente':     { x: 92,  y: 184, w: 168, h: 98,  poly: '96,194 238,172 270,236 218,288 92,270' },
-  'Centro Norte':  { x: 284, y: 174, w: 154, h: 96,  poly: '286,184 426,166 454,230 398,276 286,258' },
-  'Bajío':         { x: 462, y: 194, w: 132, h: 86,  poly: '466,204 586,186 612,244 558,292 468,272' },
-  'Centro Poniente': { x: 168, y: 308, w: 162, h: 86, poly: '170,318 312,300 338,354 288,404 178,388' },
-  'Centro Centro': { x: 350, y: 306, w: 144, h: 84,  poly: '354,316 480,300 504,350 458,400 356,384' },
-  'Centro Sur':    { x: 518, y: 310, w: 146, h: 88,  poly: '522,320 650,302 682,362 622,410 522,390' },
-  'Sur':           { x: 282, y: 430, w: 176, h: 92,  poly: '286,438 430,420 468,482 408,536 288,510' },
-  'Sureste':       { x: 492, y: 428, w: 188, h: 94,  poly: '496,438 650,420 690,480 630,542 504,514' }
-};
-
-function regionByName(regs) {
-  return new Map((regs || []).map(r => [r.region, r]));
-}
-function mapStatusLabel(scoreVal) {
-  return scoreVal >= 80 ? 'Cumple' : scoreVal >= 65 ? 'Atención' : 'Riesgo';
-}
-function renderMap(regs, nationalScore) {
-  const k = META[state.kpi].kind;
-  const byRegion = regionByName(regs);
-  const total = regs.length;
-  const counts = regs.reduce((acc, r) => {
-    acc[statusClass(r.difMeta, k)] = (acc[statusClass(r.difMeta, k)] || 0) + 1;
-    return acc;
-  }, { green: 0, amber: 0, red: 0 });
-  $('#mapSubtitle').textContent = `${META[state.kpi].short} · ${state.month} ${state.year}`;
-  $('#mapScore').textContent = nationalScore;
-  $('#mapStatus').textContent = mapStatusLabel(nationalScore);
-  $('#mapStats').innerHTML = `
-    <div><strong>${total}</strong><span>Regiones</span></div>
-    <div><strong>${counts.green || 0}</strong><span>Cumplen</span></div>
-    <div><strong>${counts.amber || 0}</strong><span>Atención</span></div>
-    <div><strong>${counts.red || 0}</strong><span>Riesgo</span></div>`;
-
-  const shapes = Object.entries(REGION_LAYOUT).map(([region, box]) => {
-    const r = byRegion.get(region) || { region, real: null, meta: null, aa: null, difMeta: null, difAA: null };
-    const st = statusClass(r.difMeta, k);
-    const active = state.region === region ? ' active' : '';
-    const title = `${region}\n${META[state.kpi].short}: ${fmt(r.real,k)}\nMeta: ${fmt(r.meta,k)}\nvs Meta: ${diffFmt(r.difMeta,k)}\nAA: ${fmt(r.aa,k)}\nvs AA: ${diffFmt(r.difAA,k)}`;
-    return `<g class="map-region ${st}${active}" data-region="${region}" tabindex="0" role="button" aria-label="${region}">
-      <polygon points="${box.poly}"></polygon>
-      <text x="${box.x + box.w/2}" y="${box.y + box.h/2 - 6}" text-anchor="middle">${region}</text>
-      <text class="map-value" x="${box.x + box.w/2}" y="${box.y + box.h/2 + 17}" text-anchor="middle">${fmt(r.real,k)}</text>
-      <title>${title}</title>
-    </g>`;
-  }).join('');
-
-  $('#mexicoSvgMap').innerHTML = `
-    <svg class="operational-map" viewBox="0 0 730 585" role="img" aria-label="Mapa operativo de regiones Starbucks México">
-      <defs>
-        <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#003b2b" flood-opacity=".12"/></filter>
-      </defs>
-      <path class="map-backdrop" d="M42 58 C160 0 320 20 410 42 C520 70 644 72 688 140 C736 214 676 318 694 414 C710 504 606 562 510 552 C410 542 334 576 238 530 C144 486 62 434 52 330 C42 224 8 132 42 58 Z"/>
-      ${shapes}
-    </svg>`;
-  const go = (el) => {
-    if (!el) return;
-    state.region = el.dataset.region;
-    render();
-  };
-  $('#mexicoSvgMap').onclick = e => go(e.target.closest('[data-region]'));
-  $('#mexicoSvgMap').onkeydown = e => {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    const g = e.target.closest('[data-region]');
-    if (!g) return;
-    e.preventDefault();
-    go(g);
-  };
-}
-
-function insightSeverity(delta, kind) {
-  if (safeNum(delta) === null) return 'amber';
-  const strong = kind === 'percent' ? 0.03 : 3;
-  const medium = kind === 'percent' ? 0.01 : 1;
-  if (delta >= medium) return 'green';
-  if (delta <= -strong) return 'red';
-  return 'amber';
-}
-function bestBy(rows, fn, desc = true) {
-  const valid = (rows || []).filter(x => safeNum(fn(x)) !== null);
-  return valid.sort((a,b) => desc ? fn(b) - fn(a) : fn(a) - fn(b))[0] || null;
-}
-function currentRankRows(month = state.month) {
-  return enrichRankRows(month).filter(x => safeNum(x.real) !== null);
-}
-function monthTrendInsight() {
-  const months = availableMonths(state.kpi);
-  const vals = months.map(m => ({ m, real: avg(valuesFor(state.kpi, state.year, m, state.region)), meta: objective(state.kpi, m) }))
-    .filter(x => safeNum(x.real) !== null);
-  const last = vals.at(-1) || null;
-  const prev = vals.length > 1 ? vals.at(-2) : null;
-  const mom = last && prev ? last.real - prev.real : null;
-  const gaps = vals.map(x => ({ ...x, gap: safeNum(x.meta) === null ? null : x.real - x.meta })).filter(x => safeNum(x.gap) !== null);
-  const bestGap = bestBy(gaps, x => x.gap, true);
-  const worstGap = bestBy(gaps, x => x.gap, false);
-  return { vals, last, prev, mom, bestGap, worstGap };
-}
-function makeInsight(type, icon, title, text, metric, meta = '') {
-  return { type, icon, title, text, metric, meta };
-}
-function renderInsightCards(items) {
-  $('#insights').innerHTML = `
-    <div class="insights-grid">
-      ${items.map((it, i) => `
-        <article class="insight-card ${it.type}">
-          <div class="insight-head"><span class="insight-icon">${it.icon}</span><span class="insight-priority">${String(i + 1).padStart(2, '0')}</span></div>
-          <h4>${it.title}</h4>
-          <p>${it.text}</p>
-          <div class="insight-metric"><strong>${it.metric || ''}</strong><span>${it.meta || ''}</span></div>
-        </article>`).join('')}
-    </div>`;
-}
-function renderInsights(regs, national, scoreVal) {
-  const meta = META[state.kpi];
-  const k = meta.kind;
-  const sortedByGap = [...regs].filter(r => safeNum(r.difMeta) !== null).sort((a,b) => a.difMeta - b.difMeta);
-  const opportunity = sortedByGap[0] || regs.at(-1) || null;
-  const leader = [...regs].filter(r => safeNum(r.real) !== null).sort((a,b) => b.real - a.real)[0] || null;
-  const growth = bestBy(regs, r => r.difAA, true);
-  const decline = bestBy(regs, r => r.difAA, false);
-  const trend = monthTrendInsight();
-  const rows = currentRankRows(state.month);
-  const topStore = [...rows].sort((a,b) => b.metric - a.metric)[0] || null;
-  const bottomStore = [...rows].sort((a,b) => a.metric - b.metric)[0] || null;
-  const riskStores = rows.filter(r => safeNum(r.difMeta) !== null && r.difMeta < 0).length;
-  const goodRegions = regs.filter(r => safeNum(r.difMeta) !== null && r.difMeta >= 0).length;
-  const riskRegions = regs.filter(r => statusClass(r.difMeta, k) === 'red').length;
-  const scope = state.region === 'Nacional' ? 'Nacional' : state.region;
-  const items = [
-    makeInsight(
-      insightSeverity(national.dMeta, k),
-      national.dMeta >= 0 ? '✓' : '!',
-      'Lectura ejecutiva',
-      `${scope} registra ${fmt(national.real, k)} en ${meta.short}. ${national.dMeta >= 0 ? 'El desempeño supera la meta' : 'La prioridad es cerrar la brecha contra meta'} en ${diffFmt(national.dMeta, k)}.`,
-      `${scoreVal}/100`,
-      'Executive Score'
-    ),
-    makeInsight(
-      'green',
-      '🏆',
-      'Región líder',
-      `${leader?.region || '--'} encabeza el ranking regional con ${fmt(leader?.real, k)} y una brecha de ${diffFmt(leader?.difMeta, k)} vs meta.`,
-      leader?.region || '--',
-      'Benchmark interno'
-    ),
-    makeInsight(
-      'red',
-      '⚠',
-      'Mayor oportunidad',
-      `${opportunity?.region || '--'} concentra la mayor desviación contra objetivo: ${diffFmt(opportunity?.difMeta, k)}. Debe ser el primer foco ejecutivo.`,
-      diffFmt(opportunity?.difMeta, k),
-      opportunity?.region || 'Sin región'
-    ),
-    makeInsight(
-      insightSeverity(growth?.difAA, k),
-      '↗',
-      'Mayor avance vs AA',
-      `${growth?.region || '--'} muestra el mejor avance contra año anterior con ${diffFmt(growth?.difAA, k)}.`,
-      diffFmt(growth?.difAA, k),
-      'vs Año Anterior'
-    ),
-    makeInsight(
-      insightSeverity(decline?.difAA, k),
-      '↘',
-      'Mayor retroceso vs AA',
-      `${decline?.region || '--'} requiere seguimiento por retroceso de ${diffFmt(decline?.difAA, k)} contra año anterior.`,
-      diffFmt(decline?.difAA, k),
-      'vs Año Anterior'
-    ),
-    makeInsight(
-      insightSeverity(trend.mom, k),
-      '〽',
-      'Pulso mensual',
-      trend.last ? `${trend.last.m} cerró en ${fmt(trend.last.real, k)} con variación MoM de ${diffFmt(trend.mom, k)}. Mejor brecha mensual: ${trend.bestGap?.m || '--'}.` : 'No hay meses suficientes para evaluar tendencia.',
-      diffFmt(trend.mom, k),
-      'MoM'
-    ),
-    makeInsight(
-      'green',
-      '★',
-      'Tienda referente',
-      `${topStore?.tienda || '--'} es la tienda referente del filtro actual con ${fmt(topStore?.real, k)}.`,
-      topStore?.tienda || '--',
-      topStore ? `${topStore.region} · ${topStore.ceco}` : ''
-    ),
-    makeInsight(
-      'red',
-      '🚨',
-      'Tienda crítica',
-      `${bottomStore?.tienda || '--'} aparece como principal oportunidad con ${fmt(bottomStore?.real, k)}.`,
-      bottomStore?.tienda || '--',
-      bottomStore ? `${bottomStore.region} · ${bottomStore.ceco}` : ''
-    )
-  ];
-  renderInsightCards(items);
-
-  const narrative = [
-    `${goodRegions} de ${regs.length} regiones cumplen o superan la meta para ${meta.short}.`,
-    `${riskRegions} regiones están en riesgo ejecutivo y ${riskStores} tiendas quedan bajo meta en el filtro actual.`,
-    `${leader?.region || 'La región líder'} debe usarse como benchmark operativo.`,
-    `${opportunity?.region || 'La región con mayor brecha'} debe concentrar el primer plan de acción.`,
-    trend.mom === null ? 'Sin lectura MoM suficiente.' : `La tendencia mensual muestra ${trend.mom >= 0 ? 'mejora' : 'deterioro'} de ${diffFmt(trend.mom, k)}.`
-  ];
-  $('#recommendations').innerHTML = `
-    <div class="executive-reading">
-      <div><span>Cómo estamos</span><strong>${fmt(national.real, k)}</strong><em>${diffFmt(national.dMeta, k)} vs meta</em></div>
-      <div><span>Oportunidad</span><strong>${opportunity?.region || '--'}</strong><em>${diffFmt(opportunity?.difMeta, k)}</em></div>
-      <div><span>Benchmark</span><strong>${leader?.region || '--'}</strong><em>${fmt(leader?.real, k)}</em></div>
-      <div><span>Tiendas bajo meta</span><strong>${riskStores}</strong><em>filtro actual</em></div>
-    </div>
-    <div class="insight-summary">
-      ${narrative.map(t => `<p>${t}</p>`).join('')}
-    </div>`;
-}
-
-function render() {
+async function boot(){
+  DB = await fetch('data/kpi-data.json', {cache:'no-store'}).then(r=>r.json());
+  await enrichDirectory();
   ensureState();
-  renderControls();
-  const meta = META[state.kpi];
-  document.body.dataset.kpi = state.kpi;
-  $('#viewTitle').textContent = meta.title;
-  $('#periodPill').textContent = `YTD ${state.month.toUpperCase()} ${state.year}`;
-  $('#scopeLabel').textContent = `${state.region.toUpperCase()} · ${state.month.toUpperCase()} · ${meta.short.toUpperCase()}`;
-  const real = avg(valuesFor(state.kpi, state.year, 'YTD', state.region));
-  const aa = avg(valuesFor(state.kpi, priorYearFor(state.kpi), 'YTD', state.region));
-  const obj = objective(state.kpi, state.month);
-  const dMeta = obj === null || real === null ? null : real - obj;
-  const dAA = aa === null || real === null ? null : real - aa;
-  const sc = score(real, obj, aa, state.kpi);
-  $('#summaryHeadline').innerHTML = `${meta.short} alcanza <span>${fmt(real,meta.kind)}</span> YTD`;
-  $('#summaryText').innerHTML = `${dMeta === null ? 'Sin objetivo disponible' : (dMeta >= 0 ? 'Por arriba de la meta en ' : 'Por debajo de la meta en ') + diffFmt(dMeta,meta.kind)} y ${dAA === null ? 'sin comparativo AA' : (dAA >= 0 ? 'por arriba del AA en ' : 'por debajo del AA en ') + diffFmt(dAA,meta.kind)}.`;
-  renderCards(real, obj, aa, dMeta, dAA, sc);
-  const regs = regionAgg(state.kpi, 'YTD');
-  renderMap(regs, sc);
-  renderRegionTable(regs, { real, meta: obj, aa, dMeta, dAA });
-  renderRanks();
-  renderTrend();
-  renderInsights(regs, { real, meta: obj, aa, dMeta, dAA }, sc);
-  $('#regionCount').textContent = `${regs.length} regiones`;
+  bindGlobal();
+  render();
 }
-
-fetch('data/kpi-data.json', { cache: 'no-store' })
-  .then(r => r.json())
-  .then(j => { DB = j; buildMeta(); ensureState(); render(); })
-  .catch(err => { document.body.innerHTML = '<pre>Error cargando data/kpi-data.json\n' + err + '</pre>'; });
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+async function enrichDirectory(){
+  try {
+    const txt = await fetch('data/directorio_geo.tsv', {cache:'no-store'}).then(r => r.ok ? r.text() : '');
+    if (txt) parseDirectoryText(txt);
+  } catch(e) {}
+  (DB.stores || []).forEach(s => {
+    const key = norm(s.ceco);
+    const prior = STORE_META.get(key) || {};
+    STORE_META.set(key, {...prior, ceco:key, tienda:prior.tienda || s.tienda, region:prior.region || s.region});
+  });
+  buildStateRegionMap();
 }
+function parseDirectoryText(txt){
+  const lines = txt.split(/\r?\n/).filter(x => x.trim());
+  if (!lines.length) return;
+  const header = lines[0].split('\t').map(cleanKey);
+  const idx = name => header.findIndex(h => h === name || h.includes(name));
+  const iCC = idx('cc'), iName = idx('cc_nombre'), iReg = idx('region'), iCity = idx('ciudad'), iState = idx('estado');
+  lines.slice(1).forEach(line => {
+    const c = line.split('\t'); const ceco = norm(c[iCC]); if (!ceco) return;
+    STORE_META.set(ceco, {ceco, tienda:norm(c[iName]), region:norm(c[iReg]), ciudad:norm(c[iCity]), estado:norm(c[iState])});
+  });
+}
+function buildStateRegionMap(){
+  const buckets = {};
+  STORE_META.forEach(s => { if (!s.estado || !s.region) return; const ab = STATE_ALIAS[s.estado] || STATE_ALIAS[toTitle(s.estado)] || null; if (!ab) return; buckets[ab] ||= {}; buckets[ab][s.region] = (buckets[ab][s.region]||0)+1; });
+  Object.entries(buckets).forEach(([ab, counts]) => { const reg = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]?.[0]; if (reg) REGION_BY_STATE.set(ab, reg); });
+  STATE_GRID.forEach(([ab]) => { if (!REGION_BY_STATE.has(ab)) REGION_BY_STATE.set(ab, guessRegion(ab)); });
+}
+function toTitle(s){ return norm(s).toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); }
+function guessRegion(ab){
+  if(['BC','BCS','SON','SIN'].includes(ab)) return 'Noroeste';
+  if(['NL','TAM'].includes(ab)) return 'Norte';
+  if(['CHH','COA','DGO','ZAC','SLP','AGS'].includes(ab)) return 'Norte Centro';
+  if(['JAL','NAY','COL','MIC'].includes(ab)) return 'Occidente';
+  if(['GTO','QRO','HGO'].includes(ab)) return 'Bajío';
+  if(['CDMX'].includes(ab)) return 'Centro Centro';
+  if(['MEX'].includes(ab)) return 'Centro Norte';
+  if(['PUE','TLX','MOR','GRO','OAX','VER'].includes(ab)) return 'Sur';
+  if(['CHP','TAB','CAM','YUC','QROO'].includes(ab)) return 'Sureste';
+  return 'Sin Región';
+}
+function ensureState(){
+  const kpis = Object.keys(DB.kpis || {}); if (!kpis.includes(STATE.kpi)) STATE.kpi = kpis[0];
+  const months = availableMonths(); if (!STATE.months.some(m => m === 'Todos' || months.includes(m))) STATE.months = [months.at(-1) || 'Jun'];
+  const regs = DB.regions || []; if (!STATE.regions.some(r => r === 'Todas' || regs.includes(r))) STATE.regions = ['Todas'];
+}
+function bindGlobal(){
+  $('#resetBtn').onclick = () => { STATE.regions=['Todas']; STATE.level='region'; STATE.selectedRegion=null; render(); };
+  $('#backLevelBtn').onclick = () => { STATE.level='region'; STATE.selectedRegion=null; render(); };
+  $('#centerZoomBtn').onclick = () => { STATE.regions = ['Centro Centro','Centro Norte','Centro Poniente','Centro Sur']; STATE.level='region'; render(); };
+  $('#tableSearch').oninput = e => { STATE.search = e.target.value.trim().toLowerCase(); renderTable(); };
+  $('#exportBtn').onclick = () => window.print();
+}
+function render(){ ensureState(); renderControls(); renderBreadcrumb(); renderSummary(); renderCards(); renderMap(); renderTable(); renderTrend(); renderRanks(); renderInsights(); renderRecommendations(); }
+function renderControls(){
+  $('#kpiTabs').innerHTML = Object.keys(DB.kpis || {}).map(k => `<button class="chip ${STATE.kpi===k?'active':''}" data-kpi="${k}">${KPI_CONFIG[k]?.short || DB.kpis[k].label || k}</button>`).join('');
+  $('#kpiTabs').onclick = e => { const b=e.target.closest('[data-kpi]'); if(!b) return; STATE.kpi=b.dataset.kpi; STATE.months=[availableMonths(STATE.kpi).at(-1)||'Jun']; STATE.level='region'; render(); };
+  const months = availableMonths();
+  $('#monthChips').innerHTML = `<button class="chip all ${STATE.months.includes('Todos')?'active':''}" data-month="Todos">Todos</button>` + months.map(m => `<button class="chip ${STATE.months.includes(m)?'active':''}" data-month="${m}">${m}</button>`).join('');
+  $('#monthChips').onclick = e => { const b=e.target.closest('[data-month]'); if(!b) return; toggleMulti(STATE.months, b.dataset.month, 'Todos'); render(); };
+  const regs = DB.regions || [];
+  $('#regionChips').innerHTML = `<button class="chip all ${STATE.regions.includes('Todas')?'active':''}" data-region="Todas">Todas</button>` + regs.map(r => `<button class="chip ${STATE.regions.includes(r)?'active':''}" data-region="${r}">${r}</button>`).join('');
+  $('#regionChips').onclick = e => { const b=e.target.closest('[data-region]'); if(!b) return; toggleMulti(STATE.regions, b.dataset.region, 'Todas'); STATE.level='region'; STATE.selectedRegion=null; render(); };
+  $('#periodBadge').textContent = `${STATE.months.includes('Todos')?'TODOS':STATE.months.join(', ')} ${latestYear()}`;
+}
+function toggleMulti(arr, val, all){
+  if (val === all) { arr.splice(0, arr.length, all); return; }
+  const ai = arr.indexOf(all); if (ai >= 0) arr.splice(ai,1);
+  const i = arr.indexOf(val); i >= 0 ? arr.splice(i,1) : arr.push(val);
+  if (!arr.length) arr.push(all);
+}
+function renderBreadcrumb(){
+  const parts = ['Nacional'];
+  if (!STATE.regions.includes('Todas')) parts.push(STATE.regions.join(' + '));
+  if (STATE.level === 'store' && STATE.selectedRegion) parts.push('Tiendas');
+  $('#breadcrumb').innerHTML = parts.map((p,i) => i===0 ? `<button data-home="1">${p}</button>` : `<span>›</span> <b>${p}</b>`).join(' ');
+  $('#breadcrumb [data-home]')?.addEventListener('click', () => { STATE.regions=['Todas']; STATE.level='region'; STATE.selectedRegion=null; render(); });
+}
+function renderSummary(){
+  const n = nationalAgg(); const k = currentKind(); const regs = aggregateRegions();
+  const best = [...regs].sort((a,b)=>b.real-a.real)[0];
+  const worst = [...regs].sort((a,b)=>(a.difMeta??999)-(b.difMeta??999))[0];
+  const scope = STATE.regions.includes('Todas') ? 'Nacional' : STATE.regions.join(' + ');
+  $('#scopeLabel').textContent = `${scope} · ${STATE.months.includes('Todos')?'Todos los meses':STATE.months.join(', ')}`;
+  $('#summaryHeadline').textContent = `${KPI_CONFIG[STATE.kpi]?.label || STATE.kpi}: ${fmt(n.real,k)} · ${n.score}/100`;
+  $('#summaryText').textContent = best && worst ? `${best.region} lidera con ${fmt(best.real,k)}. La mayor oportunidad está en ${worst.region} (${diffFmt(worst.difMeta,k)} vs meta).` : 'No hay datos suficientes para el filtro actual.';
+  $('#summaryIcon').textContent = n.score>=80?'✓':n.score>=65?'!':'↓';
+}
+function renderCards(){
+  const n = nationalAgg(), k = currentKind();
+  const regs = aggregateRegions(); const stores = aggregateStoreRows();
+  const cards = [
+    ['Real', fmt(n.real,k), KPI_CONFIG[STATE.kpi].axis, ''], ['Meta', fmt(n.meta,k), 'Objetivo mensual', ''], ['vs Meta', diffFmt(n.difMeta,k), 'Brecha ejecutiva', n.difMeta>=0?'positive':n.difMeta<0?'negative':'warning'],
+    ['AA', fmt(n.aa,k), `${priorYear()} comparable`, ''], ['vs AA', diffFmt(n.difAA,k), 'Evolución', n.difAA>=0?'positive':n.difAA<0?'negative':'warning'], ['Score', String(n.score), n.score>=80?'Excelente':n.score>=65?'Atención':'Riesgo', n.score>=80?'positive':n.score>=65?'warning':'negative']
+  ];
+  $('#kpiCards').innerHTML = cards.map(c=>`<article class="metric-card ${c[3]}"><header>${c[0]}</header><strong>${c[1]}</strong><em>${c[2]}</em></article>`).join('');
+}
+function renderMap(){
+  const regs = aggregateRegions(); REGION_COLOR_CACHE = new Map(regs.map(r => [r.region, heatColor(r.difMeta)]));
+  const selected = selectedRegions(); const useZoom = selected.some(r => CENTER_REGIONS.has(r));
+  $('#mapSubtitle').textContent = useZoom ? 'Zoom Centro · CDMX / EdoMex' : 'Estados agrupados por región operativa';
+  $('#mexicoMap').innerHTML = useZoom ? centerSvg(regs) : mexicoSvg(regs);
+  const n = nationalAgg();
+  $('#mapScore').textContent = n.score; $('#mapStatus').textContent = n.score>=80?'Excelente':n.score>=65?'Atención':'Riesgo';
+  const green = regs.filter(r=>r.status==='green').length, amber = regs.filter(r=>['lime','amber'].includes(r.status)).length, red = regs.filter(r=>r.status==='red').length;
+  $('#mapStats').innerHTML = [ ['Regiones', regs.length], ['Cumplen', green], ['Atención', amber], ['Riesgo', red] ].map(x=>`<div class="stat-card"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('');
+  bindMapEvents();
+}
+function regionByName(name){ return aggregateRegions().find(r => r.region === name); }
+function mexicoSvg(){
+  const sel = selectedRegions();
+  const rects = STATE_GRID.map(([ab,x,y,w,h]) => {
+    const reg = REGION_BY_STATE.get(ab) || 'Sin Región'; const r = regionByName(reg); const active = !sel.length || sel.includes(reg);
+    const col = r ? heatColor(r.difMeta) : '#cdd8d3'; const op = active ? 1 : .28;
+    return `<g data-region="${reg}" data-state="${ab}"><rect class="state ${active?'active':''}" x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="${col}" opacity="${op}"></rect><text class="state-label" x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle">${ab}</text></g>`;
+  }).join('');
+  return `<svg class="mx-svg" viewBox="0 0 1050 610" role="img" aria-label="Mapa ejecutivo de México"><rect x="14" y="14" width="1022" height="582" rx="24" fill="transparent" stroke="#dbe6e1"/>${rects}<text class="region-label" x="65" y="28">Noroeste</text><text class="region-label" x="390" y="88">Norte</text><text class="region-label" x="310" y="158">Norte Centro</text><text class="region-label" x="290" y="286">Occidente</text><text class="region-label" x="420" y="250">Bajío</text><text class="region-label" x="525" y="320">Centro</text><text class="region-label" x="520" y="445">Sur</text><text class="region-label" x="815" y="430">Sureste</text></svg>`;
+}
+function centerSvg(){
+  const sel = selectedRegions();
+  const items = CENTER_MAP.map(([reg,x,y,w,h]) => { const r=regionByName(reg); const col=r?heatColor(r.difMeta):'#cdd8d3'; const active=sel.includes('Todas')||sel.includes(reg); return `<g data-region="${reg}"><rect class="state ${active?'active':''}" x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="${col}" opacity="${active?1:.28}"></rect><text class="region-label" x="${x+w/2}" y="${y+h/2+5}" text-anchor="middle">${reg}</text></g>`; }).join('');
+  return `<svg class="mx-svg" viewBox="0 0 760 430" role="img" aria-label="Zoom Centro CDMX EdoMex"><rect class="zoom-card" x="18" y="18" width="724" height="394" rx="28"/><text x="380" y="28" text-anchor="middle" class="state-label">ZOOM CENTRO · CDMX / ESTADO DE MÉXICO</text>${items}</svg>`;
+}
+function bindMapEvents(){
+  const tt = $('#tooltip');
+  document.querySelectorAll('#mexicoMap [data-region]').forEach(el => {
+    el.addEventListener('mousemove', e => { const reg = el.dataset.region; const st=el.dataset.state; const r=regionByName(reg); tt.classList.remove('hidden'); tt.style.left=(e.clientX+16)+'px'; tt.style.top=(e.clientY+16)+'px'; tt.innerHTML = `<h4>${st?`${st} · `:''}${reg}</h4><p><b>${KPI_CONFIG[STATE.kpi].short}</b>: ${fmt(r?.real)}</p><p>Meta: ${fmt(r?.meta)} · Brecha: <b>${diffFmt(r?.difMeta)}</b></p><p>Score: <b>${r?.score ?? '--'}</b> · Tiendas: ${r?.stores ?? '--'}</p>`; });
+    el.addEventListener('mouseleave', () => tt.classList.add('hidden'));
+    el.addEventListener('click', () => { const reg=el.dataset.region; STATE.regions=[reg]; STATE.level='store'; STATE.selectedRegion=reg; render(); });
+  });
+}
+function renderTable(){
+  const k = currentKind(); let rows;
+  if (STATE.level === 'store' || !STATE.regions.includes('Todas')) {
+    rows = aggregateStoreRows(); $('#tableTitle').textContent = `Tabla ejecutiva por tienda`; $('#backLevelBtn').classList.toggle('hidden', STATE.regions.includes('Todas') && STATE.level!=='store');
+  } else { rows = aggregateRegions(); $('#tableTitle').textContent = `Tabla ejecutiva por región`; $('#backLevelBtn').classList.add('hidden'); }
+  if (STATE.search) rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(STATE.search));
+  const {key, dir} = STATE.sort; rows.sort((a,b)=>{ const av=a[key], bv=b[key]; const res = (num(av) ?? String(av)).toString().localeCompare((num(bv) ?? String(bv)).toString(), 'es-MX', {numeric:true}); return dir==='asc'?res:-res; });
+  $('#tableSubtitle').textContent = `${rows.length} registros · ${KPI_CONFIG[STATE.kpi].label} · ${KPI_CONFIG[STATE.kpi].axis}`;
+  const isStore = rows[0]?.ceco !== undefined;
+  const headers = isStore ? [['tienda','Tienda'],['ceco','CC'],['region','Región'],['estado','Estado'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['score','Score'],['status','Estado']] : [['region','Región'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['stores','Tiendas'],['complies','Cumplen'],['risk','Riesgo'],['score','Score'],['status','Estado']];
+  $('#executiveTable').innerHTML = `<thead><tr><th>#</th>${headers.map(h=>`<th data-sort="${h[0]}">${h[1]}${STATE.sort.key===h[0]?(STATE.sort.dir==='asc'?' ▲':' ▼'):''}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr data-region="${r.region||''}" data-ceco="${r.ceco||''}"><td>${i+1}</td>${headers.map(([key])=>`<td class="${key==='region'||key==='tienda'?'main-name':''}">${cellValue(r,key,k)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+  document.querySelectorAll('#executiveTable th[data-sort]').forEach(th => th.onclick = () => { const k=th.dataset.sort; STATE.sort = {key:k, dir: STATE.sort.key===k && STATE.sort.dir==='desc' ? 'asc':'desc'}; renderTable(); });
+  document.querySelectorAll('#executiveTable tr[data-region]').forEach(tr => tr.onclick = () => { if(tr.dataset.region){ STATE.regions=[tr.dataset.region]; STATE.level='store'; STATE.selectedRegion=tr.dataset.region; render(); } });
+}
+function cellValue(r,key,k){
+  if(['real','meta','aa'].includes(key)) return fmt(r[key], k);
+  if(['difMeta','difAA'].includes(key)) return `<span class="${num(r[key])<0?'txt-red':'txt-green'}">${diffFmt(r[key], k)}</span>`;
+  if(key==='status') return `<span class="pill ${r.status}">${r.status==='green'?'Cumple':r.status==='red'?'Riesgo':'Atención'}</span>`;
+  if(key==='score') return `<b class="${r.score>=80?'txt-green':r.score>=65?'txt-amber':'txt-red'}">${r.score}</b>`;
+  return r[key] ?? '--';
+}
+function renderTrend(){
+  const k=currentKind(); const months=availableMonths();
+  const vals = months.map(m => { const regs=aggregateRegions(STATE.kpi,[m]).filter(r => selectedRegions().includes(r.region) || STATE.regions.includes('Todas')); return {m, real:avg(regs.map(r=>r.real)), meta:objective(STATE.kpi,m)}; });
+  const all = vals.flatMap(v => [v.real, v.meta]).map(num).filter(v=>v!==null); const min=Math.min(...all), max=Math.max(...all); const span=Math.max(.0001, max-min);
+  $('#trendTitle').textContent = `Tendencia dinámica · ${KPI_CONFIG[STATE.kpi].label}`;
+  $('#axisHint').textContent = KPI_CONFIG[STATE.kpi].axis;
+  $('#trendChart').innerHTML = `<span class="axis-note">Rango ${fmt(min,k)} → ${fmt(max,k)}</span>` + vals.map(v => { const h1 = 8 + ((v.real-min)/span)*92; const h2 = 8 + ((v.meta-min)/span)*92; return `<div class="bar-col"><div class="bar-wrap"><i class="bar" title="Real ${fmt(v.real,k)}" style="height:${h1}%"></i><i class="bar meta" title="Meta ${fmt(v.meta,k)}" style="height:${h2}%"></i></div><span class="bar-label">${v.m}</span></div>`; }).join('');
+}
+function renderRanks(){
+  const rows = aggregateStoreRows().filter(r => num(r.metric)!==null); const max=Math.max(.001,...rows.map(r=>Math.abs(r.metric||0)));
+  const top=[...rows].sort((a,b)=>b.metric-a.metric).slice(0,10); const bottom=[...rows].sort((a,b)=>a.metric-b.metric).slice(0,10);
+  $('#topList').innerHTML = top.map((r,i)=>rankHtml(r,i,'top',max)).join('') || '<p class="map-note">Sin datos</p>';
+  $('#bottomList').innerHTML = bottom.map((r,i)=>rankHtml(r,i,'bottom',max)).join('') || '<p class="map-note">Sin datos</p>';
+}
+function rankHtml(r,i,type,max){ const k=currentKind(); const value = STATE.kpi==='adt' ? diffFmt(r.metric,'number') : fmt(r.real,k); return `<button class="rank-card" data-ceco="${r.ceco}"><span class="rank-medal">${type==='top'?(i<3?['🥇','🥈','🥉'][i]:i+1):'⚠'}</span><span class="rank-info"><strong>${r.tienda}</strong><em>${r.ceco} · ${r.region}</em></span><span class="rank-value ${num(r.difMeta)<0?'txt-red':'txt-green'}">${value}</span></button>`; }
+function renderInsights(){
+  const regs=aggregateRegions(); const stores=aggregateStoreRows(); const k=currentKind();
+  const best=[...regs].sort((a,b)=>b.real-a.real)[0]; const risk=[...regs].sort((a,b)=>(a.difMeta??999)-(b.difMeta??999))[0]; const growth=[...regs].sort((a,b)=>(b.difAA??-999)-(a.difAA??-999))[0]; const drop=[...regs].sort((a,b)=>(a.difAA??999)-(b.difAA??999))[0]; const top=[...stores].sort((a,b)=>b.metric-a.metric)[0]; const bottom=[...stores].sort((a,b)=>a.metric-b.metric)[0];
+  const data=[
+    ['green','Mejor desempeño', best?`${best.region} lidera ${KPI_CONFIG[STATE.kpi].short} con ${fmt(best.real,k)} (${diffFmt(best.difMeta,k)} vs meta).`:'Sin datos.'],
+    ['red','Mayor oportunidad', risk?`${risk.region} requiere foco ejecutivo: ${diffFmt(risk.difMeta,k)} contra meta y score ${risk.score}.`:'Sin datos.'],
+    ['green','Mayor avance vs AA', growth?`${growth.region} muestra el mejor avance vs ${priorYear()}: ${diffFmt(growth.difAA,k)}.`:'Sin datos.'],
+    ['amber','Retroceso a vigilar', drop?`${drop.region} presenta la caída relativa más relevante vs AA: ${diffFmt(drop.difAA,k)}.`:'Sin datos.'],
+    ['green','Tienda referente', top?`${top.tienda} (${top.region}) aparece como referencia del filtro actual.`:'Sin datos.'],
+    ['red','Tienda crítica', bottom?`${bottom.tienda} (${bottom.region}) debe revisarse primero en el ranking Bottom.`:'Sin datos.']
+  ];
+  $('#insights').innerHTML = data.map(x=>`<article class="insight ${x[0]}"><strong>${x[1]}</strong><p>${x[2]}</p></article>`).join('');
+}
+function renderRecommendations(){
+  const regs=[...aggregateRegions()].sort((a,b)=>(a.difMeta??999)-(b.difMeta??999));
+  const worst=regs[0], best=[...regs].sort((a,b)=>b.real-a.real)[0], n=nationalAgg();
+  const recs=[
+    ['high','Prioridad 1', worst?`Intervenir ${worst.region}: brecha ${diffFmt(worst.difMeta)} vs meta. ${KPI_CONFIG[STATE.kpi].action}`:'Validar datos del KPI.'],
+    ['medium','Seguimiento semanal', worst?`Revisar tiendas en riesgo de ${worst.region} y cerrar acciones antes del siguiente corte.`:'Sin región crítica.'],
+    ['low','Replicar práctica', best?`Documentar rutina de ${best.region} y replicarla en regiones con brecha negativa.`:'Sin región líder.'],
+    [n.score<65?'high':'medium','Impacto esperado',`Mover primero la brecha vs Meta; después AA y tendencia. Score actual: ${n.score}/100.`]
+  ];
+  $('#recommendations').innerHTML = recs.map(r=>`<article class="recommendation"><span class="priority ${r[0]}">${r[1]}</span><h4>${KPI_CONFIG[STATE.kpi].label}</h4><p>${r[2]}</p></article>`).join('');
+}
+boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo v4.9: ${err.message}</pre>`; });

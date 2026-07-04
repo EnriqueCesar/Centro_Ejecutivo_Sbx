@@ -1,37 +1,33 @@
-# Centro Ejecutivo SBX - Fase 4.7 Mapa SVG
+# Centro Ejecutivo SBX v4.9 · Geo Executive
 
-Entrega incremental sobre Fase 4.6.
+Versión lista para GitHub Pages.
 
-## Incluye
+## Cambios principales v4.9
 
-- Mapa SVG interactivo de 11 regiones operativas.
-- Colores dinamicos por desempeno: cumple, atencion y riesgo.
-- Tooltip ejecutivo por region con Real, Meta, vs Meta, AA y vs AA.
-- Click en region para filtrar todo el dashboard.
-- Panel lateral con Score Nacional y conteo de regiones por estado.
-- Integracion con KPI, Mes, Region, KPI Cards, Comparativo Regional, Tendencias y Top/Bottom.
+- Mapa SVG geográfico de México con estados agrupados por región operativa.
+- Zoom automático para regiones Centro: Centro Centro, Centro Norte, Centro Poniente y Centro Sur.
+- Filtro de Indicador se mantiene como controlador principal.
+- Filtros ejecutivos multiselección para Mes y Región.
+- Filtro Vista eliminado.
+- Heatmap dinámico por brecha vs meta.
+- Tabla ejecutiva expandida y ordenable.
+- Drill-down Región → Tiendas en la misma página.
+- Insights narrativos automáticos.
+- Breadcrumb Nacional → Región → Tiendas.
+- Gráficas y formatos dinámicos según el KPI: Conexión, Bebida, TPLH, Segundas Cx y ADT.
+- ADT se presenta como diferencia ADT_26 - ADT_25.
 
-## Publicacion GitHub Pages
+## Publicación
 
-Subir el contenido del ZIP a la raiz del repositorio:
+Subir el contenido del ZIP a la raíz del repositorio de GitHub Pages:
 
-- index.html
-- assets/
-- data/
-- manifest.json
-- sw.js
-- README.md
+```text
+index.html
+manifest.json
+sw.js
+assets/
+data/
+README.md
+```
 
-
-
-## Fase 4.8 - Executive Insights
-
-Esta versión agrega el motor de insights automáticos sobre la Fase 4.7:
-
-- Lectura ejecutiva dinámica por KPI, mes y región.
-- Mejor región, mayor oportunidad, avance y retroceso vs año anterior.
-- Pulso mensual con lectura MoM.
-- Tienda referente y tienda crítica del filtro actual.
-- Resumen ejecutivo conectado al mapa, Top/Bottom y tendencia.
-
-Sube el contenido del ZIP a la raíz del repositorio de GitHub Pages.
+No subir la carpeta contenedora completa; subir su contenido.

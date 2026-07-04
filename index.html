@@ -4,98 +4,125 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#006241" />
-  <title>Centro Ejecutivo SBX · Fase 4.8 Insights</title>
+  <title>Centro Ejecutivo SBX · v4.9 Geo Executive</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-  <div class="executive-shell">
-    <header class="ce-header">
-      <div class="ce-brand">
-        <img src="assets/img/centro-ejecutivo-logo.jpg" alt="Centro Ejecutivo" onerror="this.style.display='none'" />
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img src="assets/img/centro-ejecutivo-logo.jpg" alt="Centro Ejecutivo SBX" onerror="this.style.display='none'">
         <div>
-          <p>CENTRO EJECUTIVO</p>
-          <h1 id="viewTitle">RESUMEN EJECUTIVO DINÁMICO</h1>
+          <span>Centro Ejecutivo SBX</span>
+          <h1>Geo Executive v4.9</h1>
         </div>
       </div>
-      <div class="period-pill" id="periodPill">YTD JUN 2026</div>
+      <div class="topbar-actions">
+        <button id="resetBtn" class="ghost-btn">Nacional</button>
+        <button id="exportBtn" class="ghost-btn">Exportar vista</button>
+        <div class="period-badge" id="periodBadge">YTD 2026</div>
+      </div>
     </header>
 
-    <main class="ce-main">
-      <section class="filters-card">
-        <div class="filter-tabs" id="kpiTabs"></div>
-        <div class="filters-row">
-          <label>Mes <select id="monthSelect"></select></label>
-          <label>Región <select id="regionSelect"></select></label>
-          <label>Vista <select id="viewMode"><option value="nacional">Nacional</option><option value="regional">Regional</option></select></label>
+    <main class="workspace">
+      <section class="filters-panel">
+        <div>
+          <p class="filter-title">Indicador</p>
+          <div class="chip-group kpi-group" id="kpiTabs"></div>
+        </div>
+        <div>
+          <p class="filter-title">Mes</p>
+          <div class="chip-group" id="monthChips"></div>
+        </div>
+        <div>
+          <p class="filter-title">Región</p>
+          <div class="chip-group region-group" id="regionChips"></div>
         </div>
       </section>
 
-      <section class="summary-row">
-        <article class="narrative-card">
-          <div class="round-icon">↗</div>
+      <nav class="breadcrumb" id="breadcrumb">Nacional</nav>
+
+      <section class="hero-grid">
+        <article class="executive-summary">
+          <div class="summary-icon" id="summaryIcon">↗</div>
           <div>
-            <p class="eyebrow" id="scopeLabel">NACIONAL · JUNIO</p>
-            <h2 id="summaryHeadline">Cargando desempeño...</h2>
-            <p id="summaryText">Preparando lectura ejecutiva del KPI seleccionado.</p>
+            <p class="eyebrow" id="scopeLabel">Nacional · YTD</p>
+            <h2 id="summaryHeadline">Preparando lectura ejecutiva</h2>
+            <p id="summaryText">Selecciona un indicador, mes o región para actualizar toda la vista.</p>
           </div>
         </article>
-        <div class="cards-strip" id="kpiCards"></div>
+        <div class="kpi-cards" id="kpiCards"></div>
       </section>
 
-      <section class="dashboard-grid map-area">
-        <article class="panel mexico-map-panel">
-          <div class="panel-title"><h3>MAPA OPERATIVO POR REGIÓN</h3><span id="mapSubtitle">Filtro ejecutivo</span></div>
-          <div class="map-layout">
-            <div id="mexicoSvgMap" class="mexico-svg-map"></div>
-            <aside class="map-side">
-              <div class="map-score"><span>Score Nacional</span><strong id="mapScore">--</strong><em id="mapStatus">Calculando</em></div>
-              <div class="map-stats" id="mapStats"></div>
-              <div class="map-legend"><span><i class="dot green"></i>Cumple</span><span><i class="dot amber"></i>Atención</span><span><i class="dot red"></i>Riesgo</span></div>
-              <p class="map-note">Haz click en una región para filtrar todo el Centro Ejecutivo.</p>
+      <section class="geo-layout">
+        <article class="panel map-panel">
+          <div class="panel-head">
+            <div>
+              <h3>Mapa México · Heatmap regional</h3>
+              <span id="mapSubtitle">Estados agrupados por región operativa</span>
+            </div>
+            <button id="centerZoomBtn" class="mini-btn">Zoom Centro</button>
+          </div>
+          <div class="map-body">
+            <div class="map-canvas" id="mexicoMap"></div>
+            <aside class="map-aside">
+              <div class="score-card">
+                <span>Score Ejecutivo</span>
+                <strong id="mapScore">--</strong>
+                <em id="mapStatus">Calculando</em>
+              </div>
+              <div id="mapStats" class="stat-stack"></div>
+              <div class="heat-legend">
+                <span>Riesgo</span><i></i><b></b><em></em><strong></strong><span>Cumple</span>
+              </div>
+              <p class="map-note">Click en un estado o región para filtrar. Selección múltiple desde filtros.</p>
             </aside>
           </div>
         </article>
+
+        <article class="panel insight-panel compact-panel">
+          <div class="panel-head"><h3>Insights narrativos</h3><span>Automáticos</span></div>
+          <div id="insights" class="insights-list"></div>
+        </article>
       </section>
 
-      <section class="dashboard-grid top-area">
-        <article class="panel region-performance">
-          <div class="panel-title"><h3>DESEMPEÑO POR REGIÓN (YTD)</h3><span id="regionCount">11 regiones</span></div>
-          <div id="regionBars" class="region-bars"></div>
-          <div class="table-wrap compact"><table id="regionTable"></table></div>
-          <div class="legend"><span><i class="dot green"></i>Cumple / Supera (+)</span><span><i class="dot amber"></i>Cerca de meta</span><span><i class="dot red"></i>No cumple (-)</span><span class="hint">Click en una región para filtrar</span></div>
-        </article>
+      <section class="panel executive-table-panel">
+        <div class="panel-head table-head">
+          <div>
+            <h3 id="tableTitle">Tabla ejecutiva por región</h3>
+            <span id="tableSubtitle">Ordena y haz click para bajar a tiendas</span>
+          </div>
+          <div class="table-tools">
+            <input id="tableSearch" type="search" placeholder="Buscar región o tienda...">
+            <button id="backLevelBtn" class="mini-btn hidden">Volver a regiones</button>
+          </div>
+        </div>
+        <div class="table-wrap"><table id="executiveTable"></table></div>
+      </section>
 
-        <article class="panel ranking bottom">
-          <div class="panel-title danger"><h3>BOTTOM 10</h3><span>Oportunidad</span></div>
+      <section class="bottom-grid">
+        <article class="panel chart-panel">
+          <div class="panel-head"><h3 id="trendTitle">Tendencia dinámica</h3><span id="axisHint">Escala adaptativa</span></div>
+          <div id="trendChart" class="trend-chart"></div>
+        </article>
+        <article class="panel ranking-panel">
+          <div class="panel-head danger"><h3>Bottom 10</h3><span>Oportunidad</span></div>
           <div id="bottomList" class="rank-list"></div>
         </article>
-
-        <article class="panel ranking top">
-          <div class="panel-title success"><h3>TOP 10</h3><span>Liderazgo</span></div>
+        <article class="panel ranking-panel">
+          <div class="panel-head success"><h3>Top 10</h3><span>Liderazgo</span></div>
           <div id="topList" class="rank-list"></div>
         </article>
       </section>
 
-      <section class="dashboard-grid lower-area">
-        <article class="panel trend-panel">
-          <div class="panel-title"><h3 id="trendTitle">TENDENCIA MENSUAL</h3><span>Real · Meta</span></div>
-          <div id="trendChart" class="trend-chart"></div>
-        </article>
-
-        <article class="panel insights-panel">
-          <div class="panel-title"><h3>EXECUTIVE INSIGHTS</h3><span>Lectura automática</span></div>
-          <div id="insights" class="insight-list"></div>
-        </article>
-      </section>
-
-      <section class="panel action-panel">
-        <div class="panel-title"><h3>LECTURA EJECUTIVA</h3><span>Resumen accionable</span></div>
+      <section class="panel recommendations-panel">
+        <div class="panel-head"><h3>Recomendaciones ejecutivas</h3><span>Prioridad por brecha vs meta</span></div>
         <div id="recommendations" class="recommendation-grid"></div>
       </section>
     </main>
   </div>
+  <div id="tooltip" class="tooltip hidden"></div>
   <script src="assets/js/app.js" defer></script>
-
 </body>
 </html>

@@ -1,0 +1,969 @@
+CC	CC Nombre	Región	Colonia	Delegacion_ Municipio	Ciudad	Estado
+38101	Angel	Centro Centro	Cuahtemoc	Cuauhtémoc	Ciudad De México	Ciudad De México
+38103	Aguilas	Centro Poniente	Los Alpes	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38104	Olivar	Centro Poniente	Olivar De Los Padres 	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38106	Prado Norte	Centro Poniente	Lomas De Chapultepec	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38107	Pedregal	Centro Sur	Jardínes Del Pedregal	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38108	Campos Eliseos	Centro Centro	Polanco	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38109	Wtc	Centro Centro	Napoles	Benito Juárez	Ciudad De México	Ciudad De México
+38110	Torre Mayor	Centro Centro	Cuahtemoc	Cuauhtémoc	Ciudad De México	Ciudad De México
+38111	Masarik 	Centro Centro	Polanco	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38112	Insurgentes Parroquia	Centro Poniente	Insurgentes Mixcoac	Benito Juárez	Ciudad De México	Ciudad De México
+38113	Juan Pablo II	Centro Sur	Guadalupe Inn	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38114	Miramontes	Centro Sur	Los Girasoles	Coyoacán	Ciudad De México	Ciudad De México
+38115	Zona Azul	Centro Norte	Satelite 	Naucalpan 	Estado De México	Estado De México
+38116	Santa Teresa	Centro Sur	Heroes De Padierna	Tlalpan	Ciudad De México	Ciudad De México
+38117	Satelite 	Centro Norte	Satelite 	Naucalpan 	Estado De México	Estado De México
+38118	Corporativo Polanco	Centro Centro	Los Morales Polanco	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38119	Lomas Verdes 	Centro Norte	Lomas Verdes 	Naucalpan 	Estado De México	Estado De México
+38121	Herradura	Centro Poniente	Herradura	Huixquilucan	Estado De México	Estado De México
+38122	Santa Fe	Centro Poniente	Centro Ciudad Santa Fe	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38123	Plaza Alameda	Centro Centro	Centro	Cuauhtémoc	Ciudad De México	Ciudad De México
+38124	San Jeronimo	Centro Sur	San Jerónimo Líndice	Magdalena Contreras	Ciudad De México	Ciudad De México
+38126	Interlomas	Centro Poniente	Lomas De Las Palmas 	Huixquilucan	Estado De México	Estado De México
+38128	Condesa 	Centro Centro	Condesa	Cuauhtémoc	Ciudad De México	Ciudad De México
+38129	Plaza Santa Teresa	Centro Sur	Jardínes Del Pedregal	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38131	Tepepan	Centro Sur	Tepepan	Tlalpan	Ciudad De México	Ciudad De México
+38133	Vista Hermosa Cuernavaca	Sur	Vista Hermosa	Cuernavaca	Cuernavaca	Morelos
+38134	Pilares	Centro Sur	Del Valle	Benito Juárez	Ciudad De México	Ciudad De México
+38135	Monte Everest	Centro Poniente	Lomas De Chapultepec	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38136	Punta Norte	Centro Norte	Cuatitlan Izcalli 	Cuatitlan Izcalli 	Estado De México	Estado De México
+38137	Midtown Jalisco PA	Occidente	Italia Providencia	Guadalajara	Guadalajara	Jalisco
+38138	Galerias metepec 1	Centro Poniente	Barrio De Coaxustenco	Metepec	Toluca	Estado De México
+38139	Plaza Inn	Centro Sur	Guadalupe Inn	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38141	Plaza Mayor Metepec 	Centro Poniente	Metepec 	Metepec	Toluca	Estado De México
+38142	Zona Esmeralda	Centro Norte	Atizapan De Zaragoza 	Atizapan De Zaragoza 	Estado De México	Estado De México
+38143	Americas	Occidente	Ladron De Guevara	Guadalajara	Guadalajara	Jalisco
+38144	Minerva	Occidente	Vallarta Poniente	Guadalajara	Guadalajara	Jalisco
+38146	Puebla Mazarik Plaza	Sur	Centros Comerciales Desarrollo Inmobiliario	San Andres Cholula	Puebla	Puebla
+38147	Puebla Las Animas	Sur	Las Animas	Puebla	Puebla	Puebla
+38148	Centro Comercial Santa Fe 1	Centro Poniente	Antigua Mina La Totolapa	Cuajimalpa	Ciudad De México	Ciudad De México
+38149	Bellavista	Centro Norte	Tlanepantla	Tlalnepantla	Estado De México	Estado De México
+38150	Santa Fe 2	Centro Poniente	Centro Ciudad Santa Fe	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38151	Aeropuerto II Sala Bravo	Centro Centro	Zona Federal (Aeropuerto Internal De La Ciudad De Mexico)	Venustiano Carranza	Ciudad De México	Ciudad De México
+38152	Insurgentes Relox	Centro Sur	San Angel	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38153	Centro Magno	Occidente	Arcos Vallarta	Guadalajara	Guadalajara	Jalisco
+38154	Gran Plaza Guadalajara	Occidente	Don Bosco Vallarta	Zapopan	Guadalajara	Jalisco
+38155	16 de Septiembre	Centro Centro	Centro De La Ciudad De Mexico Area 2	Cuauhtémoc	Ciudad De México	Ciudad De México
+38156	Condesa II Tamaulipas 	Centro Centro	Condesa	Cuauhtémoc	Ciudad De México	Ciudad De México
+38157	Angelopolis	Sur	Concepcion La Cruz	Puebla	Puebla	Puebla
+38158	Plaza Lilas	Centro Poniente	Bosques De Las Lomas	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38159	Bugambilias	Occidente	Ciudad Bugambilias	Zapopan	Guadalajara	Jalisco
+38161	Aeropuerto Guadalajara C30	Occidente	Guadalajara	Tlajomulco 	Guadalajara	Jalisco
+38162	Patria y Acueducto 	Occidente	Puerta De Hierro 	Zapopan	Guadalajara	Jalisco
+38163	Juarez Puebla	Sur	La Paz	Puebla	Puebla	Puebla
+38164	Galerias Cuernavaca	Sur	Tulipanes	Cuernavaca	Cuernavaca	Morelos
+38165	Aeropuerto llegadas internacionales	Occidente	Guadalajara	Tlajomulco 	Guadalajara	Jalisco
+38166	Superama SantaFe	Centro Poniente	Santa Fe	Cuajimalpa	Ciudad De México	Ciudad De México
+38167	Aeropuerto Dufry	Centro Centro	Zona Federal (Aeropuerto Internal De La Ciudad De Mexico)	Venustiano Carranza	Ciudad De México	Ciudad De México
+38168	T2 Planta Alta	Centro Centro	Zona Federal Aeropuerto Internal Ciudad De Mexico	Venustiano Carranza	Ciudad De México	Ciudad De México
+38169	Altavista	Centro Sur	San Angel Inn	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38170	Mariano Otero	Occidente	Verde Valle	Guadalajara	Guadalajara	Jalisco
+38171	Aeropuerto Internacional II	Centro Centro	Zona Federal (Aeropuerto Internal De La Ciudad De Mexico)	Venustiano Carranza	Ciudad De México	Ciudad De México
+38172	Gran Sur	Centro Sur	Pedregal De Carrasco	Coyoacán	Ciudad De México	Ciudad De México
+38173	Plaza Delta Planta Alta	Centro Centro	Narvarte	Benito Juárez	Ciudad De México	Ciudad De México
+38174	Triangulo	Sur	Las Animas	Puebla	Puebla	Puebla
+38176	Periferico Satélite DT	Centro Norte	Satelite 	Naucalpan 	Estado De México	Estado De México
+38177	Valle Real 	Occidente	Jardin Real	Zapopan	Guadalajara	Jalisco
+38178	Gomez Morin	Norte	Del Valle	San Pedro Garza	San Pedro Garza	Nuevo León
+38179	Universidad Anáhuac	Centro Poniente	Lomas De Anahuac 	Huixquilucan	Estado De México	Estado De México
+38180	Plaza San Pedro	Norte	Valle Del Campestre	San Pedro Garza	San Pedro Garza	Nuevo León
+38182	Aeropuerto D8	Centro Centro	Zona Federal (Aeropuerto Internal De La Ciudad De Mexico)	Venustiano Carranza	Ciudad De México	Ciudad De México
+38183	Cholula	Sur	Centro	San Andres Cholula	Puebla	Puebla
+38184	Valle 401	Norte	Del Valle	San Pedro Garza	San Pedro Garza	Nuevo León
+38185	Magnocentro	Centro Poniente	Lomas De Las Palmas 	Huixquilucan	Estado De México	Estado De México
+38186	Arboledas	Centro Norte	Atizapan De Zaragoza 	Atizapan De Zaragoza 	Estado De México	Estado De México
+38187	Nuevo Leon DT	Centro Centro	Hipodromo	Cuauhtémoc	Ciudad De México	Ciudad De México
+38188	Palmas	Centro Poniente	Lomas De Chapultepec	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38189	Santa Fe Imax	Centro Poniente	Santa Fe	Cuajimalpa	Ciudad De México	Ciudad De México
+38190	Costa Azul	Sur	Fracc. Costa Azul	Acapulco De Juarez	Acapulco	Guerrero
+38191	Masarik Spencer	Centro Centro	Chapultepec Morales	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38192	Galerias Diana	Sur	Fracc. Magallanes	Acapulco De Juarez	Acapulco	Guerrero
+38193	Metropoli Patriotismo	Centro Poniente	San Pedro De Los Pinos 	Benito Juárez	Ciudad De México	Ciudad De México
+38194	Antara 	Centro Centro	Granada	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38195	Chapultepec	Occidente	Americana	Guadalajara	Guadalajara	Jalisco
+38196	Galerias Mty	Norte	Vista Hermosa	Monterrey	Monterrey	Nuevo León
+38197	Echegaray	Centro Norte	Azcapotzalco 	Naucalpan 	Estado De México	Estado De México
+38198	Tec de Monterrey	Norte	Tecnologico	Monterrey	Monterrey	Nuevo León
+38199	Cumbres	Norte	Cumbres	Monterrey	Monterrey	Nuevo León
+38201	Galerias Valle Oriente Mty	Norte	Valle Del Mirador	Monterrey	Monterrey	Nuevo León
+38202	Horacio	Centro Centro	Chapultepec Morales	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38203	Embassy Suites	Centro Centro	Tabacalera	Cuauhtémoc	Ciudad De México	Ciudad De México
+38204	Plaza Hollywood Can	Sureste	Supermanzana 35	Benito Juárez	Cancún	Quintana Roo
+38205	Lindavista	Centro Norte	Magdalena De Las Salinas	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38206	Aeropuerto Vallarta	Occidente	Villa Las Flores	Puerto Vallarta Jalisco	Puerto Vallarta	Jalisco
+38207	Lindavista II	Centro Norte	Magdalena De Las Salinas	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38208	Miguel Angel de Quevedo II	Centro Sur	Villa Coyoacan	Coyoacán	Ciudad De México	Ciudad De México
+38209	Paseo del  Carmen 	Sureste	Centro	Solidaridad	Playa Del Carmen	Quintana Roo
+38210	Plaza Peninsula	Occidente	Zona Hotelera Norte	Puerto Vallarta Jalisco	Puerto Vallarta	Jalisco
+38211	Plaza Caracol	Sureste	Zona Hotelera	Benito Juárez	Cancún	Quintana Roo
+38212	La Isla II	Sureste	Zona Hotelera	Benito Juárez	Cancún	Quintana Roo
+38213	Landmark	Occidente	Puerta De Hierro	Zapopan	Guadalajara	Jalisco
+38214	Paseo Cancun	Sureste	Supermanzana 39	Benito Juárez	Cancún	Quintana Roo
+38215	Apto Sala Internacional después de filtros 	Occidente	Guadalajara	Tlajomulco 	Guadalajara	Jalisco
+38217	Playa Basico	Sureste	Centro	Solidaridad	Playa Del Carmen	Quintana Roo
+38218	Las Fuentes	Occidente	Las Fuentes 	Zapopan	Guadalajara	Jalisco
+38219	Irrigacion	Centro Centro	Irrigacion	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38220	Obelisco	Centro Centro	Polanco Chapultepec	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38221	Jardines Vallarta	Occidente	Jardines Vallarta	Zapopan	Guadalajara	Jalisco
+38222	Domingo Diez	Sur	El Empleado	Cuernavaca	Cuernavaca	Morelos
+38223	Vasconcelos	Norte	Los Sabinos	San Pedro Garza	San Pedro Garza	Nuevo León
+38224	Revolucion	Norte	Fraccionamiento Country	Monterrey	Monterrey	Nuevo León
+38225	Centro Comercial Santa Fe 2	Centro Poniente	Antigua Mina La Totolapa 	Cuajimalpa	Ciudad De México	Ciudad De México
+38226	Via kiosko 515	Centro Sur	Granjas México	Iztacalco	Ciudad De México	Ciudad De México
+38227	Lomas Plaza	Centro Poniente	Lomas De Chapultepec	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38228	Terranova	Occidente	Lomas De Providencia	Guadalajara	Guadalajara	Jalisco
+38229	Zona Financiera	Occidente	Providencia	Guadalajara	Guadalajara	Jalisco
+38230	ITEMS Edo de Mexico	Centro Norte	Atizapan De Zaragoza 	Atizapan De Zaragoza 	Estado De México	Estado De México
+38231	Aeropuerto Cancun T3 Pa 	Sureste	Aeropuerto	Benito Juárez	Cancún	Quintana Roo
+38232	Aeropuerto Cancun T3 Pb	Sureste	Aeropuerto	Benito Juárez	Cancún	Quintana Roo
+38233	Toluca Colon	Centro Poniente	Cipres	Toluca	Toluca	Estado De México
+38234	Fiesta Americana Reforma	Centro Centro	Centro De La Ciudad De Mexico Area I	Cuauhtémoc	Ciudad De México	Ciudad De México
+38236	Morelia Campestre	Occidente	Col. Chapultepec Oriente	Morelia	Morelia	Michoacán
+38237	Plaza del Sol	Occidente	Ciudad Del Sol	Zapopan	Guadalajara	Jalisco
+38238	Plaza Cumbres	Norte	Cumbres las Palmas Residencial	Monterrey	Monterrey	Nuevo León
+38239	Miguel Angel de Quevedo III	Centro Sur	Romero De Terreros	Coyoacán	Ciudad De México	Ciudad De México
+38240	Amberes	Centro Centro	Juárez	Cuauhtémoc	Ciudad De México	Ciudad De México
+38241	Galerias Guadalajara II	Occidente	La Estancia	Zapopan	Guadalajara	Jalisco
+38242	Malecon Vallarta	Occidente	Centro	Puerto Vallarta Jalisco	Puerto Vallarta	Jalisco
+38243	Paseo de los Heroes	Noroeste	Zona Urbana Rio Tijuana	Tijuana  	Tijuana  	Baja California
+38244	Plaza Fiesta San Agustin  	Norte	Residencial San Agustin	San Pedro Garza	San Pedro Garza	Nuevo León
+38245	Plaza Zenttro	Bajío	Valle Del Campestre 	León	León	Guanajuato
+38246	Las Americas	Norte	Contry La Silla	Guadalupe	Monterrey	Nuevo León
+38247	Plaza Mayor	Bajío	Valle Del Campestre	León	León	Guanajuato
+38248	Hotel La Quinta	Norte	Guanajuato	Saltillo	Saltillo	Coahuila
+38249	La Calma	Occidente	Colli Urbano	Zapopan	Guadalajara	Jalisco
+38250	Galerias Queretaro	Bajío	Virreyes 	Querétaro	Querétaro	Querétaro
+38251	Las Torres Leon	Bajío	Lomas Del Campestre	León	León	Guanajuato
+38252	Plaza Rio	Noroeste	Zona Rio	Tijuana  	Tijuana  	Baja California
+38254	Plaza Real	Norte	Jardines Del Cerro	Monterrey	Monterrey	Nuevo León
+38255	Plaza Divina	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+38256	UDEM	Norte	Jesus M Garza	San Pedro Garza	San Pedro Garza	Nuevo León
+38257	Playa Tides	Sureste	Centro	Solidaridad	Playa Del Carmen	Quintana Roo
+38258	Garza Sada	Norte	Altavista	Monterrey	Monterrey	Nuevo León
+38259	Punta Langosta	Sureste	Cozumel	Cozumel	Cozumel	Quintana Roo
+38260	Tlacoquemecatl	Centro Sur	Del Valle	Benito Juárez	Ciudad De México	Ciudad De México
+38262	Centro Max	Bajío	Mega Price	León	León	Guanajuato
+38263	Via Vergel Mty	Norte	Bosques Del Vergel	Monterrey	Monterrey	Nuevo León
+38264	Zapata	Sur	Bellavista	Cuernavaca	Cuernavaca	Morelos
+38265	Ensenada Malecon	Noroeste	Zona Centro	Ensenada	Ensenada	Baja California
+38266	San Mateo	Centro Norte	San Mateo 	Naucalpan 	Estado De México	Estado De México
+38267	Gran Plaza DT	Sureste	Gonzalo Guerrero	Merida	Merida	Yucatán
+38268	Plaza Boulevares	Bajío	Alamos 3Ra Seccion 	Querétaro	Querétaro	Querétaro
+38269	Aeropuerto Mty	Norte	Apodaca	Apodaca	Monterrey	Nuevo León
+38270	Lomas Verdes II	Centro Norte	Lomas Verdes 	Naucalpan 	Estado De México	Estado De México
+38271	Plaza Centenario	Noroeste	Fracc. Residencias	Mexicali	Mexicali	Baja California
+38272	Londres	Centro Centro	Juárez	Cuauhtémoc	Ciudad De México	Ciudad De México
+38273	Colosio	Norte Centro	Valle De Las Trojes	Aguascalientes	Aguascalientes	Aguascalientes
+38274	Salinas	Noroeste	Fracc. Aviscion	Tijuana  	Tijuana  	Baja California
+38275	Altaria	Norte Centro	San Jose Del Arenal 	Aguascalientes	Aguascalientes	Aguascalientes
+38276	Paseo de los Leones	Norte	Cumbres	Monterrey	Monterrey	Nuevo León
+38277	Playas de Tijuana	Noroeste	Seccion Jardines, Playas De Tijuana	Tijuana  	Tijuana  	Baja California
+38278	Torreon Independencia	Norte Centro	Nueva Los Angeles	Torreón	Torreón	Coahuila
+38279	Tezontle ll	Centro Sur	Doctor Alfonso Ortiz Tirado	Iztapalapa	Ciudad De México	Ciudad De México
+38280	Olas Diamante	Sur	Granjas Del Marques	Acapulco De Juarez	Acapulco	Guerrero
+38282	Cimaco	Norte Centro	Navarro Torreon	Torreón	Torreón	Coahuila
+38283	Citadel	Norte	La Fe	San Nicolas	Monterrey	Nuevo León
+38285	Reforma 222	Centro Centro	Juárez	Cuauhtémoc	Ciudad De México	Ciudad De México
+38286	Los Arcos Queretaro	Bajío	Jardines De Queretaro 	Querétaro	Querétaro	Querétaro
+38287	ITESO	Occidente	El Mante	Tlaquepaque	Guadalajara	Jalisco
+38288	Galerias Vallarta	Occidente	Educación	Puerto Vallarta Jalisco	Puerto Vallarta	Jalisco
+38289	Tezontle l	Centro Sur	Dr Alfonso Ortiz Tirado	Iztapalapa	Ciudad De México	Ciudad De México
+38290	Cordilleras	Occidente	Jardines Tepeyac	Zapopan	Guadalajara	Jalisco
+38291	Reforma 222 II	Centro Centro	Juárez	Cuauhtémoc	Ciudad De México	Ciudad De México
+38292	Jesús del Monte	Centro Poniente	Jesús Del Monte 	Huixquilucan	Estado De México	Estado De México
+38294	Plaza Tanarah	Norte	Del Valle	San Pedro Garza	San Pedro Garza	Nuevo León
+38295	Campestre Queretaro	Bajío	Jardines De La Hacienda 	Corregidora 	Querétaro	Querétaro
+38296	Altabrisa	Sureste	Fraccionamiento Altabrisa	Merida	Merida	Yucatán
+38297	T2 Salida Internacional	Centro Centro	Zona Federal Aeropuerto Internal Ciudad De Mexico	Venustiano Carranza	Ciudad De México	Ciudad De México
+38298	T2 Salida Nacional	Centro Centro	Zona Federal Aeropuerto Internal Ciudad De Mexico	Venustiano Carranza	Ciudad De México	Ciudad De México
+38299	T2 Llegadas	Centro Centro	Otra No Especificada En El Catalogo	Venustiano Carranza	Ciudad De México	Ciudad De México
+38300	El campestre Cd Juarez	Norte Centro	Rincones De San Marcos	Ciudad  Juarez	Cd. Juárez	Chihuahua
+38302	Himalaya	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+38303	Plaza Fiesta San Agustin Int	Norte	Residencial San Agustin	San Pedro Garza	San Pedro Garza	Nuevo León
+38304	Copernico	Occidente	Arboledas	Zapopan	Guadalajara	Jalisco
+38305	Centro San Miguel de Allende 	Bajío	Zona Centro 	San Miguel Allende	San Miguel Allende	Guanajuato
+38306	Irapuato 1	Bajío	Ejido Irapuato 	Irapuato	Irapuato	Guanajuato
+38307	Plaza Lienzo Mexicalli	Noroeste	Rivera	Mexicali	Mexicali	Baja California
+38309	Morelia Camelinas	Occidente	Col. La Loma	Morelia	Morelia	Michoacán
+38310	La Rosita	Norte Centro	Campestre La Rosita	Torreón	Torreón	Coahuila
+38311	Lomas SLP	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+38312	La Salle	Centro Centro	Hipodromo Condesa 	Cuauhtémoc	Ciudad De México	Ciudad De México
+38313	Constitucion	Norte	Centro	Monterrey	Monterrey	Nuevo León
+38314	Tecos	Occidente	Lomas Del Valle	Zapopan	Guadalajara	Jalisco
+38315	Celaya Lopez Mateos 	Bajío	Zona Centro 	Celaya	Celaya	Guanajuato
+38316	Paseo del Triunfo de la Republica	Norte Centro	Monumental	Ciudad  Juarez	Cd. Juárez	Chihuahua
+38317	Playacar	Sureste	Playacar	Solidaridad	Playa Del Carmen	Quintana Roo
+38318	Garcia Salinas	Norte Centro	La Estancia	Zacatecas	Zacatecas	Zacatecas
+38319	Tecnologico Metepec	Centro Poniente	San Salvador Tizatlalli	Metepec	Toluca	Estado De México
+38320	Cualiacan Tres Rios	Noroeste	Fracc. Desarrollo Tres Rios	Culiacán	Culiacán	Sinaloa
+38321	Periferico de la Juventud	Norte Centro	Las Haciendas	Chihuahua	Chihuahua	Chihuahua
+38322	MM Garza Sada	Norte	Tecnologico	Monterrey	Monterrey	Nuevo León
+38323	Forum Culiacan	Noroeste	Desarrollo Urbano 3 Rios	Culiacán	Culiacán	Sinaloa
+38324	Epicentra DT	Occidente	San Juan De Ocotan	Zapopan	Guadalajara	Jalisco
+38325	Plaza del Sol CHI	Norte Centro	Puerta De Hierro	Chihuahua	Chihuahua	Chihuahua
+38326	Galerias del Valle Mexicalli	Noroeste	El Porvenir	Mexicali	Mexicali	Baja California
+38328	Circuito Colonias 	Sureste	Mexico	Merida	Merida	Yucatán
+38329	Las Misiones	Norte Centro	Partido Iglesias	Ciudad  Juarez	Cd. Juárez	Chihuahua
+38330	Guadalupe	Occidente	Rinconada Guadalupe	Zapopan	Guadalajara	Jalisco
+38331	Rodriguez	Noroeste	Cruz Galvez	Hermosillo	Hermosillo	Sonora
+38332	Tec Gudalajara	Occidente	Nuevo Mexico 	Zapopan	Guadalajara	Jalisco
+38333	Izcalli Mega	Centro Norte	Cuatitlan Izcalli 	Cuatitlan Izcalli 	Estado De México	Estado De México
+38334	Mazatlan Lomas	Noroeste	Lomas De Mazatlan	Mazatlán	Mazatlan	Sinaloa
+38335	Asuncion AGS	Norte Centro	Agricultura	Aguascalientes	Aguascalientes	Aguascalientes
+38336	Anahuac	Norte	Anahuac	Monterrey	San Nicolas	Nuevo León
+38337	Centro Zacatecas	Norte Centro	Centro Zacatecas 	Zacatecas	Zacatecas	Zacatecas
+38338	Manzanillo Blvb Madrid	Occidente	Valle De Las Garzas	Manzanillo	Manzanillo	Colima
+38339	San Marcos	Centro Norte	Cuatitlan Izcalli 	Cuatitlan Izcalli 	Estado De México	Estado De México
+38340	Division del Norte	Centro Sur	San Diego Churubusco	Coyoacán	Ciudad De México	Ciudad De México
+38341	Ortiz Mena	Norte Centro	Sicomoro	Chihuahua	Chihuahua	Chihuahua
+38342	Churubusco	Norte	Monterrey	Monterrey	Monterrey	Nuevo León
+38344	Parques Polanco	Centro Centro	Anahuac	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38345	Colima Sevilla 	Occidente	Jardines De Vistahermosa Iii	Colima	Colima	Colima
+38346	Paradise Plaza	Occidente	Nuevo Nayarit	Bahía De Banderas Nayarit	Nuevo Nayarit	Nayarit
+38347	La Isla Acapulco	Sur	Playa Diamante	Acapulco De Juarez	Acapulco	Guerrero
+38348	Paseo Tabasco	Sureste	Tabasco 2000	Villahermosa	Villahermosa	Tabasco
+38349	Torre Inverlat	Centro Centro	Lomas De Chapultepec	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38350	Marina Los Cabos	Noroeste	Centro	Los Cabos	Los Cabos	Baja California Sur
+38351	Ciudad Jardin l	Centro Sur	Jardin Bicentenario	Nezahualcóyotl	Estado De México	Estado De México
+38352	Forum Tepic	Occidente	Benito Juárez	Tepic Nayarit	Tepic	Nayarit
+38353	HidalgoTampico	Norte	La Aurora	Tampico	Tampico	Tamaulipas
+38354	Bonampak 77	Sureste	Supermanzana 3	Benito Juárez	Cancún	Quintana Roo
+38355	Centro Guanajuato	Bajío	Centro	Guanajuato	Guanajuato	Guanajuato
+38356	Andares 	Occidente	Lomas Altas	Zapopan	Guadalajara	Jalisco
+38357	Galerias Pachuca 	Bajío	Zona Plateada 	Pachuca De Soto 	Pachuca 	Hidalgo
+38358	Pachuca San Javier DT	Bajío	Periodistas 	Pachuca De Soto 	Pachuca 	Hidalgo
+38359	Plaza Cumbres Cancun	Sureste	Supermanzana 310	Benito Juárez	Cancún	Quintana Roo
+38360	Plaza la Hacienda	Centro Sur	Nueva Oriental Coapa	Tlalpan	Ciudad De México	Ciudad De México
+38361	Castorena	Centro Poniente	Cuajimalpa 	Cuajimalpa	Ciudad De México	Ciudad De México
+38362	Boulevard Centenario 	Noroeste	Sector Centro	Ahome	Los Mochis	Sinaloa
+38363	Galerias Atizapan	Centro Norte	Atizapan De Zaragoza 	Atizapan De Zaragoza 	Estado De México	Estado De México
+38365	Coyoacan Centro	Centro Sur	Villa Coyoacan	Coyoacán	Ciudad De México	Ciudad De México
+38366	Hospital ABC 	Centro Poniente	Las Americas	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38367	CM Coapa	Centro Sur	Amsa	Xochimilco	Ciudad De México	Ciudad De México
+38368	Luna Park	Centro Norte	Cuatitlan Izcalli 	Cuatitlan Izcalli 	Estado De México	Estado De México
+38370	Malecon Las Americas Cancun	Sureste	Supermanzana 6	Benito Juárez	Cancún	Quintana Roo
+38371	Montevideo DT 	Centro Norte	Lindavista	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38372	Felix Cuevas	Centro Poniente	Del Valle	Benito Juárez	Ciudad De México	Ciudad De México
+38373	CM Los Cabos	Noroeste	Zona Hotelera	Los Cabos	Los Cabos	Baja California Sur
+38374	Valle Dorado	Centro Norte	Tlalnepantla	Tlalnepantla	Estado De México	Estado De México
+38375	Americas Ecatepec	Centro Sur	Fracc. Las Americas	Ecatepec De Morelos 	Estado De México	Estado De México
+38376	Torre Caballito	Centro Centro	Tabacalera	Cuauhtémoc	Ciudad De México	Ciudad De México
+38377	Jurica	Bajío	Jurica 	Querétaro	Querétaro	Querétaro
+38378	Torre Mexicana	Centro Centro	Del Valle	Benito Juárez	Ciudad De México	Ciudad De México
+38379	Via Acoxpa 	Centro Sur	Ex Hacienda Coapa	Tlalpan	Ciudad De México	Ciudad De México
+38380	Plaza Fiesta Anahuac	Norte	Anahuac	Monterrey	Monterrey	Nuevo León
+38381	Nima Bay	Occidente	Marina Vallarta	Puerto Vallarta Jalisco	Puerto Vallarta	Jalisco
+38382	Homero	Centro Centro	Otra No Especificada En El Catalogo	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38383	Galerias Hipodromo	Noroeste	Hipodromo	Tijuana  	Tijuana  	Baja California
+38384	Galerias Guadalajara	Occidente	La Estancia	Zapopan	Guadalajara	Jalisco
+38385	Aeropuerto Monterrey TB PB	Norte	Apodaca	Apodaca	Monterrey	Nuevo León
+38386	Duraznos	Centro Poniente	Bosques De Las Lomas	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38387	Zavaleta	Sur	Santa Cruz Buenavista	Puebla	Puebla	Puebla
+38388	Culiacan Cinepolis	Noroeste	Recursos Hidraulicos	Culiacán	Culiacán	Sinaloa
+38389	Rio Marne	Centro Centro	Cuauhtémoc	Cuauhtémoc	Ciudad De México	Ciudad De México
+38390	Samara I	Centro Poniente	Cd Santa Fe	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38392	Mariano Escobedo 	Bajío	León Moderno	León	León	Guanajuato
+38393	Coapa Chedraui	Centro Sur	Otra No Especificada En El Catalogo	Coyoacán	Ciudad De México	Ciudad De México
+38394	Centro Comercial Lomas Verdes	Centro Norte	Lomas Verdes 	Naucalpan 	Estado De México	Estado De México
+38395	Aeropuerto San Jose	Noroeste	Las Veredas	Los Cabos	Los Cabos	Baja California Sur
+38396	Ciudad Deportiva	Sureste	Atasta	Villahermosa	Villahermosa	Tabasco
+38397	Uruapan	Occidente	Col. Villa Uruapan	Uruapan	Uruapan	Michoacán
+38398	Mexfund Pedregal	Centro Sur	Jardínes Del Pedregal	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38399	Carso Polanco I	Centro Centro	Anahuac	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38400	Centro Medico ABC Santa Fe	Centro Poniente	Tlaxcal	Cuajimalpa	Ciudad De México	Ciudad De México
+38401	Coacalco	Centro Norte	Coacalco De Berriozábal 	Coacalco De Berriozábal 	Estado De México	Estado De México
+38402	PeriSur  	Centro Sur	Ampliacion Jardines Del Pedregal 	Coyoacán	Ciudad De México	Ciudad De México
+38403	Aeropuerto Cancun Exterior	Sureste	Aeropuerto	Benito Juárez	Cancún	Quintana Roo
+38404	Varsovia	Centro Centro	Juárez	Cuauhtémoc	Ciudad De México	Ciudad De México
+38405	Ejercito Nacional	Centro Centro	Granda	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38406	Medica Sur 	Centro Sur	Toriello Guerra	Tlalpan	Ciudad De México	Ciudad De México
+38407	Huexotitla	Sur	Huexotitla	Puebla	Puebla	Puebla
+38408	Belisario Dominguez	Sureste	Santa Elena	Tuxtla Gutierrez	Tuxtla Gutierrez	Chiapas
+38409	Costa de oro	Sur	Fracc. Jardines Del Virginia	Boca Del Río	Boca Del Río	Veracruz
+38410	Coatzacoalcos 	Sureste	Col. El Tesoro	Coatzacoalcos	Coatzacoalcos	Veracruz
+38411	Torres Lindavista	Centro Norte	Torres Lindavista 	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38412	Macroplaza Tijuana	Noroeste	Rio Tijuana 3Ra Etapa	Tijuana  	Tijuana  	Baja California
+38413	Paseo Morelia	Occidente	Desarrollo Montaña Monarca	Morelia	Morelia	Michoacán
+38414	Park Plaza	Centro Poniente	Santa Fe	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38415	Amsterdam	Centro Centro	Hipodromo Condesa 	Cuauhtémoc	Ciudad De México	Ciudad De México
+38416	Mixcoac	Centro Poniente	San Juan 	Benito Juárez	Ciudad De México	Ciudad De México
+38417	San Jose Insurgentes	Centro Sur	San Jose Insurgentes	Benito Juárez	Ciudad De México	Ciudad De México
+38418	Plaza Oriente l	Centro Sur	Doctor Alfonso Ortiz Tirado	Iztapalapa	Ciudad De México	Ciudad De México
+38419	Balbuena	Centro Sur	Jardin Balbuena	Venustiano Carranza	Ciudad De México	Ciudad De México
+38420	Aeropuerto Cancun Satelite	Sureste	Aeropuerto	Benito Juárez	Cancún	Quintana Roo
+38422	Corporativo HSBC	Centro Centro	Cuahtemoc	Cuauhtémoc	Ciudad De México	Ciudad De México
+38423	Torre Wtc	Centro Centro	Napoles	Benito Juárez	Ciudad De México	Ciudad De México
+38425	Aeropuerto Tijuana Interior	Noroeste	Nueva Tijuana	Tijuana  	Tijuana  	Baja California
+38427	Plaza Satelite	Centro Norte	Satelite 	Naucalpan 	Estado De México	Estado De México
+38428	Jardines del Pedregal	Centro Sur	Otra No Especificada En El Catalogo	Coyoacán	Ciudad De México	Ciudad De México
+38429	Plaza Aragon	Centro Sur	Rinconada De Aragón 	Ecatepec De Morelos 	Estado De México	Estado De México
+38430	Prisma Insurgentes	Centro Sur	San Jose Insurgentes	Benito Juárez	Ciudad De México	Ciudad De México
+38431	Eduardo Molina	Centro Norte	Lardizabal Carrera	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38432	Plaza Luis Cabrera	Centro Centro	Roma	Cuauhtémoc	Ciudad De México	Ciudad De México
+38433	Bolsa Mexicana de Valores	Centro Centro	Cuauhtémoc	Cuauhtémoc	Ciudad De México	Ciudad De México
+38434	Plaza Carso SLP	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+38435	Paseo Montejo	Sureste	Centro	Merida	Merida	Yucatán
+38436	Forum Tlaquepaque	Occidente	Col Lomas Del Paradero	Guadalajara	Guadalajara	Jalisco
+38438	City Walk	Centro Poniente	Cruz Manca	Cuajimalpa	Ciudad De México	Ciudad De México
+38439	Ángeles Interlomas	Centro Poniente	Valle De Las Palmas 	Huixquilucan	Estado De México	Estado De México
+38440	Hospital Angeles Metropolitano	Centro Centro	Roma Sur	Cuauhtémoc	Ciudad De México	Ciudad De México
+38441	Metepec Plaza del Parque	Centro Poniente	Santa Cruz	Metepec	Toluca	Estado De México
+38442	Sor Juana	Centro Norte	Azcapotzalco 	Tlalnepantla	Estado De México	Estado De México
+38443	Galerias Laguna	Norte Centro	El Fresno	Torreón	Torreón	Coahuila
+38444	Hospital Angeles Puebla	Sur	Reserva Territorial Atlixcayotl	Puebla	Puebla	Puebla
+38445	Samara II	Centro Poniente	Cd Santa Fe	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38446	Plaza Centinela Mexicali	Noroeste	Zona Industrial	Mexicali	Mexicali	Baja California
+38447	Hospital Angeles del Pedregal	Centro Sur	Heroes De Padierna	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38448	Urban Center Xalapa	Sur	Col. Rafel Lucio	Xalapa	Xalapa	Veracruz
+38449	Patio Patria	Occidente	Royal Country	Zapopan	Guadalajara	Jalisco
+38450	Macro Ensenada	Noroeste	Carlos Pacheco	Ensenada	Ensenada	Baja California
+38451	Altabrisa Tabasco	Sureste	1Ro De Mayo	Villahermosa	Villahermosa	Tabasco
+38452	Parque Interlomas	Centro Poniente	Jesús Del Monte 	Huixquilucan	Estado De México	Estado De México
+38453	Poliforum	Bajío	Oriental	León	León	Guanajuato
+38454	Plaza Las Palmas	Norte Centro	San Jose Del Arenal 	Aguascalientes	Aguascalientes	Aguascalientes
+38455	Torre Diamante	Centro Poniente	Tlaxala	Cuajimalpa	Ciudad De México	Ciudad De México
+38456	Plaza las Flores	Centro Norte	Coacalco De Berriozábal 	Coacalco De Berriozábal 	Estado De México	Estado De México
+38457	Plaza La Paz	Noroeste	Galerías La Paz	La Paz	La Paz	Baja California Sur
+38458	El Rosario	Centro Norte	El Rosario	Azcapotzalco 	Ciudad De México	Ciudad De México
+38459	Cd Obregon	Noroeste	Real Del Sol	Cajeme	Obregon	Sonora
+38460	Santa Monica	Centro Norte	Tlanepantla	Tlalnepantla	Estado De México	Estado De México
+38461	Fuente de Tritones	Centro Poniente	Lomas De Tecamachalco	Naucalpan 	Estado De México	Estado De México
+38463	Uruguay	Centro Centro	Centro (Area 1)	Cuauhtémoc	Ciudad De México	Ciudad De México
+38464	Corporativo Coyoacan	Centro Sur	Del Valle	Benito Juárez	Ciudad De México	Ciudad De México
+38465	Juarez 32	Centro Centro	Centro (Area 5)	Cuauhtémoc	Ciudad De México	Ciudad De México
+38466	Paseo Interlomas I	Centro Poniente	Jesús Del Monte 	Huixquilucan	Estado De México	Estado De México
+38467	Constituyentes Queretaro	Bajío	Cimatario 	Querétaro	Querétaro	Querétaro
+38468	Portal Churubusco 	Centro Sur	Sector Popular	Iztapalapa	Ciudad De México	Ciudad De México
+38469	Galerias Coapa	Centro Sur	Residencial Acoxpa	Tlalpan	Ciudad De México	Ciudad De México
+38470	Chapultepec Reforma	Centro Centro	San Miguel Chapultepec	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38471	Angeles Acoxpa 	Centro Sur	Ex Hacienda Coapa	Tlalpan	Ciudad De México	Ciudad De México
+38472	Plaza America DT	Centro Sur	Ex Hda De Coapa	Coyoacán	Ciudad De México	Ciudad De México
+38473	Outlet Leon	Bajío	Santa Anita	León	León	Guanajuato
+38475	Satelite Centro Civico	Centro Norte	Satelite 	Naucalpan 	Estado De México	Estado De México
+38476	Galerias Zacatecas	Norte Centro	Ciudad Argentum	Zacatecas	Zacatecas	Zacatecas
+38477	Zentralia churubusco 	Centro Sur	Nueva Rosita	Iztapalapa	Ciudad De México	Ciudad De México
+38478	Aeropuerto Los Cabos II	Noroeste	Las Veredas	Los Cabos	Los Cabos	Baja California Sur
+38479	Palomar	Occidente	El Palomar	Tlajomulco 	Guadalajara	Jalisco
+38480	Urban Center Juriquilla	Bajío	Jurica Acueducto Queretaro 	Querétaro	Querétaro	Querétaro
+38481	Alfonso Reyes	Centro Centro	Hipodromo	Cuauhtémoc	Ciudad De México	Ciudad De México
+38482	Pestalozzi	Centro Sur	Del Valle Sur	Benito Juárez	Ciudad De México	Ciudad De México
+38483	Forum Buenavista	Centro Centro	Buenavista	Cuauhtémoc	Ciudad De México	Ciudad De México
+38484	Gandhi	Centro Sur	Chimalista	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38485	Sendero Toluca	Centro Poniente	Parque Industrial Lerma	Lerma	Toluca	Estado De México
+38486	Dorado veracruz	Sur	Fracc. El Estero	Boca Del Río	Boca Del Río	Veracruz
+38487	Madero	Centro Centro	Centro De La Ciudad De Mexico Area 1	Cuauhtémoc	Ciudad De México	Ciudad De México
+38488	City Center	Sureste	Benito Juarez	Merida	Merida	Yucatán
+38489	Carretera Cancun Playa del Carmen DT	Sureste	Rancho La Esperanza	Benito Juárez	Cancún	Quintana Roo
+38490	Citadela Chihuahua	Norte Centro	Sector 49	Chihuahua	Chihuahua	Chihuahua
+38491	Gran Terraza Oblatos	Occidente	Col. Oblatos	Guadalajara	Guadalajara	Jalisco
+38492	La Paz Soriana	Noroeste	Plaza Forjadores	La Paz	La Paz	Baja California Sur
+38494	Pabellon Cuemanco	Centro Sur	Granjas Coapa	Xochimilco	Ciudad De México	Ciudad De México
+38496	Casa Taxqueña 	Centro Sur	Campestre Churubusco	Coyoacán	Ciudad De México	Ciudad De México
+38497	5 de Mayo	Centro Centro	Centro (Area 1)	Cuauhtémoc	Ciudad De México	Ciudad De México
+38498	Montecitos Wtc	Centro Centro	Napoles	Benito Juárez	Ciudad De México	Ciudad De México
+38499	Pennsylvania	Centro Poniente	Napoles	Benito Juárez	Ciudad De México	Ciudad De México
+38501	Patio Universidad	Centro Sur	Xoco	Benito Juárez	Ciudad De México	Ciudad De México
+38502	San Marcos DT	Centro Sur	San Marcos Huixtoco	Chalco	Estado De México	Estado De México
+38503	Galerias Campehe	Sureste	San Francisco	campeche	San Francisco De Campeche	Campeche
+38504	Insurgentes Wtc	Centro Centro	Napoles	Benito Juárez	Ciudad De México	Ciudad De México
+38505	Aeropuerto Tijuana II	Noroeste	Nueva Tijuana	Tijuana  	Tijuana  	Baja California
+38506	Altacia	Bajío	Cerrito De Jeréz	León	León	Guanajuato
+38507	Espacio Vista del Valle	Centro Norte	Vista Del Valle 	Naucalpan 	Estado De México	Estado De México
+38508	Ampliacion Santa Fe 	Centro Poniente	 Santa Fe	Cuajimalpa	Ciudad De México	Ciudad De México
+38509	Paseo Chapultepec	Noroeste	Chapultepec	Tijuana  	Tijuana  	Baja California
+38510	Magma Towers	Norte	Valle Oriente	San Pedro Garza	San Pedro Garza	Nuevo León
+38511	Ciudad Jardin ll	Centro Sur	Jardin Bicentenario	Nezahualcóyotl	Estado De México	Estado De México
+38512	Garden Santa Fe 	Centro Poniente	Centro Ciudad Santa Fe	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38513	San Lorenzo	Centro Sur	Del Valle	Benito Juárez	Ciudad De México	Ciudad De México
+38515	Patio Ecatepec	Centro Norte	San Cristobal Centro 	Ecatepec De Morelos 	Estado De México	Estado De México
+38516	Quinta Alegria	Sureste	Centro	Solidaridad	Playa Del Carmen	Quintana Roo
+38517	Las Juntas DT	Occidente	Juntas	Puerto Vallarta Jalisco	Puerto Vallarta	Jalisco
+38518	Galerias Mazatlan	Noroeste	Marina Mazatlan	Mazatlán	Mazatlan	Sinaloa
+38519	Plaza del Parque Oaxaca	Sur	Reforma	Oaxaca 	Oaxaca	Oaxaca
+38520	Celaya Campestre 	Bajío	Jardines De Celaya 	Celaya	Celaya	Guanajuato
+38521	Aeropuerto Hermosillo 	Noroeste	La Manga	Hermosillo	Hermosillo	Sonora
+38522	Rio Hudson	Centro Centro	Cuauhtemoc	Cuauhtémoc	Ciudad De México	Ciudad De México
+38523	Malecon Vallarta II	Occidente	5 De Diciembre	Puerto Vallarta Jalisco	Puerto Vallarta	Jalisco
+38524	Miguel Aleman DT	Norte	Huinala	Monterrey	Apodaca	Nuevo León
+38525	Tuxtla II DT	Sureste	Patria Nueva 	Tuxtla Gutierrez	Tuxtla Gutierrez	Chiapas
+38526	City Shops Del Valle	Centro Sur	Del Valle	Benito Juárez	Ciudad De México	Ciudad De México
+38527	Camarones	Centro Norte	El Recreo	Azcapotzalco 	Ciudad De México	Ciudad De México
+38529	Bosques de Aragon	Centro Norte	Pueblo De San Juan De Aragon	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38530	Narvarte	Centro Poniente	Narvarte	Benito Juárez	Ciudad De México	Ciudad De México
+38531	Plaza 505	Norte Centro	Fraccionamiento Santa Barbara	Torreón	Torreón	Coahuila
+38532	One o One	Centro Poniente	Santa Fe	Cuajimalpa	Ciudad De México	Ciudad De México
+38533	Reynosa	Norte	Fracc. Las Fuentes	Reynosa	Reynosa	Tamaulipas
+38534	Patio Santa Fe 1	Centro Poniente	Peña Blanca	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38535	City Center Esmeralda	Centro Norte	Atizapan De Zaragoza 	Atizapan De Zaragoza 	Estado De México	Estado De México
+38536	Zentralia Cd del Carmen	Sureste	Aeropuerto	Ciudad Del Carmen	Cd. Del Carmen	Campeche
+38537	Gomez Palacio	Norte Centro	El Campestre	Gomez Palacio	Gomez Palacio	Durango
+38538	Monte Pelvoux	Centro Poniente	Lomas-Virreyes	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38539	Plaza Del Valle Mexicali	Noroeste	Ejido Zacatecas	Mexicali	Mexicali	Baja California
+38540	Cd Victoria	Norte	Valle De Aguayo	Cd Victoria	Cd Victoria	Tamaulipas
+38541	Torre Polanco	Centro Centro	Nueva Anzures	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38542	Tepic Shopping Center	Occidente	Fresnos	Tepic Nayarit	Tepic	Nayarit
+38543	Tlalpan Hospitales	Centro Sur	Bosques De Tetlameya	Coyoacán	Ciudad De México	Ciudad De México
+38544	Picacho Ajusco	Centro Sur	Lomas De Padierna	Tlalpan	Ciudad De México	Ciudad De México
+38545	Nuevo Sur	Norte	Ladrillera	Monterrey	Monterrey	Nuevo León
+38546	Patio Claveria	Centro Norte	Claveria	Azcapotzalco 	Ciudad De México	Ciudad De México
+38547	Carr Toluca Mexico KM48	Centro Poniente	Lomas De Amomolulco	Lerma	Toluca	Estado De México
+38549	Galerias Insurgentes	Centro Poniente	Del Valle	Benito Juárez	Ciudad De México	Ciudad De México
+38550	Plaza Mallorca	Sureste	La Choca	Villahermosa	Villahermosa	Tabasco
+38551	Xalapa animas	Sur	Fracc. Las Animas	Xalapa	Xalapa	Veracruz
+38552	Plaza Mayor II	Bajío	Valle Del Campestre	León	León	Guanajuato
+38553	Paseo Interlomas II	Centro Poniente	Jesús Del Monte 	Huixquilucan	Estado De México	Estado De México
+38554	Forum Buenavista II	Centro Centro	Buenavista	Cuauhtémoc	Ciudad De México	Ciudad De México
+38555	Capital Reforma	Centro Centro	Juárez	Cuauhtémoc	Ciudad De México	Ciudad De México
+38556	Tuxpan 53	Centro Centro	Roma Sur	Cuauhtémoc	Ciudad De México	Ciudad De México
+38557	Rio San Joaquin	Centro Centro	10 De Abril	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38558	Roma Sur	Centro Centro	Roma Sur	Cuauhtémoc	Ciudad De México	Ciudad De México
+38559	Antea 	Bajío	Ejido El Salitre 	Querétaro	Querétaro	Querétaro
+38560	Renato Leduc	Centro Sur	Toriello Guerra	Tlalpan	Ciudad De México	Ciudad De México
+38561	Parque Toreo	Centro Norte	Lomas De Sotelo	Naucalpan 	Estado De México	Estado De México
+38562	Tulum Magico	Sureste	Ruinas	Tulum	Tulum	Quintana Roo
+38563	One Silao	Bajío	Rancho San Antonio Texas	Silao	Silao	Guanajuato
+38564	Plaza QU	Norte	Cumbres Madeira	Monterrey	Monterrey	Nuevo León
+38565	Blvd Morelos DT	Noroeste	Col. Cartel Xv	Hermosillo	Hermosillo	Sonora
+38566	Ventura Puente	Occidente	Col. Ventura Puente	Morelia	Morelia	Michoacán
+38567	Aragon II	Centro Sur	Rinconada De Aragón 	Ecatepec De Morelos 	Estado De México	Estado De México
+38568	Av Stim	Centro Poniente	Lomas Del Chamizal	Cuajimalpa	Ciudad De México	Ciudad De México
+38569	Plaza Universidad	Centro Sur	Santa Cruz Atoyac 	Benito Juárez	Ciudad De México	Ciudad De México
+38570	Universidad 767	Centro Sur	Del Valle Sur	Benito Juárez	Ciudad De México	Ciudad De México
+38571	Jolie Place	Centro Sur	Jardínes Del Pedregal	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38572	Aeropuerto Mty TA SUE	Norte	Apodaca	Apodaca	Monterrey	Nuevo León
+38573	La Lomita	Noroeste	Col. Guadalupe	Culiacán	Culiacán	Sinaloa
+38574	Lowes	Noroeste	Juntas De Humaya	Culiacán	Culiacán	Sinaloa
+38575	Real Center 	Occidente	Residencial Poniente	Zapopan	Guadalajara	Jalisco
+38576	Aeropuerto Gdl Llegadas Nacionales	Occidente	Guadalajara	Tlajomulco 	Guadalajara	Jalisco
+38577	Galerias Hermanos Serdan	Sur	Rancho Posadas	Puebla	Puebla	Puebla
+38578	Galerias Toluca	Centro Poniente	Col Santa Ana Tlapaltitlan	Toluca	Toluca	Estado De México
+38579	Division del Norte II	Centro Sur	Portales	Benito Juárez	Ciudad De México	Ciudad De México
+38580	Pasaje San Jeronimo	Centro Sur	San Jerónimo Lídice	Magdalena Contreras	Ciudad De México	Ciudad De México
+38581	Parques BBVA	Centro Centro	Anahuac I	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38582	Paseo Sendero	Norte	Centenario	Monterrey	Escobedo	Nuevo León
+38583	Andamar	Sur	Col. Costa De Oro	Boca Del Río	Boca Del Río	Veracruz
+38584	Plaza Sienna	Norte	Paseo De Las Privanzas	Monterrey	Monterrey	Nuevo León
+38585	Oasis II	Centro Sur	Romero De Terreros	Coyoacán	Ciudad De México	Ciudad De México
+38586	Cozumel Pama	Sureste	Centro	Cozumel	Cozumel	Quintana Roo
+38587	Plateros	Centro Poniente	Lomas De Plateros	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38588	Plaza los robles	Occidente	Los Robles	Zapopan	Guadalajara	Jalisco
+38589	Centro Maya Dt	Sureste	Ejidal	Solidaridad	Playa Del Carmen	Quintana Roo
+38590	Parque Toreo II	Centro Norte	Lomas De Sotelo	Naucalpan 	Estado De México	Estado De México
+38591	Tampico Universidad	Norte	Lindavista	Tampico	Tampico	Tamaulipas
+38592	Ciudad Granjas	Occidente	Ciudad Granjas	Zapopan	Guadalajara	Jalisco
+38593	City Express Aguascalientes	Norte Centro	San Pedro 	Aguascalientes	Aguascalientes	Aguascalientes
+38594	Carretera Mexico  Puebla 	Centro Sur	Ixtapaluca	Ixtapaluca	Estado De México	Estado De México
+38596	Esfera City Center	Norte	La Rioja	Monterrey	Monterrey	Nuevo León
+38597	Emerson	Centro Centro	Chapultepec Morales	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38598	Plaza Palmares	Noroeste	Floresta	Culiacán	Culiacán	Sinaloa
+38599	Adagio	Sur	Lomas De Angelópolis Ii	San Andres Cholula	Puebla	Puebla
+38600	Torre BBVA	Centro Centro	Juarez	Cuauhtémoc	Ciudad De México	Ciudad De México
+38601	Paseo Quintana	Bajío	Alamos 3Ra Sección 	Querétaro	Querétaro	Querétaro
+38602	Obrero Mundial	Centro Centro	Piedad Narvarte 	Benito Juárez	Ciudad De México	Ciudad De México
+38603	Metropolitan	Norte	Del Valle Oriente	San Pedro Garza	Monterrey	Nuevo León
+38604	Cosmopol	Centro Norte	Coacalco De Berriozábal 	Coacalco De Berriozábal 	Estado De México	Estado De México
+38605	Plaza Cuicuilco	Centro Sur	Peña Pobre	Tlalpan	Ciudad De México	Ciudad De México
+38606	TlalnepantlaCarso	Centro Norte	Azcapotzalco 	Tlalnepantla	Estado De México	Estado De México
+38607	Carretera  Mexico Toluca KM42	Centro Poniente	Colonia Ortiz Rubio	Ocoyoacac	Toluca	Estado De México
+38608	Aeropuerto Mty TB SUE	Norte	Apodaca	Apodaca	Monterrey	Nuevo León
+38609	Nogales Mall	Noroeste	El Greco	Nogales	Nogales	Sonora
+38610	5ta Avenida	Sureste	Centro	Solidaridad	Playa Del Carmen	Quintana Roo
+38611	Plaza Basica	Centro Sur	Ejidos Del Moral	Iztapalapa	Ciudad De México	Ciudad De México
+38612	Antara II	Centro Centro	Granada	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38613	Xola	Centro Centro	Narvarte Poniente	Benito Juárez	Ciudad De México	Ciudad De México
+38614	Uruapan II DT	Occidente	Col.Los Angeles	Uruapan	Uruapan	Michoacán
+38615	Grand San Jeronimo	Centro Sur	Tizapán	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38617	Axomiatla	Centro Poniente	Villa Verdun	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38618	Plaza Peninsula DT	Noroeste	Plaza Península	Los Cabos	Los Cabos	Baja California Sur
+38619	Calzada de Tlalpan	Centro Sur	Nativitas	Benito Juárez	Ciudad De México	Ciudad De México
+38620	Oasis I	Centro Sur	Romero De Terreros	Coyoacán	Ciudad De México	Ciudad De México
+38621	Paseo Durango	Norte Centro	Col. Esperanza	Victoria De Durango	Victoria De Durango	Durango
+38622	Aeropuerto Culiacan 	Noroeste	Bachigualato	Culiacán	Culiacán	Sinaloa
+38624	GuadalajaraCentro	Occidente	Col. Centro	Guadalajara	Guadalajara	Jalisco
+38625	Tezoquipa 	Centro Sur	La Joya	Tlalpan	Ciudad De México	Ciudad De México
+38626	Aeropuerto Tijuana Exterior	Noroeste	Nueva Tijuana	Tijuana  	Tijuana  	Baja California
+38627	Moliere 222	Centro Centro	Polanco I Seccion	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38629	Town Center Juriquilla	Bajío	El Salitre 	Querétaro	Querétaro	Querétaro
+38630	Galerias las Torres Leon	Bajío	San José Del Consuelo	León	León	Guanajuato
+38631	Plaza Cibeles 	Bajío	Ejido Irapuato 	Irapuato	Irapuato	Guanajuato
+38632	Madero II	Centro Centro	Centro De La Ciudad De Mexico Area 3	Cuauhtémoc	Ciudad De México	Ciudad De México
+38633	Carretera Toluca Mexico (plaza cedros DT)	Centro Poniente	Cuajimalpa 	Cuajimalpa	Ciudad De México	Ciudad De México
+38634	Cuernavaca Centro	Sur	Centro	Cuernavaca	Cuernavaca	Morelos
+38635	Punto Polanco	Centro Centro	Granada	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38636	Lázaro Cárdenas	Occidente	Octavo Sector de Fidelac	Lazaro Cardenas	Lazaro Cardenas	Michoacán
+38637	Tlalpan Nativitas 	Centro Sur	Nativitas	Benito Juárez	Ciudad De México	Ciudad De México
+38638	Galerias Acapulco	Sur	Fracc. Magallanes	Acapulco De Juarez	Acapulco	Guerrero
+38639	Kukulkan DT	Sureste	Zona Hotelera	Benito Juárez	Cancún	Quintana Roo
+38640	Alcade 	Occidente	Gaudalupe Distrito Urbano	Guadalajara	Guadalajara	Jalisco
+38641	Sala B Aeropuerto Cancun	Sureste	Aeropuerto	Benito Juárez	Cancún	Quintana Roo
+38642	Carretera Mexico Queretaro	Bajío	San Isidro Miranda 	El Marqués	Querétaro	Querétaro
+38643	Monclova	Norte Centro	Del Prado	Monclova	Monclova	Coahuila
+38644	Torre Virreyes	Centro Poniente	Lomas-Virreyes	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38645	Plaza Central 	Centro Sur	Central De Abastos	Iztapalapa	Ciudad De México	Ciudad De México
+38646	Carracci	Centro Poniente	Colonia San Juan	Benito Juárez	Ciudad De México	Ciudad De México
+38647	Urban Center La Rioja	Occidente	Fraccionamiento La Rioja	Zapopan	Guadalajara	Jalisco
+38648	La Huerta	Occidente	Col. La Huerta	Morelia	Morelia	Michoacán
+38649	Sendero Villahermosa	Sureste	Jose Maria Pino Suarez	Villahermosa	Villahermosa	Tabasco
+38650	Puerta Oeste	Noroeste	La Rioja	Hermosillo	Hermosillo	Sonora
+38651	Via Vallejo	Centro Norte	Industrial Vallejo	Azcapotzalco 	Ciudad De México	Ciudad De México
+38652	T1 S21	Centro Centro	Zona Federal Aeropuerto Internal Ciudad De Mexico	Venustiano Carranza	Ciudad De México	Ciudad De México
+38653	Salon Ejecutivo T1 AICM	Centro Centro	Zona Federal Aeropuerto Internal Ciudad De Mexico	Venustiano Carranza	Ciudad De México	Ciudad De México
+38654	Reforma 180	Centro Centro	Juárez	Cuauhtémoc	Ciudad De México	Ciudad De México
+38655	3 Torres de Cd Juarez	Norte Centro	Partido Senecu	Ciudad  Juarez	Cd. Juárez	Chihuahua
+38656	Viveros de la Loma	Centro Norte	Tlanepantla	Tlalnepantla	Estado De México	Estado De México
+38657	Patio Lomas Estrella 	Centro Sur	Lomas Estrella	Iztapalapa	Ciudad De México	Ciudad De México
+38658	Plaza Delta Planta Baja	Centro Centro	Narvarte	Benito Juárez	Ciudad De México	Ciudad De México
+38659	Sendero Ixtapaluca 	Centro Sur	Ixtapaluca	Ixtapaluca	Estado De México	Estado De México
+38660	Sania	Occidente	Vallarta Poniente	Guadalajara	Guadalajara	Jalisco
+38661	Jinetes	Centro Norte	Atizapan De Zaragoza 	Atizapan De Zaragoza 	Estado De México	Estado De México
+38662	Aeropuerto Cancun T3 Pa Ii	Sureste	Aeropuerto	Benito Juárez	Cancún	Quintana Roo
+38663	Copilco 20	Centro Sur	Los Reyes	Coyoacán	Ciudad De México	Ciudad De México
+38664	Camino Real Tijuana	Noroeste	Zona Rio	Tijuana  	Tijuana  	Baja California
+38665	Galerias Celaya 	Bajío	Compuertas Del Campestre 	Celaya	Celaya	Guanajuato
+38666	Paseo la Fe	Norte	Parque La Talaverna	San Nicolas	Monterrey	Nuevo León
+38667	Hipodromo Caliente	Noroeste	Hipodromo	Tijuana  	Tijuana  	Baja California
+38668	Pabellon Metepec	Centro Poniente	Las Jaras	Metepec	Estado De México	Estado De México
+38669	Salamanca Power Town 	Bajío	Las Glorias 	Salamanca	Salamanca	Guanajuato
+38670	Pabellon M	Norte	Centro	Monterrey	Monterrey	Nuevo León
+38671	Plaza Carranza	Norte	El Kiosco Amp	Saltillo	Saltillo	Coahuila
+38672	31 Oriente	Sur	Ladrillera De Benitez	Puebla	Puebla	Puebla
+38673	Puerta Bajio	Bajío	San Jose De Las Piletas	León	León	Guanajuato
+38674	Mundo E	Centro Norte	Tlanepantla	Tlalnepantla	Estado De México	Estado De México
+38675	Cordoba centro	Sur	Col. Centro	Cordoba	Cordoba	Veracruz
+38676	Miyana	Centro Centro	Ampliacion Granada	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38677	Patio la Raza	Centro Norte	San Francisco Xocotitla	Azcapotzalco 	Ciudad De México	Ciudad De México
+38678	Power Center las Americas	Centro Sur	Fraccionamiento Las Americas 	Ecatepec De Morelos 	Estado De México	Estado De México
+38679	Technology Park	Occidente	Nuevo Mexico 	Zapopan	Guadalajara	Jalisco
+38680	Galerias Saltillo	Norte	Saltillo	Saltillo	Saltillo	Coahuila
+38681	Torre Diana	Centro Centro	Cuauhtemoc	Cuauhtémoc	Ciudad De México	Ciudad De México
+38682	Coatzacoalcos II	Sureste	Col. Rancho Alegre 1	Coatzacoalcos	Coatzacoalcos	Veracruz
+38683	Plaza Aeropuerto Mty	Norte	Apodaca	Apodaca	Monterrey	Nuevo León
+38684	Plaza Chimalhuacan	Centro Sur	Santa Maria Nativitas	Chimalhuacan	Estado De México	Estado De México
+38685	Sendero La Fe	Norte	Col 30	Monterrey	Apodaca	Nuevo León
+38688	Apto Mty TC SUE	Norte	Apodaca	Apodaca	Apodaca	Nuevo León
+38689	Carretera Irapuato 	Bajío	El Carrizal 	Irapuato	Irapuato	Guanajuato
+38690	Forum Cuernavaca	Sur	Chapultepec	Cuernavaca	Cuernavaca	Morelos
+38691	Patio Revolución	Centro Sur	San Angel	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38692	Plaza Exhibimex	Centro Poniente	San Pedro De Los Pinos 	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38693	Fashion Mall Tampico	Norte	Primavera	Tampico	Tampico	Tamaulipas
+38694	Villas de la Hacienda	Centro Norte	Atizapan De Zaragoza 	Atizapan De Zaragoza 	Estado De México	Estado De México
+38695	Cetram 4 Caminos	Centro Norte	Fraccionamiento Industrial Naucalpan	Naucalpan 	Estado De México	Estado De México
+38696	Zamora DT	Occidente	Fraccionamiento La Luneta	Zamora	Zamora	Michoacán
+38698	Poniente 25	Sur	El Carmen	Puebla	Puebla	Puebla
+38699	Puebla centro	Sur	Centro	Puebla	Puebla	Puebla
+38700	Puebla Avanza	Sur	Santa Ana Xamimilulco	Huejotzingo	Puebla	Puebla
+38702	Orizaba	Sur	Col. Centro	Orizaba	Orizaba	Veracruz
+38703	Plaza las americas	Sur	Col. Yang Yang	Boca Del Río	Boca Del Río	Veracruz
+38704	Corportivo Banamex	Centro Poniente	Santa Fe	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38705	Gran Plaza Mazatlan	Noroeste	Fracc. Alameda	Mazatlán	Mazatlan	Sinaloa
+38706	Aeropuerto Cd Juarez	Norte Centro	Aeropuerto Internacional De Cd. Juarez	Ciudad  Juarez	Cd. Juárez	Chihuahua
+38707	Punto Cero DT	Norte Centro	Col. Nueva Vizcaya	Victoria De Durango	Victoria De Durango	Durango
+38708	ChihuahuaCentro	Norte Centro	Zona Centro	Chihuahua	Chihuahua	Chihuahua
+38709	Corporativo Barranca	Centro Poniente	Los Alpes	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38711	Villamarino DT	Sureste	Smz. 317 	Benito Juárez	Cancún	Quintana Roo
+38712	Up Town Merida	Sureste	Vista Alegre	Merida	Merida	Yucatán
+38713	La Isla Vallarta	Occidente	Zona Hotelera Norte	Puerto Vallarta Jalisco	Puerto Vallarta	Jalisco
+38714	EL Dorado SLP	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+38715	Av. Coyoacan DT only	Centro Poniente	Del Valle Centro	Benito Juárez	Ciudad De México	Ciudad De México
+38716	Multiplaza Bosques	Centro Sur	Nezahualcoyotl	Nezahualcóyotl	Estado De México	Estado De México
+38717	Av Revolucion	Centro Poniente	Nonoalco	Benito Juárez	Ciudad De México	Ciudad De México
+38718	Paseo Ventura	Centro Sur	Conjunto Urbano Las Americas 	Ecatepec De Morelos 	Estado De México	Estado De México
+38719	Plaza Fortuna	Centro Norte	Magdalena De Las Salinas	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38720	Patio Barranca PB	Centro Poniente	Los Alpes	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38721	El Meson	Sur	El Riego Sur	Puebla	Puebla	Puebla
+38722	Patio Barranca N2	Centro Poniente	Los Alpes	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38723	Puerto Cancun	Sureste	Zona Hotelera	Benito Juárez	Cancún	Quintana Roo
+38725	Plaza Oriente ll	Centro Sur	Doctor Alfonso Ortiz Tirado	Iztapalapa	Ciudad De México	Ciudad De México
+38726	Nuevo Laredo DT	Norte	Jardin	Nuevo Laredo	Nuevo Laredo	Tamaulipas
+38727	Centro Tk	Centro Poniente	Lomas De Tecamachalco	Naucalpan 	Estado De México	Estado De México
+38728	Punto la Victoria	Bajío	Villas Del Sol 	Querétaro	Querétaro	Querétaro
+38729	Ubika Milenio	Bajío	Milenio III	Querétaro	Querétaro	Querétaro
+38730	Manacar PB	Centro Poniente	Insurgentes Mixcoac 	Benito Juárez	Ciudad De México	Ciudad De México
+38731	Plaza Cuaunahuac	Sur	Tlahuapan	Jiutepec	Jiutepec	Morelos
+38732	Galerias Tlaxcala	Sur	San Sebastian Atlahapa	Tlaxcala	Tlaxcala	Tlaxcala
+38733	San Martin	Sur	Llano San Bartolo	San Martin Texmelucan	San Martin	Puebla
+38734	Puerto Interior	Bajío	Puerto Interior 	Silao	Silao	Guanajuato
+38735	Salamanca Mazda 	Bajío	Col San Vicente De Flores 	Salamanca	Salamanca	Guanajuato
+38736	Periferico Puebla  	Sur	Barrio El Alto	Cuautlancingo	Cholula	Puebla
+38737	OTAY	Noroeste	Mesa Otay	Tijuana  	Tijuana  	Baja California
+38738	Pabellon Tuxtla	Sureste	El Retiro	Tuxtla Gutierrez	Tuxtla Gutierrez	Chiapas
+38739	Fashion Drive	Norte	Residencial San Agustin	San Pedro Garza	Monterrey	Nuevo León
+38740	Justo Sierra	Noroeste	Cuauhtemoc Norte	Mexicali	Mexicali	Baja California
+38741	Biblioteca ITESM MTY II	Norte	Tecnologico	Monterrey	Monterrey	Nuevo León
+38742	XO	Norte	Del Valle	San Pedro Garza	San Pedro Garza	Nuevo León
+38743	Piedras Negras	Norte	Tecnologico	Piedras Negras	Piedras Negras	Coahuila
+38744	Gran Hotel	Sureste	Centro	Merida	Merida	Yucatán
+38745	SLP Carretera 57 Norte	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+38746	Arcos Bosques II	Centro Poniente	Bosques De Las Lomas	Cuajimalpa	Ciudad De México	Ciudad De México
+38747	Centro Comercial Santa Fe 3	Centro Poniente	Lomas De Santa Fe	Cuajimalpa	Ciudad De México	Ciudad De México
+38749	Patio Santa Fe 2	Centro Poniente	Peña Blanca	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38750	Antea II	Bajío	Ejido El Salitre 	Querétaro	Querétaro	Querétaro
+38751	Torre Zentrrum II	Centro Poniente	Santa Fe	Cuajimalpa	Ciudad De México	Ciudad De México
+38752	Star Medica Roma	Centro Centro	Roma Norte	Cuauhtémoc	Ciudad De México	Ciudad De México
+38753	Parque puebla pb	Sur	Corredor Industrial	Puebla	Puebla	Puebla
+38754	Parque puebla pa	Sur	Corredor Industrial	Puebla	Puebla	Puebla
+38755	Corporativo Santander	Centro Poniente	Lomas De Santa Fe	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38756	Averanda	Sur	Flores Magon	Cuernavaca	Cuernavaca	Morelos
+38757	Citadina Constituyentes	Bajío	Los Pájaros 	Corregidora 	Querétaro	Querétaro
+38758	Las Torres Cd Juarez	Norte Centro	Market Place	Ciudad  Juarez	Cd. Juárez	Chihuahua
+38759	Isla Culiacan	Noroeste	Fracc. Musala	Culiacán	Culiacán	Sinaloa
+38760	Kiosco Gran Plaza Merida	Sureste	Montes De Ame	Merida	Merida	Yucatán
+38761	Solara	Sur	Centros Comerciales Desarrollo Inmobiliario	Puebla	Puebla	Puebla
+38762	Patio Boturini	Centro Centro	Transito	Cuauhtémoc	Ciudad De México	Ciudad De México
+38763	Rosarito	Noroeste	Hacienda Floresta Del Mar	Rosarito	Rosarito	Baja California
+38764	Star  Medica Napoles	Centro Poniente	Napoles	Benito Juárez	Ciudad De México	Ciudad De México
+38765	Colinas de San Jeronimo	Norte	Las Colinas Residencial	Monterrey	Monterrey	Nuevo León
+38766	Aeropuerto Cancun T4 Pb Ext	Sureste	Aeropuerto	Benito Juárez	Cancún	Quintana Roo
+38767	Aeropuerto Cancun T4 Pa Int	Sureste	Aeropuerto	Benito Juárez	Cancún	Quintana Roo
+38768	ITESM Puebla	Sur	Reserva Territorial Atlixcayotl	Puebla	Puebla	Puebla
+38769	Patio Toluca	Centro Poniente	San Sebastian Y Vértice	Toluca	Toluca	Estado De México
+38770	Gustavo Baz 29	Centro Norte	Azcapotzalco 	Tlalnepantla	Tlalnepantla	Estado De México
+38771	Medica SurTlalpan	Centro Sur	Toriello Guerra	Tlalpan	Ciudad De México	Ciudad De México
+38772	Hospital Ángeles Interlomas	Centro Poniente	Valle De Las Palmas 	Huixquilucan	Estado De México	Estado De México
+38773	Colegio Americano	Centro Poniente	Las Americas	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38775	Aeropuerto salidas nacionales puerta C37	Occidente	Guadalajara	Tlajomulco 	Guadalajara	Jalisco
+38776	Los Cabos CH	Noroeste	Club Campestre San José	Los Cabos	Los Cabos	Baja California Sur
+38777	Parque la Mexicana	Centro Poniente	Santa Fe	Cuajimalpa	Ciudad De México	Ciudad De México
+38778	Real del Castillo	Noroeste	Plutarco Elias Calles	Mexicali	Mexicali	Baja California
+38779	Rio Tijuana	Noroeste	Desarrollo Urbano Rio Tijuana	Tijuana  	Tijuana  	Baja California
+38780	Tec Santa Fe	Centro Poniente	Cuajimalpa 	Cuajimalpa	Ciudad De México	Ciudad De México
+38781	San Cristobal	Sureste	Centro	San Cristobal	San Cristobal	Chiapas
+38782	Tlaquepaque	Occidente	Centro	Tlaquepaque	Tlaquepaque	Jalisco
+38784	Artz Pedregal PB CC	Centro Sur	Jardínes Del Pedregal	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38785	Versalles	Centro Centro	Juárez	Cuauhtémoc	Ciudad De México	Ciudad De México
+38786	Punto Cultiva	Noroeste	Col. San Rafael	Culiacán	Culiacán	Sinaloa
+38787	Plaza Atrios	Sur	Tierra Larga	Cuautla	Cuautla	Morelos
+38788	Matamoros DT	Norte	Fracc. Victoria	Matamoros	Matamoros	Tamaulipas
+38789	Aeropuerto Cancun T4 Food Court	Sureste	Aeropuerto	Benito Juárez	Cancún	Quintana Roo
+38790	Carretera Mexico Pachuca	Bajío	Tolcayuca 	Tolcayuca	Pachuca 	Hidalgo
+38791	Artz Pedregal Reserve	Centro Sur	Jardínes Del Pedregal	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38792	Pasaje Tlanepantla	Centro Norte	Tlanepantla	Tlalnepantla	Estado De México	Estado De México
+38793	Galerias Pachuca PA	Bajío	Zona Plateada 	Pachuca De Soto 	Pachuca 	Hidalgo
+38795	Apto T1 Pb N Pta 7	Centro Centro	Otra No Especificada En El Catalogo	Venustiano Carranza	Ciudad De México	Ciudad De México
+38796	Apto T1 AMB Sala J	Centro Centro	Zona Federal (Aeropuerto Internal De La Ciudad De Mexico)	Venustiano Carranza	Ciudad De México	Ciudad De México
+38797	Lindavista Mty	Norte	Montebello	Guadalupe	Guadalupe	Nuevo León
+38798	Corp. Televisa Sta Fe	Centro Poniente	Santa Fe	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38799	Paseo Interlomas III	Centro Poniente	Jesús Del Monte 	Huixquilucan	Estado De México	Estado De México
+38800	Antenas PA	Centro Sur	La Esperanza	Iztapalapa	Ciudad De México	Ciudad De México
+38801	Antenas PB	Centro Sur	La Esperanza	Iztapalapa	Ciudad De México	Ciudad De México
+38803	Apto T1 AMB Puerta 8	Centro Centro	Peñon De Los Baños	Venustiano Carranza	Ciudad De México	Ciudad De México
+38804	Galerias Chilpancingo	Sur	Fracc. Villa Vicente Guerrero	Chilpancingo	Chilpancingo	Guerrero
+38805	Isla Merida	Sureste	Santa Gertrudis Copo	Merida	Merida	Yucatán
+38806	Patio Tlalpan	Centro Sur	Santa Ursula Xitla	Tlalpan	Ciudad De México	Ciudad De México
+38808	Carretera Saltillo-Mty	Norte	Virreyes Residencial	Saltillo	Saltillo	Coahuila
+38809	Estacion de Servicio la Virgen	Bajío	Pedro Escobedo 	Pedro Escobedo 	Querétaro	Querétaro
+38810	Plaza Centenario ( Tenaria)	Centro Poniente	Ex Hcienda De Tarango	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38811	Plaza Tepeyac	Centro Norte	Guadalupe Tepeyac	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38812	Star Medica Queretaro	Bajío	San Pablo 	Querétaro	Querétaro	Querétaro
+38813	Autopista Puebla Orizaba	Sur	Amozoc	Puebla	Amozoc De Mota	Puebla
+38814	Carretera 57 SLP Sur	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+38815	Central Interlomas	Centro Poniente	Valle De Las Palmas 	Huixquilucan	Estado De México	Estado De México
+38816	Via Cordillera	Norte	Via Cordillera	Santa Catarina	Santa Catarina	Nuevo León
+38817	Tec de Monterrey CCM	Centro Sur	San Bartolo El Chico	Tlalpan	Ciudad De México	Ciudad De México
+38818	Centro Jacarandas 	Bajío	Residencial Jacarandas 	Irapuato	Irapuato	Guanajuato
+38819	Paseo Tehuacan DT	Sur	Reforma	Tehuacan	Puebla	Puebla
+38820	Metrocentro DT	Noroeste	Metrocentro	Hermosillo	Hermosillo	Sonora
+38821	Explanada Puebla	Sur	Santiago Momoxpan	San Pedro Cholula	Puebla	Puebla
+38822	Aeropuerto Acapulco	Sur	Plan De Los Amates	Acapulco De Juarez	Acapulco	Guerrero
+38825	Harbor	Sureste	Via Montejo	Merida	Merida	Yucatán
+38826	Malecon Mazatlan	Noroeste	Fracc. Ferrocarrilera	Mazatlán	Mazatlan	Sinaloa
+38827	Aeropuerto Los Mochis	Noroeste	Topolobampo Km. 12.5 	Ahome	Los Mochis	Sinaloa
+38828	Urban Center Merida	Sureste	Monterreal	Merida	Merida	Yucatán
+38829	Outlet Lerma	Centro Poniente	Lerma De Villada	Lerma	Toluca	Estado De México
+38830	Punto Valle Reserve	Norte	Del Valle	San Pedro Garza	San Pedro Garza	Nuevo León
+38831	Angelopolis II	Sur	Concepcion La Cruz	Puebla	Puebla	Puebla
+38832	ITESM Queretaro	Bajío	San Pablo 	Querétaro	Querétaro	Querétaro
+38833	Aeropuerto Bajio	Bajío	Nuevo Mexico 	Silao	Silao	Guanajuato
+38834	Aeropuerto Hermosillo Ext	Noroeste	La Manga	Hermosillo	Hermosillo	Sonora
+38836	Morelos Centro Mty 	Norte	Centro	Monterrey	Monterrey	Nuevo León
+38837	Centenario Azcapotzalco	Centro Norte	Centro De Azcapotzalco 	Azcapotzalco 	Ciudad De México	Ciudad De México
+38838	Star Medica Morelia	Occidente	Col. Felix Ireta	Morelia	Morelia	Michoacán
+38839	Tapachula DT	Sureste	Ecologico Las Hortencias	Tapachula	Tapachula	Chiapas
+38840	Periferico Puebla II	Sur	Santa Bernardino Tlaxcalancingo	San Andres Cholula	Puebla	Puebla
+38841	Townsquare Metepec	Centro Poniente	La Providencia	Metepec	Toluca	Estado De México
+38842	Caucel DT	Sureste	Caucel	Merida	Merida	Yucatán
+38843	Tulum DT	Sureste	Tulum Centro	Tulum	Tulum	Quintana Roo
+38844	Park Point	Norte	Cumbres Elite	Monterrey	Monterrey	Nuevo León
+38845	Mundo E II	Centro Norte	Tlanepantla	Tlalnepantla	Tlalnepantla	Estado De México
+38846	Ubika Universidad	Bajío	La Piedad 	Querétaro	Querétaro	Querétaro
+38847	El Molino	Centro Poniente	La Merced	Toluca	Toluca	Estado De México
+38848	Alameda Otay	Noroeste	Sanchez Tabueda Produtsa	Tijuana  	Tijuana  	Baja California
+38849	Hospital Angeles Valle Oriente	Norte	Del Valle Oriente	San Pedro Garza	Monterrey	Nuevo León
+38850	Hospital Angeles Clinica Londres	Centro Centro	Roma Norte	Cuauhtémoc	Ciudad De México	Ciudad De México
+38851	Aeropuerto Chihuahua	Norte Centro	Col. Parque Industrial Intermex Sur	Chihuahua	Chihuahua	Chihuahua
+38853	Apto Mty TA II	Norte	Apodaca	Apodaca	Monterrey	Nuevo León
+38855	Plaza Zapotitlán DT 	Centro Sur	Santa Ana Poniente	Tlahuac	Ciudad De México	Ciudad De México
+38856	Cinemex Artz	Centro Sur	Jardínes Del Pedregal	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38857	Plaza San Diego	Sur	San Diego Los Sauces	San Pedro Cholula	Cholula	Puebla
+38858	Torre de Pemex	Centro Centro	Veronica Anzures	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38859	Plaza Satelite II N1	Centro Norte	Satelite 	Naucalpan 	Estado De México	Estado De México
+38860	Paseo Queretaro	Bajío	La Purisima 	Querétaro	Querétaro	Querétaro
+38861	Andares Reserve	Occidente	Puerta De Hierro 	Zapopan	Guadalajara	Jalisco
+38862	San Miguel Izcalli	Centro Norte	Cuatitlan Izcalli 	Cuatitlan Izcalli 	Cuautitlan  	Estado De México
+38863	Bucerias	Occidente	Flamingos	Bahía De Banderas Nayarit	Bucerías	Nayarit
+38864	Carretera Queretaro Celaya	Bajío	Carretera Celaya Cuota 	Corregidora 	Querétaro	Querétaro
+38865	Kune DT	Norte	Residencial Puerta De Hierro	Monterrey	Monterrey	Nuevo León
+38866	Perisur Reserve	Centro Sur	Insurgentes Cuicuilco	Coyoacán	Ciudad De México	Ciudad De México
+38867	Plaza Bonita	Norte Centro	Vistas La Cumbre	Ciudad  Juarez	Cd. Juárez	Chihuahua
+38868	Punto Sur	Occidente	Los Gavilanes Poniente	Tlajomulco 	Guadalajara	Jalisco
+38869	Carretera Nuevo Laredo	Norte	Nuevo Laredo	Apodaca	Monterrey	Nuevo León
+38870	Periferico Torreon DT	Norte Centro	Torreón	Torreón	Torreón	Coahuila
+38871	Estacion las Brujas II	Bajío	San Pedro Tenango 	Celaya	Celaya	Guanajuato
+38872	Colosio DT	Sureste	Blv Colosio	Benito Juárez	Cancún	Quintana Roo
+38873	Plaza El Molino Apodaca	Norte	Apodaca Centro	Apodaca	Apodaca	Nuevo León
+38874	Las Puentes	Norte	Las Puentes	Monterrey	San Nicolas	Nuevo León
+38875	Rincon de la Florida	Norte	Jardines De La Florida	Saltillo	Saltillo	Coahuila
+38876	Huayacan DT	Sureste	Supermanzana 311	Benito Juárez	Cancún	Quintana Roo
+38877	Apto SLP	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+38878	Apto Torreon Amb	Norte Centro	Torreón	Torreón	Torreón	Coahuila
+38879	Zona Romantica Puerto Vallarta	Occidente	Emiliano Zapata	Puerto Vallarta Jalisco	Puerto Vallarta	Jalisco
+38880	Aeropuerto Tijuana SUE Central	Noroeste	Nueva Tijuana	Tijuana  	Tijuana  	Baja California
+38881	Galerias Santa Anita	Occidente	San Agustin Poniente	Tlajomulco 	Guadalajara	Jalisco
+38882	Ubika Juriquilla	Bajío	Santa Fé Juriquilla 	Querétaro	Querétaro	Querétaro
+38883	Omnia	Norte	Estanzuela	Monterrey	Monterrey	Nuevo León
+38884	Plaza Marina Leon	Bajío	Prolongacion Poniente Hacienda Echeveste 	León	León	Guanajuato
+38885	AIQ 	Bajío	Centro	Colon	Querétaro	Querétaro
+38886	Estacion las Brujas I	Bajío	Los Julianes 	Celaya	Celaya	Guanajuato
+38887	Terracota Aguascalientes	Norte Centro	San Jose Del Arenal 	Aguascalientes	Aguascalientes	Aguascalientes
+38888	Mitikah	Centro Sur	Xoco	Benito Juárez	Ciudad De México	Ciudad De México
+38889	La Isla Cancún II	Sureste	Zona Hotelera	Benito Juárez	Cancún	Quintana Roo
+38890	Carretera A Chapala	Occidente	Las Pintas	Tlaquepaque	Tlaquepaque	Jalisco
+38891	Gran Patio Guanajuato	Bajío	Yerbabuena 	Guanajuato	Guanajuato	Guanajuato
+38892	Zacatecas Centro de Gobierno	Norte Centro	Centro de Gobierno	Zacatecas	Zacatecas	Zacatecas
+38893	Explanada Pachuca	Bajío	San Antonio 	Pachuca De Soto 	Pachuca 	Hidalgo
+38894	Galerias Perinorte	Centro Norte	Cuatitlan Izcalli 	Cuatitlan Izcalli 	Cuautitlan  	Estado De México
+38895	Ubika El Refugio	Bajío	Residencial El Redugio	Santiago De Querétaro	Querétaro	Querétaro
+38896	Paseo Tollocan DT	Centro Poniente	Santa Ana Tlapaltitlán	Toluca	Toluca	Estado De México
+38897	Atlixcayotl DT 	Sur	Reserva Territorial Atlixcayotl	San Andres Cholula	Puebla	Puebla
+38898	Galerias Mty III	Norte	Vista Hermosa	Monterrey	Monterrey	Nuevo León
+38899	Carr México Queretaro	Bajío	San Juan Del Rio	Santiago De Querétaro	Querétaro	Querétaro
+38900	Apto Cd Juárez SUE	Norte Centro	Aeropuerto Internacional De Cd. Juarez	Ciudad  Juarez	Cd. Juárez	Chihuahua
+38901	Apto MTY TC Amb	Norte	Apodaca	Apodaca	Apodaca	Nuevo León
+38902	Apto ChihuahuaAmb	Norte Centro	Col. Parque Industrial Intermex Sur	Chihuahua	Chihuahua	Chihuahua
+38903	Encuentro Oceania	Centro Norte	Moctezuma 2Da Seccion 	Venustiano Carranza	Ciudad De México	Ciudad De México
+38904	Foro 4	Bajío	Jardines Del Campestre 	León	León	Guanajuato
+38905	Distrito La Perla	Occidente	Ciudad Del Sol	Zapopan	Zapopan	Jalisco
+38906	APTO Ciudad de MéxicoAMB PTA 2 	Centro Centro	Otra No Especificada En El Catalogo	Venustiano Carranza	Ciudad De México	Ciudad De México
+38907	Galerias Valle Oriente	Norte	Valle Del Mirador	Monterrey	Monterrey	Nuevo León
+38908	Carretera Pachuca Mexico	Bajío	Tolcayuca 	Tolcayuca	Pachuca 	Hidalgo
+38909	Puerta Norte DT	Norte Centro	Quinta Sebastián	Chihuahua	Chihuahua	Chihuahua
+38910	AIFA Llegadas Nacional AMB	Bajío	 Santa Lucia Base Aerea Militar	Zumpango	Zumpango	Estado De México
+38911	AIFA SUE Nacional	Bajío	 Santa Lucia Base Aerea Militar	Zumpango	Zumpango	Estado De México
+38912	Punto Escobedo DT León	Bajío	Oriental Anaya	León	León	Guanajuato
+38913	Apto Mazatlan SUE	Noroeste	Carrera Internacional Al Sur	Mazatlán	Mazatlan	Sinaloa
+38914	Cinemex Terraza Interlomas	Centro Poniente	Valle De Las Palmas 	Huixquilucan	Estado De México	Estado De México
+38915	Cinemex Galerias Insurgentes	Centro Centro	Del Valle	Benito Juárez	Ciudad De México	Ciudad De México
+38916	Chedraui Centro Sur	Bajío	Centro Sur	Querétaro	Querétaro	Querétaro
+38917	Urban Center Cancun	Sureste	Supermanzana 15A	Benito Juárez	Cancún	Quintana Roo
+38918	Bosque Real	Centro Poniente	 Bosque Real 	Huixquilucan	Estado De México	Estado De México
+38919	Universidad Anahuac Merida	Sureste	Universidad Del Mayab	Merida	Merida	Yucatán
+38920	Paseo Monclova	Norte Centro	Estancias	Monclova	Monclova	Coahuila
+38921	Carretera Ags-Zac	Norte Centro	Trojes De Alonso	Aguascalientes	Aguascalientes	Aguascalientes
+38922	Plaza Península Tijuana	Noroeste	Alamar	Tijuana  	Tijuana  	Baja California
+38923	Campestre Merida DT	Sureste	Benito Juarez	Merida	Merida	Yucatán
+38924	Plaza Aeropuerto	Centro Norte	Santa Cruz Aviación	Venustiano Carranza	Ciudad De México	Ciudad De México
+38925	Star Medica Lomas Verdes	Centro Norte	Lomas Verdes 	Naucalpan 	Estado De México	Estado De México
+38926	Star Medica Ciudad Juarez	Norte Centro	Partido Iglesias	Ciudad  Juarez	Cd. Juárez	Chihuahua
+38927	Star Médica Chihuahua	Norte Centro	Saucito	Chihuahua	Chihuahua	Chihuahua
+38928	Starmedica Merida	Sureste	Altabrisa	Merida	Merida	Yucatán
+38929	Aeropuerto Toluca AMB	Centro Poniente	San Pedro Totoltepec	San Pedro Totoltepec	Toluca	Estado De México
+38930	Blvd. Aeropuerto dt	Centro Norte	Federal	Venustiano Carranza	Ciudad De México	Ciudad De México
+38931	Colima II	Occidente	Campestre	Villa De Alvarez	Villa De Alvarez	Colima
+38932	San Pedro DT	Norte Centro	Valle De San Pedro	Chihuahua	Chihuahua	Chihuahua
+38933	Novena Mexicali DT	Noroeste	Plutarco Elias Calles	Mexicali	Mexicali	Baja California
+38934	Tijuana vía rápida	Noroeste	Los Santos	Tijuana  	Tijuana  	Baja California
+38935	Plaza Paraiso DT	Norte	Paraíso De Anahuac	Monterrey	Escobedo	Nuevo León
+38937	Parque Tepeyac Piso 1	Centro Norte	Granjas Modernas	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38938	Colima Sendera DT	Occidente	Real Hacienda	Villa De Alvarez	Villa De Alvarez	Colima
+38939	Pachuca DT II	Bajío	Puerta De Hierro	Pachuca De Soto 	Pachuca 	Hidalgo
+38940	City Center León	Bajío	Granjas Del Rosario	León	León	Guanajuato
+38941	Mitikah Restaurantes	Centro Sur	Xoco	Benito Juárez	Ciudad De México	Ciudad De México
+38942	Moraleda Atlixco DT	Sur	Moraleda	Atlixco	Atlixco	Puebla
+38943	Terraza T2 Amb	Centro Centro	Otra No Especificada En El Catalogo	Venustiano Carranza	Ciudad De México	Ciudad De México
+38944	Centro SurQro 	Bajío	Centro Sur	Querétaro	Querétaro	Querétaro
+38945	Universidad Anahuac Querétaro	Bajío	Zibatá	El Marqués	Querétaro	Querétaro
+38946	Patio Tapachula	Sureste	Centro	Tapachula	Tapachula	Chiapas
+38947	Hermosillo Centro de Gobierno DT	Noroeste	Proyecto Río Sonora	Hermosillo	Hermosillo	Sonora
+38948	Tijuana Teran DT	Noroeste	Ciudad Industrial 	Tijuana  	Tijuana  	Baja California
+38949	Costera Acapulco	Sur	Club Deportivo	Acapulco De Juarez	Acapulco	Guerrero
+38950	Outlet Riviera Maya	Sureste	Centro Comercial "Grand Outlet Mallterteinment Riviera Maya"	Benito Juárez	Cancún	Quintana Roo
+38951	Universidad Panamericana	Centro Poniente	Insurgentes Mixcoac	Benito Juárez	Ciudad De México	Ciudad De México
+38952	Punta Este DT	Noroeste	Rivera	Mexicali	Mexicali	Baja California
+38953	Fragaria Irapuato 	Bajío	Ejido Lo De Juarez 	Irapuato	Irapuato	Guanajuato
+38954	Universidad Anahuac Campus Sur	Centro Poniente	Alvaro Obregon	Álvaro Obregón 	Ciudad De México	Ciudad De México
+38955	La Ceiba	Noroeste	Jardines Tres Rios	Culiacán	Culiacán	Sinaloa
+38956	Plaza San Rafael Ags	Norte Centro	Col Olivares Santana	Aguascalientes	Aguascalientes	Aguascalientes
+38957	Avándaro	Centro Poniente	Fraccionamiento Avándaro 	Valle De Bravo	Valle De Bravo	Estado De México
+38958	Los Cavazos DT	Norte	Los Altares	Santiago 	Santiago 	Nuevo León
+38959	Distrito Hexus Hermosillo	Noroeste	Santa Fe	Hermosillo	Hermosillo	Sonora
+38960	La Cantera DT	Norte Centro	Misiones I Etapa	Chihuahua	Chihuahua	Chihuahua
+38963	Lazaro Cardenas Mty DT	Norte	Mirador Residencial 	Monterrey	Monterrey	Nuevo León
+38964	Biblioteca Tec 	Centro Sur	San Bartolo El Chico	Tlalpan	Ciudad De México	Ciudad De México
+38965	Parque Tepeyac Piso 2	Centro Norte	Granjas Modernas	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+38966	Comitán Chiapas DT	Sureste	Barrio De Chichima Acapetahua	Comitán De Dominguez	Comitán De Dominguez	Chiapas
+38967	Belisario DT	Sureste	Jardines De Tuxtla	Tuxtla Gutierrez	Tuxtla Gutierrez	Chiapas
+38968	Génesis Reynosa DT	Norte	La Cima	Reynosa	Reynosa	Tamaulipas
+38969	Punto Sur II	Occidente	Los Gavilanes Poniente	Tlajomulco De Zuñiga	Guadalajara	Jalisco
+38970	Hospital Zambrano	Norte	Real San Agustin	San Pedro Garza	Monterrey	Nuevo León
+38971	Distrito 925 Zacatecas	Norte Centro	Sin Colonia	Guadalupe	Guadalupe	Zacatecas
+38972	Plaza Village DT	Sureste	Supermanzana 55	Benito Juárez	Cancún	Quintana Roo
+38973	Punto Guadiana	Norte Centro	Loma Dorada	Victoria De Durango	Victoria De Durango	Durango
+38974	Carretera León Silao DT	Bajío	San Jose El Alto  	Silao	Guanajuato	Guanajuato
+38975	Cholul DT	Sureste	No Especificada	Merida	Merida	Yucatán
+38976	Hospital Angeles Centro Sur Qro	Bajío	Centro Sur	Querétaro	Querétaro	Querétaro
+38977	Ocampo Corner DT	Norte	Centro	Monterrey	Monterrey	Nuevo León
+38978	Periferico Merkabastos Gdl	Occidente	Paseos Del Sol	Zapopan	Zapopan	Jalisco
+38979	Carretera Progreso DT	Sureste	Xcanantun	Merida	Merida	Yucatán
+38980	The Park 	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+38981	Doctors Hospital AUNA	Norte	Balcones De Galerias	Monterrey	Monterrey	Nuevo León
+38982	Miyana II	Centro Centro	Miguel Hidalgo	Miguel Hidalgo	Ciudad De México	Ciudad De México
+38983	Santa Monica Aguascalientes DT	Norte Centro	Plaza Comercial Siglo XXI, P.º Sta. Mónica Lote 03, 20286	Aguascalientes	Aguascalientes	Aguascalientes
+38984	Lourdes Saltillo DT	Norte	Sin Nombre	Saltillo	Saltillo	Coahuila
+38985	Paseo San Miguel	Norte	San Miguel	Apodaca	Apodaca	Nuevo León
+38986	Plaza Kabs DT	Noroeste	San José Viejo	Los Cabos	Los Cabos	Baja California Sur
+38987	Punta Zero Calimaya DT	Centro Poniente	San Andres Ocotlan	Calimaya	Estado De México	Estado De México
+38988	Zona Dorada II	Noroeste	Zona Dorada	Mazatlán	Mazatlan	Sinaloa
+38989	Las Américas Chetumal DT	Sureste	Payo Obispo	Othon P. Blanco	Chetumal	Quintana Roo
+38990	Las Americas Cancun DT	Sureste	Supermanzana 6	Benito Juárez	Cancún	Quintana Roo
+38991	Las Américas Mérida DT	Sureste	Miguel Hidalgo	Merida	Merida	Yucatán
+38992	Tapo Puerta Oriente	Centro Norte	7 De Julio	Venustiano Carranza	Ciudad De México	Ciudad De México
+38993	Las Americas Playa del Carmen	Sureste	Nuevo Centro Urbano	Solidaridad	Playa Del Carmen	Quintana Roo
+38994	ZapopanCentro 	Occidente	Zapopan Centro	Zapopan	Zapopan	Jalisco
+38995	Encuentro Oceania II	Centro Norte	Moctezuma 2Da. Sección	Venustiano Carranza	Ciudad De México	Ciudad De México
+38996	Valle de Aragon	Centro Sur	Central (Hank Gonzalez)	Ecatepec De Morelos 	Estado De México	Estado De México
+38997	San Juan del Rio ll	Bajío	Centro	San Juan Del Rio	San Juan Del Rio	Querétaro
+38998	Carretera Reynosa DT	Norte	Jardines Guadalupe	Guadalupe	Guadalupe	Nuevo León
+38999	Plaza Las Alondras DT	Noroeste	Francisco Zarco	Tijuana  	Tijuana  	Baja California
+43000	Tecnologico Cd Juarez	Norte Centro	Cuernavaca	Ciudad  Juarez	Cd. Juárez	Chihuahua
+43001	Zona Hotelera	Sureste	Zona Hotelera	Benito Juárez	Cancún	Quintana Roo
+43003	Acuña DT	Norte	El Sol	Acuña	Acuña	Coahuila
+43005	Santiago DT 	Norte	Congregración Santa Rosalía	Santiago 	Santiago 	Nuevo León
+43007	Parque Centro Saltillo DT	Norte	Sin Nombre	Saltillo	Saltillo	Coahuila
+43008	Carretera Atlixco	Sur	Santa Bernardino Tlaxcalancingo	San Andres Cholula	Puebla	Puebla
+43009	Plaza Aventura DT	Sur	Vía Atlixcayotl	San Andres Cholula	Puebla	Puebla
+43010	Tepatitlán DT	Occidente	La Gloria	Tepatitlán De Morelos	Tepatitlán De Morelos	Jalisco
+43011	Carr Toluca-Atlacomulco DT	Centro Poniente	San Calletano Morelos 	Toluca	Toluca	Estado De México
+43016	Hotel Araiza Mexicali DT	Noroeste	Jardines Del Valle	Mexicali	Mexicali	Baja California
+43018	Parque Viñedos DT	Norte Centro	Fraccionamiento Los Viñedos	Torreón	Torreón	Coahuila
+43019	Campestre Saltillo DT	Norte	Santa Rosa	Saltillo	Saltillo	Coahuila
+43021	Av. 135 Cancún DT	Sureste	Mallorca	Benito Juárez	Cancún	Quintana Roo
+43025	Punto MAQ	Centro Sur	Parque San Andres	Coyoacán	Ciudad De México	Ciudad De México
+43026	Plaza Ermita	Centro Sur	Xalpa	Iztapalapa	Ciudad De México	Ciudad De México
+43027	Paseo Insurgentes León DT	Bajío	Predio Cerro Gordo	León	León	Guanajuato
+43029	Ahau Tulum	Sureste	Zona Hotelera Tulum	Tulum	Tulum	Quintana Roo
+43030	Universidad Panamericana GDL 	Occidente	Ciudad Granjas	Zapopan	Guadalajara	Jalisco
+43031	Galerias Mall Hermosillo	Noroeste	Proyecto Río Sonora	Hermosillo	Hermosillo	Sonora
+43032	Paseo del Moral León	Bajío	Jardines Del Moral	León	León	Guanajuato
+43033	Plaza Constituyentes	Bajío	Corregidora	Querétaro	Querétaro	Querétaro
+43034	Macroplaza Tecamac	Centro Sur	Los Heroes Tecamac Iii	Tecamac	Estado De México	Estado De México
+43035	Apto Veracruz Amb 	Sur	Las Bajadas	Veracruz	Veracruz	Veracruz
+43036	Epic Center Zakia DT	Bajío	Zakia	El Marqués	Querétaro	Querétaro
+43037	Apto Cozumel SUE	Sureste	Aeropuerto	Cozumel	Cozumel	Quintana Roo
+43038	Aeropuerto Tulum AMB	Sureste	No Especificada	Felipe Carrillo Puerto	Felipe Carrillo Puerto	Quintana Roo
+43039	Apto Tulum SUE Nacional PA	Sureste	No Especificada	Felipe Carrillo Puerto	Felipe Carrillo Puerto	Quintana Roo
+43040	Centro Zibatá	Bajío	Zibatá	El Marqués	Querétaro	Querétaro
+43041	Parque Aztlan	Centro Poniente	Bosque De Chapultepec Ii Sección 	Miguel Hidalgo	Ciudad De México	Ciudad De México
+43042	Plaza Concordia DT	Norte	Moderno Apodaca Ii	Apodaca	Apodaca	Nuevo León
+43043	Atizapan	Centro Norte	Atizapan De Zaragoza 	Atizapan De Zaragoza 	Estado De México	Estado De México
+43044	Loma linda DT	Sureste	Loma Linda	Villahermosa	Villahermosa	Tabasco
+43045	Periferico Polanco DT	Centro Centro	Lomas De Chapultepec	Miguel Hidalgo	Ciudad De México	Ciudad De México
+43046	Plaza Alada GDL	Occidente	Reserva Real	Zapopan	Zapopan	Jalisco
+43047	Juarez Puebla II	Sur	La Paz	Puebla	Puebla	Puebla
+43050	Galerias Uriangato DT	Bajío	Blvd. Uriangato	Uriangato	Guanajuato	Guanajuato
+43051	Juan Gil Preciado DT	Occidente	Nuevo Mexico 	Zapopan	Zapopan	Jalisco
+43054	Paseo Azahares DT	Noroeste	Gasolinera Del Valle	Culiacán	Culiacán	Sinaloa
+43055	Paseo de la República	Bajío	Jurica 	Querétaro	Querétaro	Querétaro
+43056	Plaza de Hierro Navojoa DT	Noroeste	Reforma	Navojoa	Navojoa	Sonora
+43057	Ruiz Cortinez DT	Sur	Costa Verde	Boca Del Río	Boca Del Río	Veracruz
+43058	Casa de Gobierno DT	Centro Poniente	Dr Juan Rodriguez	Toluca	Toluca	Estado De México
+43059	La Providencia DT	Centro Poniente	La Providencia	Metepec	Metepec	Estado De México
+43060	Landmark Tijuana BC	Noroeste	Calete	Tijuana  	Tijuana  	Baja California
+43063	Plaza Nogal León DT	Bajío	Sierra Nogal	León	León	Guanajuato
+43064	Santa catarina DT AP	Bajío	Venta prieta	Pachuca De Soto 	Pachuca 	Hidalgo
+43068	Galerias Metepec II	Centro Poniente	San Mateo	Metepec	Toluca	Estado De México
+43069	Patio Acapulco	Sur	Llano Largo	Acapulco De Juarez	Acapulco	Guerrero
+43070	Rojo Gomez DT	Centro Sur	Agricola Oriental	Iztacalco	Ciudad De México	Ciudad De México
+43071	Tecnologico Celaya 	Bajío	Industrial de Celaya 	Celaya	Celaya	Guanajuato
+43074	Bugambilias Plaza Cuernavaca	Sur	Vista Hermosa	Cuernavaca	Cuernavaca	Morelos
+43076	Blvrd Costero	Noroeste	Centro	Ensenada	Ensenada	Baja California
+43082	AIFA Salidas PTA 1	Bajío	 Santa Lucia Base Aerea Militar	Zumpango	Zumpango	Estado De México
+43083	AIFA Llegadas Internacional AMB	Bajío	 Santa Lucia Base Aerea Militar	Zumpango	Zumpango	Estado De México
+43084	Puerto Caoba	Sur	Ignacio Zaragoza	Veracruz	Veracruz	Veracruz
+43086	Punto 115 DT	Sureste	Los Olivos	Solidaridad	Playa Del Carmen	Quintana Roo
+43088	Explanada Culiacán DT	Noroeste	Las Flores	Culiacan	Culiacán	Sinaloa
+43089	López Mateos León DT	Bajío	Los Gavilanes	León	León	Guanajuato
+43092	Citadina Soledad SLP DT	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+43093	Palermo DT	Noroeste	sin nombre	Hermosillo	Hermosillo	Sonora
+43096	Miguel Aleman ll DT	Norte	Apodaca	Apodaca	Apodaca	Nuevo León
+43098	Los Mochis II	Noroeste	Jiquilpan	Ahome	Los Mochis	Sinaloa
+43100	Down Town Puebla	Sur	Lomas De Angelópolis 	San Andres Cholula	Puebla	Puebla
+43105	Insurgentes Capital	Centro Poniente	Noche Buena	Benito Juárez	Ciudad De México	Ciudad De México
+43106	Plaza Pacifico DT	Noroeste	Parque Industrial Pacifico	Tijuana  	Tijuana  	Baja California
+43107	Pabellón Bosques	Centro Poniente	Lomas De Vistahermosa	Cuajimalpa	Ciudad De México	Ciudad De México
+43108	Apto. Reynosa AMB 	Norte	Almaguer	Reynosa	Reynosa	Tamaulipas
+43110	Punto Novel	Norte	Morales	Ciudad Valles	Ciudad Valles	San Luis Potosí
+43111	Montevideo Insurgentes	Centro Norte	Lindavista Sur	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+43113	Parques Gdl	Occidente	Olimpica	Guadalajara	Guadalajara	Jalisco
+43114	Garza Sada Ags	Norte Centro	Lomas de los vergeles 	Jesus Maria 	Aguascalientes	Aguascalientes
+43115	Outlet San Marcos Ags	Norte Centro	Trojes De Alonso	Aguascalientes	Aguascalientes	Aguascalientes
+43118	Juan Pablo II Morelia DT	Occidente	 Colonia: Santa María De Guido	Morelia	Morelia	Michoacán
+43119	Aeropuerto Villahermosa SUE	Sureste	Dos Montes	Villahermosa	Villahermosa	Tabasco
+43122	Av. Americas II Guadalajara Dark Kitchen	Occidente	Col. Ayuntamiento	Guadalajara	Guadalajara	Jalisco
+43123	Plaza Tlatelolco	Centro Centro	Guerrero	Cuauhtémoc	Ciudad De México	Ciudad De México
+43124	Parque Vertice	Sur	Centro	Tlaxcala	Tlaxcala	Tlaxcala
+43125	Portal Querétaro	Bajío	Desarrollo Centro Norte	Querétaro	Querétaro	Querétaro
+43129	Outlet Puebla Premier	Sur	San Francisco Ocotlán	Puebla	Puebla	Puebla
+43130	Town Center Nicolás Romero	Centro Norte	Ampliación Vista Hermosa	Nicolás Romero	Estado De México	Estado De México
+43132	Plaza Vista Norte	Centro Norte	Residencial Zacatenco	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+43133	Del Mar	Noroeste	Col. Flamingos	Mazatlán	Mazatlan	Sinaloa
+43134	Cantamar	Noroeste	El Dorado	Mazatlán	Mazatlan	Sinaloa
+43135	Epic Norponiente	Bajío	Sonterra	Querétaro	Querétaro	Querétaro
+43137	Paseo Akia Apatzingán	Occidente	Plaza Paseo Akia Apatzingan	Apatzingan	Michoacan	Michoacán
+43138	Altaria II	Norte Centro	Trojes De Alonso	Aguascalientes	Aguascalientes	Aguascalientes
+43142	Montes Urales 	Centro Poniente	Lomas De Chapultepec	Miguel Hidalgo	Ciudad De México	Ciudad De México
+43143	Hospital OCA	Norte	Monterrey Centro	Monterrey	Monterrey	Nuevo León
+43145	Estacion Polanco 	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+43146	Anah La Quinta	Sureste	Zazil - Ha	Solidaridad	Playa Del Carmen	Quintana Roo
+43147	Juarez 70 	Centro Poniente	Cuahutemoc 	Toluca	Toluca	Estado De México
+43148	Cordoba Palmas	Sur	Nuevo Cordoba	Cordoba	Cordoba	Veracruz
+43149	Ferroparque 	Bajío	Centro	Colon	Querétaro	Querétaro
+43150	Casa de las Sirenas	Occidente	San Miguel de Mezquitan	Guadalajara	Guadalajara	Jalisco
+43151	Distrito Poniente DT 	Occidente	San Juan De Ocotan	Zapopan	Guadalajara	Jalisco
+43152	Samara Satélite	Centro Norte	Satelite 	Naucalpan 	Estado De México	Estado De México
+43154	Carretera MTY - Saltillo 	Norte	Santa Catarina	Monterrey	Monterrey	Nuevo León
+43155	Terrakia	Bajío	Centro	Colon	Querétaro	Querétaro
+43156	Macristy Mexicali DT	Noroeste	Cataviña	Mexicali	Mexicali	Baja California
+43157	Paseo Tabasco II DT	Sureste	José Narciso Rovirosa	Villahermosa	Villahermosa	Tabasco
+43159	Hospital Angeles del Pedregal II	Centro Sur	Heroes De Padierna	Magdalena Contreras	Ciudad De México	Ciudad De México
+43160	Hospital Angeles Andares	Occidente	Lomas Del Valle	Zapopan	Zapopan	Jalisco
+43161	Alameda La Paz DT	Noroeste	Camino Real	La Paz	La Paz	Baja California Sur
+43162	Apto Toluca SUE	Centro Poniente	San Pedro Totoltepec	San Pedro Totoltepec	Toluca	Estado De México
+43163	Av. México Ixtapaluca	Centro Sur	Ixtapaluca Centro	Ixtapaluca	Estado De México	Estado De México
+43164	Blvd Ojo de Agua DT	Centro Sur	San Francisco Cuautliquixco	Tecamac	Estado De México	Estado De México
+43166	Plaza Anatani	Sur	Las Palmas	Cuernavaca	Cuernavaca	Morelos
+43168	Plaza Molinete	Norte	29 de Julio	Guadalupe 	Guadalupe 	Nuevo León
+43169	Plaza Tepozán	Centro Sur	Los Reyes Acaquilpan	La paz	Estado De México	Estado De México
+43170	Real de la plata	Bajío	Zona Plateada 	Pachuca De Soto 	Pachuca 	Hidalgo
+43171	Tec SLP	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+43172	Torre 1500	Occidente	Country Club	Guadalajara	Guadalajara	Jalisco
+43174	Villa Magna DT	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
+43176	Aeropuerto Los Cabos SUE II	Noroeste	Las Veredas	Los Cabos	Los Cabos	Baja California Sur
+43177	Anahuac DT	Noroeste	Xochimilco	Mexicali	Mexicali	Baja California
+43178	Anima Village	Noroeste	Cabo del Sol	Los Cabos	Los Cabos	Baja California Sur
+43179	Península Monterrey	Norte	Peninsula	Garcia	Garcia	Nuevo León
+43180	Prolongación Zaragoza DT	Bajío	Prados de la capilla	Querétaro	Querétaro	Querétaro
+43181	Santa Catarina NL DT 	Norte	Santa Catarina	Monterrey	Monterrey	Nuevo León
+43182	Santa Catarina SID	Norte	Santa Catarina	Monterrey	Monterrey	Nuevo León
+43183	Puerta Texcoco	Centro Sur	Santiago Cuautlalpan	Texcoco	Estado De México	Estado De México
+43185	Plaza Pedregal Sur	Bajío	Agua azul 	León	León	Guanajuato
+43186	Periferico Sur Mérida 	Sureste		Merida	Merida	Yucatán
+43188	Insurgentes Tehuantepec	Centro Centro	Hipodromo	Cuauhtémoc	Ciudad De México	Ciudad De México
+43190	60 N	Sureste	Revolución	Merida	Merida	Yucatán
+43193	Cosmopol N1	Centro Norte	Coacalco De Berriozábal 	Coacalco De Berriozábal 	Estado De México	Estado De México
+43194	Atana Lindavista 	Centro Norte	La purisima ticoman 	Gustavo A. Madero 	Ciudad De México	Ciudad De México
+43195	Parque Jadin kiosko	Centro Norte	Del Gas	Azcapotzalco 	Ciudad De México	Ciudad De México
+43204	Plaza Paseo 2000	Noroeste	Paseo 2000	Tijuana  	Tijuana  	Baja California
+43205	Xcanatun DT	Sureste	Parque industrial 	Merida	Merida	Yucatán
+43209	Centro Mirador	Bajío	Prol. Constituyentes	El Marques	Querétaro	Querétaro
+43219	Chapultepec SLP DT	Norte Centro	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí
