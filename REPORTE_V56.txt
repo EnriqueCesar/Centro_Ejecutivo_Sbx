@@ -1,0 +1,17 @@
+Centro Ejecutivo SBX v5.6 - Actualización Parcial
+
+Cambios preparados:
+- Auditoría de estructura.
+- Punto de corrección localizado:
+  assets/js/model/DataEngine.js
+  assets/js/model/KPIFactory.js
+  assets/js/model/WorkbookLoader.js
+  assets/js/config.js
+- Lógica objetivo:
+  * ADT desde ADT_26
+  * ADT PPTO desde presupuesto 2026
+  * ADT AA desde ADT_25 comparables
+  * DIF AA = ADT-ADT_AA
+  * DIF PPTO = ADT-PPTO
+Pendientes:
+- Implementación completa requiere editar el motor JS y validar en ejecución.
