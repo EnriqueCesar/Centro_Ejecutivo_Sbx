@@ -1,40 +1,26 @@
-# Centro Ejecutivo SBX - Fase 4.4
+# Centro Ejecutivo SBX - Fase 4.6 Top / Bottom
 
-Entrega incremental: **Comparativo regional ejecutivo**.
+Entrega incremental sobre Fase 4.5.
 
-## Qué cambia
+## Ajustes incluidos
 
-- Se mantiene una sola pestaña dinámica.
-- Se conserva el selector de KPI, mes y región.
-- Se agrega un comparativo regional visual con barras ejecutivas.
-- Cada región muestra Real, Meta y brecha vs Meta.
-- El color del comparativo usa el semáforo: verde, ámbar o rojo.
-- Click en una región filtra toda la vista.
-- La tabla regional queda como respaldo analítico compacto.
+- Top 10 dinámico por KPI, mes y región.
+- Bottom 10 dinámico por KPI, mes y región.
+- Barras horizontales ejecutivas por tienda.
+- Medallas para Top 3 y alertas para Bottom 3.
+- Variación vs Meta y vs Año Anterior.
+- Regla ADT: ranking por diferencia ADT_26 - ADT_25.
+- Click en tienda preparado para Drill Down posterior.
+- Mantiene estructura de una sola pestaña dinámica.
 
-## Cómo subir
+## Publicación GitHub Pages
 
-Subir el contenido del ZIP en la raíz del repositorio de GitHub Pages:
+Subir el contenido del ZIP a la raíz del repositorio:
 
-```text
-index.html
-assets/
-data/
-manifest.json
-sw.js
-README.md
-```
+- index.html
+- assets/
+- data/
+- manifest.json
+- sw.js
+- README.md
 
-No subir la carpeta contenedora completa.
-
-
-## Fase 4.5 - Tendencias
-
-Esta entrega agrega una vista de tendencia ejecutiva para el KPI seleccionado:
-
-- Línea Real mensual.
-- Línea Meta mensual.
-- Área visual de desempeño.
-- KPIs de tendencia: promedio, último mes, cambio del periodo y variación MoM.
-- Brecha mensual contra meta.
-- La tendencia se actualiza con KPI, mes y región sin cambiar de pestaña.

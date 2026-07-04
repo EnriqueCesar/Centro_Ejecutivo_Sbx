@@ -215,14 +215,78 @@ function renderRegionTable(regs, national) {
     render();
   };
 }
-function renderRanks() {
+function rankMetric(row, kpi = state.kpi) {
+  const value = safeNum(row.value);
+  const aa = safeNum(row.aa);
+  if (value === null) return null;
+  // Regla ejecutiva: ADT se evalúa como diferencia ADT_26 - ADT_25.
+  if (kpi === 'adt') return aa === null ? null : value - aa;
+  return value;
+}
+function medal(i, type) {
+  if (i === 0) return type === 'top' ? '🥇' : '⚠';
+  if (i === 1) return type === 'top' ? '🥈' : '⚠';
+  if (i === 2) return type === 'top' ? '🥉' : '⚠';
+  return String(i + 1);
+}
+function enrichRankRows(month = state.month) {
   const k = META[state.kpi].kind;
-  const rows = valuesFor(state.kpi, state.year, 'YTD', state.region).filter(x => x.value !== null);
-  const top = [...rows].sort((a,b) => b.value - a.value).slice(0,10);
-  const bottom = [...rows].sort((a,b) => a.value - b.value).slice(0,10);
-  const row = x => `<div class="rank-row"><b>${x.i}</b><div><div class="name">${x.tienda}</div><div class="meta">${x.ceco} · ${x.region}</div></div><div class="value">${fmt(x.value,k)}</div></div>`;
-  $('#topList').innerHTML = top.map((x,i) => row({...x, i:i+1})).join('') || '<div class="empty">Sin datos</div>';
-  $('#bottomList').innerHTML = bottom.map((x,i) => row({...x, i:i+1})).join('') || '<div class="empty">Sin datos</div>';
+  const meta = objective(state.kpi, month);
+  return valuesFor(state.kpi, state.year, month, state.region)
+    .map(r => {
+      const metric = rankMetric(r);
+      const value = safeNum(r.value);
+      const aa = safeNum(r.aa);
+      const difMeta = meta === null || value === null ? null : value - meta;
+      const difAA = aa === null || value === null ? null : value - aa;
+      return { ...r, metric, meta, difMeta, difAA, value, aa, status: statusClass(difMeta, k) };
+    })
+    .filter(r => safeNum(r.metric) !== null);
+}
+function renderRankList(target, rows, type, maxAbs) {
+  const k = META[state.kpi].kind;
+  const label = state.kpi === 'adt' ? 'Δ ADT' : 'Real';
+  const item = (x, i) => {
+    const width = Math.max(4, Math.min(100, Math.abs(x.metric || 0) / Math.max(maxAbs, .0001) * 100));
+    const good = type === 'top';
+    const deltaClass = (x.difMeta ?? x.difAA ?? x.metric) < 0 ? 'txt-red' : 'txt-green';
+    const mainValue = state.kpi === 'adt' ? diffFmt(x.metric, 'number') : fmt(x.value, k);
+    const secondary = state.kpi === 'adt'
+      ? `Real ${fmt(x.value,'number')} · AA ${fmt(x.aa,'number')}`
+      : `Meta ${fmt(x.meta,k)} · vs Meta ${diffFmt(x.difMeta,k)}`;
+    return `<button class="rank-card ${type}" data-ceco="${x.ceco}" title="${x.tienda}">
+      <span class="rank-medal">${medal(i, type)}</span>
+      <span class="rank-info"><strong>${x.tienda}</strong><em>${x.ceco} · ${x.region}</em></span>
+      <span class="rank-value ${deltaClass}">${mainValue}</span>
+      <span class="rank-track"><i class="${good ? 'green' : 'red'}" style="--rank-w:${width}%"></i></span>
+      <span class="rank-sub">${label} · ${secondary} · vs AA ${diffFmt(x.difAA,k)}</span>
+    </button>`;
+  };
+  $(target).innerHTML = rows.map(item).join('') || '<div class="empty">Sin datos para el filtro actual</div>';
+}
+function renderRanks() {
+  const rows = enrichRankRows(state.month);
+  const sorted = [...rows].sort((a,b) => b.metric - a.metric);
+  const top = sorted.slice(0,10);
+  const bottom = [...rows].sort((a,b) => a.metric - b.metric).slice(0,10);
+  const maxAbs = Math.max(1, ...rows.map(r => Math.abs(safeNum(r.metric) || 0)));
+  const scope = `${state.region === 'Nacional' ? 'Nacional' : state.region} · ${state.month} ${state.year}`;
+  document.querySelector('.ranking.top .panel-title span').textContent = `Top 10 · ${scope}`;
+  document.querySelector('.ranking.bottom .panel-title span').textContent = `Bottom 10 · ${scope}`;
+  renderRankList('#topList', top, 'top', maxAbs);
+  renderRankList('#bottomList', bottom, 'bottom', maxAbs);
+
+  const clickHandler = e => {
+    const card = e.target.closest('[data-ceco]');
+    if (!card) return;
+    const name = card.querySelector('strong')?.textContent || card.dataset.ceco;
+    const value = card.querySelector('.rank-value')?.textContent || '';
+    $('#summaryText').innerHTML = `Drill Down preparado: <b>${name}</b> (${card.dataset.ceco}) · ${META[state.kpi].short} ${value}.`;
+    document.querySelectorAll('.rank-card.selected').forEach(x => x.classList.remove('selected'));
+    card.classList.add('selected');
+  };
+  $('#topList').onclick = clickHandler;
+  $('#bottomList').onclick = clickHandler;
 }
 function trendStats(vals) {
   const valid = vals.filter(v => safeNum(v.real) !== null);
