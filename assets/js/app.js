@@ -21,7 +21,7 @@ const KPI_CONFIG = {
   bebida:{label:'Bebida', short:'Bebida', kind:'percent', goal:'Bebida', higher:true, axis:'Calidad / ejecución de bebida', action:'Audita estándares de preparación y calibración por turno.'},
   tplh:{label:'TPLH', short:'TPLH', kind:'number', goal:'TPLH', higher:true, axis:'Transacciones por labor hour', action:'Optimiza cobertura, roles por franja y productividad de piso.'},
   segundas:{label:'Segundas Cx', short:'Segundas', kind:'number', goal:'Segundas Cx', higher:true, axis:'Segundas conexiones', action:'Activa impulso de segunda conexión y venta sugerida.'},
-  adt:{label:'Ordenes', short:'Ordenes', kind:'number', goal:'ADT', higher:true, axis:'Órdenes comparables', action:'Prioriza recuperación de tráfico, horarios pico y activaciones locales.'}
+  adt:{label:'Órdenes', short:'Ordenes', kind:'number', goal:'ADT', higher:true, axis:'Órdenes comparables', action:'Prioriza recuperación de tráfico, horarios pico y activaciones locales.'}
 };
 const $ = s => document.querySelector(s);
 let DB = null;
@@ -68,6 +68,10 @@ function objective(kpi, month){
   return num(row[key] ?? row[KPI_CONFIG[kpi]?.label] ?? row[KPI_CONFIG[kpi]?.short] ?? row[kpi]);
 }
 function valueFor(kpi, ceco, year, month){ return num(DB.kpis?.[kpi]?.records?.[ceco]?.[String(year)]?.[month]); }
+function budgetFor(kpi, ceco, year, month){
+  if (kpi !== 'adt') return objective(kpi, month);
+  return num(DB.kpis?.adt?.budgetRecords?.[ceco]?.[String(year)]?.[month]);
+}
 function metricFor(row, kpi=STATE.kpi){
   if (kpi === 'adt') {
     if (row.real === null || row.aa === null) return null;
@@ -117,7 +121,7 @@ function aggregateStoreRows(kpi=STATE.kpi, months=selectedMonths(), regions=sele
       aa = avg(months.map(m => valueFor(kpi, ceco, aaYear, m)));
     }
     if (real === null) return;
-    const meta = avg(comparableMonths.map(m => objective(kpi, m)));
+    const meta = kpi === 'adt' ? avg(comparableMonths.map(m => budgetFor(kpi, ceco, year, m))) : avg(comparableMonths.map(m => objective(kpi, m)));
     const difMeta = meta === null ? null : real-meta;
     const difAA = aa === null ? null : real-aa;
     const metric = kpi === 'adt' ? real-aa : real;
@@ -128,7 +132,7 @@ function aggregateStoreRows(kpi=STATE.kpi, months=selectedMonths(), regions=sele
 function aggregateRegions(kpi=STATE.kpi, months=selectedMonths()){
   return (DB.regions || []).map(region => {
     const rows = aggregateStoreRows(kpi, months, [region]);
-    const real = avg(rows.map(r=>r.real)), aa = avg(rows.map(r=>r.aa)), meta = avg(months.map(m=>objective(kpi,m)));
+    const real = avg(rows.map(r=>r.real)), aa = avg(rows.map(r=>r.aa)), meta = kpi === 'adt' ? avg(rows.map(r=>r.meta)) : avg(months.map(m=>objective(kpi,m)));
     const difMeta = meta === null || real === null ? null : real-meta;
     const difAA = aa === null || real === null ? null : real-aa;
     const complies = rows.filter(r => (num(r.difMeta) ?? -1) >= 0).length;
@@ -138,7 +142,7 @@ function aggregateRegions(kpi=STATE.kpi, months=selectedMonths()){
 }
 function nationalAgg(){
   const regs = aggregateRegions();
-  const real=avg(regs.map(r=>r.real)), aa=avg(regs.map(r=>r.aa)), meta=avg(selectedMonths().map(m=>objective(STATE.kpi,m)));
+  const real=avg(regs.map(r=>r.real)), aa=avg(regs.map(r=>r.aa)), meta=STATE.kpi === 'adt' ? avg(regs.map(r=>r.meta)) : avg(selectedMonths().map(m=>objective(STATE.kpi,m)));
   return {real, aa, meta, difMeta: meta===null||real===null?null:real-meta, difAA: aa===null||real===null?null:real-aa, score:scoreFor(real, meta, aa)};
 }
 
@@ -324,7 +328,14 @@ function renderTable(){
   const {key, dir} = STATE.sort; rows.sort((a,b)=>{ const av=a[key], bv=b[key]; const res = (num(av) ?? String(av)).toString().localeCompare((num(bv) ?? String(bv)).toString(), 'es-MX', {numeric:true}); return dir==='asc'?res:-res; });
   const isStore = rows[0]?.ceco !== undefined;
   $('#tableSubtitle').textContent = `${rows.length} registros · ${KPI_CONFIG[STATE.kpi].label} · ${KPI_CONFIG[STATE.kpi].axis}`;
-  const headers = isStore ? [['tienda','Tienda'],['ceco','CC'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['score','Score'],['status','Estado']] : [['region','Región'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['complies','Cumplen'],['risk','Riesgo'],['score','Score'],['status','Estado']];
+  let headers;
+  if (isStore) {
+    headers = [['tienda','Tienda'],['ceco','CC'],['real','Real'],['meta', STATE.kpi==='adt'?'Ordenes Ppto':'Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['score','Score'],['status','Estado']];
+  } else if (STATE.kpi === 'adt') {
+    headers = [['region','Región'],['real','ADT_26'],['meta','Ordenes_Ppto_26'],['aa','ADT_25'],['difAA','Dif AA'],['complies','Tiendas que cumplen'],['status','Semáforo']];
+  } else {
+    headers = [['region','Región'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['complies','Cumplen'],['risk','Riesgo'],['score','Score'],['status','Estado']];
+  }
   $('#executiveTable').innerHTML = `<thead><tr><th>#</th>${headers.map(h=>`<th data-sort="${h[0]}">${h[1]}${STATE.sort.key===h[0]?(STATE.sort.dir==='asc'?' ▲':' ▼'):''}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr data-region="${r.region||''}" data-ceco="${r.ceco||''}"><td>${i+1}</td>${headers.map(([key])=>`<td class="${key==='region'||key==='tienda'?'main-name':''}">${cellValue(r,key,k)}</td>`).join('')}</tr>`).join('')}</tbody>`;
   document.querySelectorAll('#executiveTable th[data-sort]').forEach(th => th.onclick = () => { const k=th.dataset.sort; STATE.sort = {key:k, dir: STATE.sort.key===k && STATE.sort.dir==='desc' ? 'asc':'desc'}; renderTable(); });
   document.querySelectorAll('#executiveTable tr[data-region]').forEach(tr => tr.onclick = () => { if(tr.dataset.region){ STATE.regions=[tr.dataset.region]; STATE.level='store'; STATE.selectedRegion=tr.dataset.region; render(); } });
@@ -337,38 +348,53 @@ function cellValue(r,key,k){
   return r[key] ?? '--';
 }
 function renderTrend(){
-  const k=currentKind(); const months=availableMonths();
+  const k=currentKind();
+  const months=MONTHS; // v5.4: siempre 12 meses para proyección anual
   const regsFilter = selectedRegions();
   const vals = months.map(m => {
     const regs=aggregateRegions(STATE.kpi,[m]).filter(r => regsFilter.includes(r.region) || STATE.regions.includes('Todas'));
-    return {m, real:avg(regs.map(r=>r.real)), meta:objective(STATE.kpi,m), aa:avg(regs.map(r=>r.aa))};
+    return {m, real:avg(regs.map(r=>r.real)), meta:STATE.kpi === 'adt' ? avg(regs.map(r=>r.meta)) : objective(STATE.kpi,m), aa:avg(regs.map(r=>r.aa))};
   });
   const series = STATE.kpi === 'adt'
     ? [{key:'real',label:'ADT Real',cls:'real'},{key:'aa',label:'ADT AA',cls:'aa'},{key:'gap',label:'Dif vs AA',cls:'gap'}]
-    : STATE.kpi === 'segundas'
-      ? [{key:'real',label:'Real',cls:'real'},{key:'meta',label:'Meta',cls:'meta'},{key:'aa',label:'AA',cls:'aa'}]
-      : [{key:'real',label:'Real',cls:'real'},{key:'meta',label:'Meta',cls:'meta'}];
+    : [{key:'real',label:'Real',cls:'real'},{key:'meta',label:'Meta',cls:'meta'},{key:'aa',label:'AA',cls:'aa'}];
   const points = vals.map(v => ({...v, gap: (v.real!==null && v.aa!==null) ? v.real-v.aa : null}));
   const all = points.flatMap(v => series.map(s=>v[s.key])).map(num).filter(v=>v!==null);
   if (!all.length) { $('#trendChart').innerHTML = '<p class="map-note">Sin datos suficientes para construir tendencia.</p>'; return; }
   let min=Math.min(...all), max=Math.max(...all); if (min===max) { min-=1; max+=1; }
-  const pad=(max-min)*.12; min-=pad; max+=pad; const span=max-min;
-  const W=980,H=390, left=66, top=30, right=34, bottom=66, cw=W-left-right, ch=H-top-bottom;
+  const pad=(max-min)*.14; min-=pad; max+=pad; const span=max-min;
+  const W=1080,H=470, left=78, top=38, right=44, bottom=72, cw=W-left-right, ch=H-top-bottom;
   const x=i => left + (points.length<=1?0:i*(cw/(points.length-1)));
   const y=v => top + ch - (((v-min)/span)*ch);
   const pathFor = key => points.map((p,i)=> num(p[key])===null ? null : `${i===0?'M':'L'} ${x(i).toFixed(1)} ${y(p[key]).toFixed(1)}`).filter(Boolean).join(' ');
+  const gapSegments = () => {
+    let html='';
+    for(let i=1;i<points.length;i++){
+      const a=points[i-1], b=points[i];
+      if(num(a.gap)===null || num(b.gap)===null) continue;
+      const cls = b.gap >= 0 ? 'gap-pos' : 'gap-neg';
+      html += `<path class="line-path ${cls}" d="M ${x(i-1).toFixed(1)} ${y(a.gap).toFixed(1)} L ${x(i).toFixed(1)} ${y(b.gap).toFixed(1)}"></path>`;
+    }
+    return html;
+  };
   const dotFor = (key,cls) => points.map((p,i)=> {
     const val = num(p[key]); if (val===null) return '';
     const text = key==='gap'?diffFmt(val,k):fmt(val,k);
-    return `<circle class="line-dot ${cls}" cx="${x(i)}" cy="${y(val)}" r="5"><title>${p.m}: ${text}</title></circle><text class="line-value ${cls}" x="${x(i)}" y="${y(val)-12}" text-anchor="middle">${text}</text>`;
+    const extra = key==='gap' ? (val>=0 ? ' gap-pos' : ' gap-neg') : '';
+    return `<circle class="line-dot ${cls}${extra}" cx="${x(i)}" cy="${y(val)}" r="5.5"><title>${p.m}: ${text}</title></circle><text class="line-value ${cls}${extra}" x="${x(i)}" y="${y(val)-13}" text-anchor="middle">${text}</text>`;
+  }).join('');
+  const yTicks = [0,1,2,3,4].map(i => {
+    const val=max - i*(span/4); const yy=top+i*(ch/4);
+    return `<g><line x1="${left}" x2="${W-right}" y1="${yy}" y2="${yy}"/><text class="y-axis-label" x="${left-12}" y="${yy+4}" text-anchor="end">${fmt(val,k)}</text></g>`;
   }).join('');
   $('#trendTitle').textContent = `Tendencia dinámica · ${KPI_CONFIG[STATE.kpi].label}`;
   $('#axisHint').textContent = KPI_CONFIG[STATE.kpi].axis;
-  const legend = series.map(s=>`<span class="legend-dot ${s.cls}"></span>${s.label}`).join(' ');
-  $('#trendChart').innerHTML = `<div class="line-legend">${legend}</div><span class="axis-note">Rango ${fmt(min,k)} → ${fmt(max,k)}</span><svg class="line-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
-    <g class="grid-lines">${[0,1,2,3].map(i=>`<line x1="${left}" x2="${W-right}" y1="${top+i*ch/3}" y2="${top+i*ch/3}"/>`).join('')}</g>
-    <g class="month-labels">${points.map((p,i)=>`<text x="${x(i)}" y="${H-18}" text-anchor="middle">${p.m}</text>`).join('')}</g>
-    ${series.map(s=>`<path class="line-path ${s.cls}" d="${pathFor(s.key)}"></path>${dotFor(s.key,s.cls)}`).join('')}
+  const legend = series.map(s=>`<span class="legend-item"><span class="legend-dot ${s.cls}"></span>${s.label}</span>`).join(' ');
+  $('#trendChart').innerHTML = `<div class="line-legend">${legend}</div><svg class="line-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+    <g class="grid-lines">${yTicks}</g>
+    <line class="y-axis" x1="${left}" x2="${left}" y1="${top}" y2="${top+ch}"/>
+    <g class="month-labels">${points.map((p,i)=>`<text x="${x(i)}" y="${H-22}" text-anchor="middle">${p.m}</text>`).join('')}</g>
+    ${series.map(s=> s.key==='gap' ? `${gapSegments()}${dotFor(s.key,s.cls)}` : `<path class="line-path ${s.cls}" d="${pathFor(s.key)}"></path>${dotFor(s.key,s.cls)}`).join('')}
   </svg>`;
 }
 function renderRanks(){
@@ -428,4 +454,4 @@ function setupPWA(){
 }
 setupPWA();
 
-boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo v5.3: ${err.message}</pre>`; });
+boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo SBX v5.4: ${err.message}</pre>`; });

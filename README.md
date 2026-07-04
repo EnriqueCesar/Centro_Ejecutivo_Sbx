@@ -1,21 +1,17 @@
-# Centro Ejecutivo SBX v5.3
+# Centro Ejecutivo SBX v5.4
 
-Versión ejecutiva limpia lista para GitHub Pages.
+Versión limpia para GitHub Pages.
 
-## Ajustes v5.3
+## Incluye
 
-- Encabezado más elegante: **Centro Ejecutivo SBX**.
-- Se ocultan acciones superiores excepto **Exportar**.
-- Filtros más limpios y sin badge visible de periodo.
-- KPI ADT renombrado a **Ordenes**.
-- Se retira el score `100/100` del resumen principal.
-- Tabla por tienda más limpia: sin Región/Ciudad/Estado visible.
-- Tabla por región sin columna **Tiendas**.
-- Objetivo mensual de **Bebida** integrado.
-- Tendencia dinámica con mayor altura, valores visibles y líneas estilo ejecutivo.
-- Segundas Cx y TPLH mantienen comparación contra objetivo regional/mensual disponible.
-- PWA activa con `manifest.json` y `sw.js`.
+- Tendencia dinámica con eje Y visible y escala automática.
+- Proyección anual a 12 meses con Real, Meta y AA para Conexión, Bebida, TPLH y Segundas Cx.
+- Indicador Órdenes con ADT Real, ADT AA y Dif vs AA.
+- Dif vs AA en Órdenes con color verde/rojo según signo.
+- Tabla regional especial para Órdenes con ADT_26, Ordenes_Ppto_26, ADT_25, Dif AA, Cumplen y Semáforo.
+- ADT/Órdenes sólo considera tiendas comparables cuando hay dato 2026 y 2025.
+- PWA activa con manifest y service worker actualizados.
 
-## Publicación
+## Deploy
 
-Subir todo el contenido del ZIP a la raíz del repositorio de GitHub Pages.
+Subir todo el contenido de este ZIP en la raíz del repositorio `Centro_Ejecutivo_Sbx`.
