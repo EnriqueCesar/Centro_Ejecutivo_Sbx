@@ -26,6 +26,7 @@ const KPI_CONFIG = {
 const $ = s => document.querySelector(s);
 let DB = null;
 let STATE = { kpi:'conexion', months:['Jun'], regions:['Todas'], level:'region', selectedRegion:null, sort:{key:'real', dir:'desc'}, search:'' };
+let DEFERRED_INSTALL_PROMPT = null;
 let STORE_META = new Map();
 let REGION_BY_STATE = new Map();
 let REGION_COLOR_CACHE = new Map();
@@ -194,11 +195,24 @@ function ensureState(){
   const regs = DB.regions || []; if (!STATE.regions.some(r => r === 'Todas' || regs.includes(r))) STATE.regions = ['Todas'];
 }
 function bindGlobal(){
-  $('#resetBtn').onclick = () => { STATE.regions=['Todas']; STATE.level='region'; STATE.selectedRegion=null; render(); };
-  $('#backLevelBtn').onclick = () => { STATE.level='region'; STATE.selectedRegion=null; render(); };
-  $('#centerZoomBtn') && ($('#centerZoomBtn').onclick = () => { STATE.regions = ['Centro Centro','Centro Norte','Centro Poniente','Centro Sur']; STATE.level='region'; render(); });
-  $('#tableSearch').oninput = e => { STATE.search = e.target.value.trim().toLowerCase(); renderTable(); };
-  $('#exportBtn').onclick = () => window.print();
+  const resetBtn = $('#resetBtn');
+  const backLevelBtn = $('#backLevelBtn');
+  const centerZoomBtn = $('#centerZoomBtn');
+  const tableSearch = $('#tableSearch');
+  const exportBtn = $('#exportBtn');
+  const installBtn = $('#installBtn');
+  if (resetBtn) resetBtn.onclick = () => { STATE.regions=['Todas']; STATE.level='region'; STATE.selectedRegion=null; render(); };
+  if (backLevelBtn) backLevelBtn.onclick = () => { STATE.level='region'; STATE.selectedRegion=null; render(); };
+  if (centerZoomBtn) centerZoomBtn.onclick = () => { STATE.regions = ['Centro Centro','Centro Norte','Centro Poniente','Centro Sur']; STATE.level='region'; render(); };
+  if (tableSearch) tableSearch.oninput = e => { STATE.search = e.target.value.trim().toLowerCase(); renderTable(); };
+  if (exportBtn) exportBtn.onclick = () => window.print();
+  if (installBtn) installBtn.onclick = async () => {
+    if (!DEFERRED_INSTALL_PROMPT) return;
+    DEFERRED_INSTALL_PROMPT.prompt();
+    await DEFERRED_INSTALL_PROMPT.userChoice.catch(() => null);
+    DEFERRED_INSTALL_PROMPT = null;
+    installBtn.classList.add('hidden');
+  };
 }
 function render(){ ensureState(); renderControls(); renderBreadcrumb(); renderSummary(); renderCards(); renderTable(); renderTrend(); renderRanks(); renderInsights(); renderRecommendations(); }
 function renderControls(){
@@ -305,9 +319,9 @@ function renderTable(){
   } else { rows = aggregateRegions(); $('#tableTitle').textContent = `Tabla ejecutiva por región`; $('#backLevelBtn').classList.add('hidden'); }
   if (STATE.search) rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(STATE.search));
   const {key, dir} = STATE.sort; rows.sort((a,b)=>{ const av=a[key], bv=b[key]; const res = (num(av) ?? String(av)).toString().localeCompare((num(bv) ?? String(bv)).toString(), 'es-MX', {numeric:true}); return dir==='asc'?res:-res; });
-  $('#tableSubtitle').textContent = `${rows.length} registros · ${KPI_CONFIG[STATE.kpi].label} · ${KPI_CONFIG[STATE.kpi].axis}`;
   const isStore = rows[0]?.ceco !== undefined;
-  const headers = isStore ? [['tienda','Tienda'],['ceco','CC'],['region','Región'],['estado','Estado'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['score','Score'],['status','Estado']] : [['region','Región'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['stores','Tiendas'],['complies','Cumplen'],['risk','Riesgo'],['score','Score'],['status','Estado']];
+  $('#tableSubtitle').textContent = `${rows.length} registros · ${KPI_CONFIG[STATE.kpi].label} · ${KPI_CONFIG[STATE.kpi].axis}${isStore ? ' · vista limpia sin Región/Ciudad' : ''}`;
+  const headers = isStore ? [['tienda','Tienda'],['ceco','CC'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['score','Score'],['status','Estado']] : [['region','Región'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['stores','Tiendas'],['complies','Cumplen'],['risk','Riesgo'],['score','Score'],['status','Estado']];
   $('#executiveTable').innerHTML = `<thead><tr><th>#</th>${headers.map(h=>`<th data-sort="${h[0]}">${h[1]}${STATE.sort.key===h[0]?(STATE.sort.dir==='asc'?' ▲':' ▼'):''}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr data-region="${r.region||''}" data-ceco="${r.ceco||''}"><td>${i+1}</td>${headers.map(([key])=>`<td class="${key==='region'||key==='tienda'?'main-name':''}">${cellValue(r,key,k)}</td>`).join('')}</tr>`).join('')}</tbody>`;
   document.querySelectorAll('#executiveTable th[data-sort]').forEach(th => th.onclick = () => { const k=th.dataset.sort; STATE.sort = {key:k, dir: STATE.sort.key===k && STATE.sort.dir==='desc' ? 'asc':'desc'}; renderTable(); });
   document.querySelectorAll('#executiveTable tr[data-region]').forEach(tr => tr.onclick = () => { if(tr.dataset.region){ STATE.regions=[tr.dataset.region]; STATE.level='store'; STATE.selectedRegion=tr.dataset.region; render(); } });
@@ -386,4 +400,25 @@ function renderRecommendations(){
   ];
   $('#recommendations').innerHTML = recs.map(r=>`<article class="recommendation"><span class="priority ${r[0]}">${r[1]}</span><h4>${KPI_CONFIG[STATE.kpi].label}</h4><p>${r[2]}</p></article>`).join('');
 }
-boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo v5.1: ${err.message}</pre>`; });
+
+function setupPWA(){
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW no registrado', err));
+    });
+  }
+  window.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault();
+    DEFERRED_INSTALL_PROMPT = event;
+    const btn = $('#installBtn');
+    if (btn) btn.classList.remove('hidden');
+  });
+  window.addEventListener('appinstalled', () => {
+    DEFERRED_INSTALL_PROMPT = null;
+    const btn = $('#installBtn');
+    if (btn) btn.classList.add('hidden');
+  });
+}
+setupPWA();
+
+boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo v5.2 Pro: ${err.message}</pre>`; });

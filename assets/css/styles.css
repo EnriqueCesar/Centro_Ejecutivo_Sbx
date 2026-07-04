@@ -6,3 +6,10 @@
 
 /* v5.1 Executive: sin mapa, más espacio para insights/tabla/tendencias */
 .insight-layout{display:grid;grid-template-columns:1fr;margin-bottom:18px}.executive-insights-panel .panel-head{background:var(--deep)}.executive-insights{grid-template-columns:repeat(3,1fr)}.executive-insights .insight{min-height:88px}.bottom-grid{grid-template-columns:1.25fr .8fr .8fr}.trend-chart{height:340px;display:block;padding:16px 18px 12px}.line-chart{width:100%;height:300px;display:block}.grid-lines line{stroke:#dbe6e1;stroke-width:1}.month-labels text{font-size:12px;font-weight:900;fill:#64746e}.line-path{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.line-path.real{stroke:var(--sbx)}.line-path.meta{stroke:#7d8783;stroke-dasharray:8 8}.line-path.aa{stroke:#6f7887;stroke-dasharray:10 7}.line-path.gap{stroke:var(--red);stroke-dasharray:6 6}.line-dot{stroke:#fff;stroke-width:3}.line-dot.real{fill:var(--sbx)}.line-dot.meta{fill:#7d8783}.line-dot.aa{fill:#6f7887}.line-dot.gap{fill:var(--red)}.line-legend{position:absolute;left:22px;bottom:10px;display:flex;gap:8px;align-items:center;color:#64746e;font-size:12px;font-weight:900}.legend-dot{display:inline-block;width:14px;height:4px;border-radius:4px;margin-left:8px}.legend-dot.real{background:var(--sbx)}.legend-dot.meta{background:#7d8783}.legend-dot.aa{background:#6f7887}.legend-dot.gap{background:var(--red)}.chart-panel .panel-head{background:linear-gradient(90deg,var(--deep),var(--sbx))}.rank-card{padding:12px 0}.rank-value{font-size:15px}.executive-table-panel{margin-top:2px}.table-wrap{max-height:620px}@media(max-width:1200px){.executive-insights{grid-template-columns:1fr}.bottom-grid{grid-template-columns:1fr}}
+
+
+/* v5.2 Pro: tabla de tienda limpia + PWA */
+#installBtn:not(.hidden){background:#ffffff;color:#006241;border-color:#ffffff;box-shadow:0 8px 20px rgba(0,98,65,.18)}
+.table-wrap table th:nth-child(2), .table-wrap table td:nth-child(2){min-width:260px}
+.executive-table-panel .panel-head{background:linear-gradient(90deg,#003f2d,#006241)}
+@media(max-width:760px){#installBtn{width:100%}.topbar-actions{width:100%}}

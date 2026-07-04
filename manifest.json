@@ -1,9 +1,17 @@
 {
-  "name": "Centro Ejecutivo SBX 4.0",
-  "short_name": "Centro Ejecutivo",
-  "start_url": "./",
+  "name": "Centro Ejecutivo SBX v5.2 Pro",
+  "short_name": "Centro SBX",
+  "description": "Centro Ejecutivo SBX con KPIs dinámicos, tabla ejecutiva, tendencias e insights.",
+  "id": "./?v=5.2-pro",
+  "start_url": "./?source=pwa",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "landscape-primary",
   "background_color": "#f6f8f6",
   "theme_color": "#006241",
-  "icons": [{"src":"assets/img/centro-ejecutivo-logo.jpg","sizes":"512x512","type":"image/jpeg","purpose":"any maskable"}]
+  "categories": ["business", "productivity"],
+  "icons": [
+    {"src":"assets/img/centro-ejecutivo-logo.jpg","sizes":"192x192","type":"image/jpeg","purpose":"any"},
+    {"src":"assets/img/centro-ejecutivo-logo.jpg","sizes":"512x512","type":"image/jpeg","purpose":"any maskable"}
+  ]
 }

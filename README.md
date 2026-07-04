@@ -1,17 +1,17 @@
-# Centro Ejecutivo SBX - v5.1 Executive
+# Centro Ejecutivo SBX v5.2 Pro
 
-Versión candidata para producción enfocada en análisis ejecutivo sin mapa.
+Versión lista para GitHub Pages.
 
-## Cambios v5.1
+## Ajustes incluidos
 
-- Se elimina el mapa para liberar espacio analítico.
-- ADT usa únicamente tiendas comparables: una tienda sólo entra si tiene dato 2026 y 2025 en el mismo mes seleccionado.
-- Top/Bottom de ADT, Score, Tendencia, Promedios e Insights excluyen tiendas no comparables.
-- Tendencias rediseñadas en líneas estilo ejecutivo Starbucks, no barras.
-- Cada KPI cambia dinámicamente su escala, formato y series.
-- Insights narrativos incluyen conteo de comparables para ADT.
-- Se mantiene diseño Starbucks Premium y estructura GitHub Pages.
+- Tabla ejecutiva por tienda más limpia: se ocultan Región/Ciudad/Estado en el nivel tienda.
+- Se mantiene el nivel región con KPIs ejecutivos.
+- PWA activada: manifest actualizado, service worker y botón de instalación cuando el navegador lo permita.
+- Mantiene diseño Starbucks Premium, tendencias, Top/Bottom, insights y recomendaciones.
+- Incluye el Excel más reciente en `data/Centro_Ejecutivo_Sbx.xlsx`.
 
-## Carga en GitHub Pages
+## Publicación
 
-Subir todo el contenido de este ZIP a la raíz del repositorio.
+Sube el contenido del ZIP a la raíz del repositorio `Centro_Ejecutivo_Sbx` y espera la actualización de GitHub Pages.
+
+> Si el navegador conserva caché de una versión anterior, usa Ctrl+F5 o limpia datos del sitio.
