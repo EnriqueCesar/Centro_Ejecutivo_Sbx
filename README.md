@@ -22,3 +22,16 @@ Subir el contenido del ZIP a la raiz del repositorio:
 - sw.js
 - README.md
 
+
+
+## Fase 4.8 - Executive Insights
+
+Esta versión agrega el motor de insights automáticos sobre la Fase 4.7:
+
+- Lectura ejecutiva dinámica por KPI, mes y región.
+- Mejor región, mayor oportunidad, avance y retroceso vs año anterior.
+- Pulso mensual con lectura MoM.
+- Tienda referente y tienda crítica del filtro actual.
+- Resumen ejecutivo conectado al mapa, Top/Bottom y tendencia.
+
+Sube el contenido del ZIP a la raíz del repositorio de GitHub Pages.

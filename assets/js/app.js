@@ -431,24 +431,151 @@ function renderMap(regs, nationalScore) {
   };
 }
 
-function renderInsights(regs, national, scoreVal) {
-  const k = META[state.kpi].kind;
-  const best = regs[0];
-  const worst = regs[regs.length - 1];
-  const items = [
-    ['Desempeño nacional', `${META[state.kpi].short} alcanza ${fmt(national.real,k)} YTD, ${national.dMeta >= 0 ? 'por arriba' : 'por debajo'} de meta en ${diffFmt(national.dMeta,k)}.`],
-    ['Región líder', `${best?.region || '--'} lidera el desempeño con ${fmt(best?.real,k)}.`],
-    ['Mayor oportunidad', `${worst?.region || '--'} concentra la brecha más relevante con ${fmt(worst?.real,k)}.`],
-    ['KPI dinámico', `La vista está leyendo ${META[state.kpi].short} desde el modelo; al cambiar KPI se actualizan tarjetas, rankings, tendencia e insights.`]
-  ];
-  $('#insights').innerHTML = items.map((it,i) => `<div class="insight"><div class="icon">${i+1}</div><div><h4>${it[0]}</h4><p>${it[1]}</p></div></div>`).join('');
-  $('#recommendations').innerHTML = [
-    ['Prioridad regional', `Enfocar seguimiento en ${worst?.region || 'la región con menor desempeño'}.`],
-    ['Replicar prácticas', `Documentar acciones de ${best?.region || 'la región líder'} y escalar al resto.`],
-    ['Cambio de KPI', 'Usar el selector superior para comparar ADT, Conexión, Bebida, TPLH y Segundas sin cambiar de pestaña.'],
-    ['Drill Down', 'Usar filtro de región para profundizar por tienda y CeCo.']
-  ].map(r => `<div class="rec"><b>${r[0]}</b><p>${r[1]}</p></div>`).join('');
+function insightSeverity(delta, kind) {
+  if (safeNum(delta) === null) return 'amber';
+  const strong = kind === 'percent' ? 0.03 : 3;
+  const medium = kind === 'percent' ? 0.01 : 1;
+  if (delta >= medium) return 'green';
+  if (delta <= -strong) return 'red';
+  return 'amber';
 }
+function bestBy(rows, fn, desc = true) {
+  const valid = (rows || []).filter(x => safeNum(fn(x)) !== null);
+  return valid.sort((a,b) => desc ? fn(b) - fn(a) : fn(a) - fn(b))[0] || null;
+}
+function currentRankRows(month = state.month) {
+  return enrichRankRows(month).filter(x => safeNum(x.real) !== null);
+}
+function monthTrendInsight() {
+  const months = availableMonths(state.kpi);
+  const vals = months.map(m => ({ m, real: avg(valuesFor(state.kpi, state.year, m, state.region)), meta: objective(state.kpi, m) }))
+    .filter(x => safeNum(x.real) !== null);
+  const last = vals.at(-1) || null;
+  const prev = vals.length > 1 ? vals.at(-2) : null;
+  const mom = last && prev ? last.real - prev.real : null;
+  const gaps = vals.map(x => ({ ...x, gap: safeNum(x.meta) === null ? null : x.real - x.meta })).filter(x => safeNum(x.gap) !== null);
+  const bestGap = bestBy(gaps, x => x.gap, true);
+  const worstGap = bestBy(gaps, x => x.gap, false);
+  return { vals, last, prev, mom, bestGap, worstGap };
+}
+function makeInsight(type, icon, title, text, metric, meta = '') {
+  return { type, icon, title, text, metric, meta };
+}
+function renderInsightCards(items) {
+  $('#insights').innerHTML = `
+    <div class="insights-grid">
+      ${items.map((it, i) => `
+        <article class="insight-card ${it.type}">
+          <div class="insight-head"><span class="insight-icon">${it.icon}</span><span class="insight-priority">${String(i + 1).padStart(2, '0')}</span></div>
+          <h4>${it.title}</h4>
+          <p>${it.text}</p>
+          <div class="insight-metric"><strong>${it.metric || ''}</strong><span>${it.meta || ''}</span></div>
+        </article>`).join('')}
+    </div>`;
+}
+function renderInsights(regs, national, scoreVal) {
+  const meta = META[state.kpi];
+  const k = meta.kind;
+  const sortedByGap = [...regs].filter(r => safeNum(r.difMeta) !== null).sort((a,b) => a.difMeta - b.difMeta);
+  const opportunity = sortedByGap[0] || regs.at(-1) || null;
+  const leader = [...regs].filter(r => safeNum(r.real) !== null).sort((a,b) => b.real - a.real)[0] || null;
+  const growth = bestBy(regs, r => r.difAA, true);
+  const decline = bestBy(regs, r => r.difAA, false);
+  const trend = monthTrendInsight();
+  const rows = currentRankRows(state.month);
+  const topStore = [...rows].sort((a,b) => b.metric - a.metric)[0] || null;
+  const bottomStore = [...rows].sort((a,b) => a.metric - b.metric)[0] || null;
+  const riskStores = rows.filter(r => safeNum(r.difMeta) !== null && r.difMeta < 0).length;
+  const goodRegions = regs.filter(r => safeNum(r.difMeta) !== null && r.difMeta >= 0).length;
+  const riskRegions = regs.filter(r => statusClass(r.difMeta, k) === 'red').length;
+  const scope = state.region === 'Nacional' ? 'Nacional' : state.region;
+  const items = [
+    makeInsight(
+      insightSeverity(national.dMeta, k),
+      national.dMeta >= 0 ? '✓' : '!',
+      'Lectura ejecutiva',
+      `${scope} registra ${fmt(national.real, k)} en ${meta.short}. ${national.dMeta >= 0 ? 'El desempeño supera la meta' : 'La prioridad es cerrar la brecha contra meta'} en ${diffFmt(national.dMeta, k)}.`,
+      `${scoreVal}/100`,
+      'Executive Score'
+    ),
+    makeInsight(
+      'green',
+      '🏆',
+      'Región líder',
+      `${leader?.region || '--'} encabeza el ranking regional con ${fmt(leader?.real, k)} y una brecha de ${diffFmt(leader?.difMeta, k)} vs meta.`,
+      leader?.region || '--',
+      'Benchmark interno'
+    ),
+    makeInsight(
+      'red',
+      '⚠',
+      'Mayor oportunidad',
+      `${opportunity?.region || '--'} concentra la mayor desviación contra objetivo: ${diffFmt(opportunity?.difMeta, k)}. Debe ser el primer foco ejecutivo.`,
+      diffFmt(opportunity?.difMeta, k),
+      opportunity?.region || 'Sin región'
+    ),
+    makeInsight(
+      insightSeverity(growth?.difAA, k),
+      '↗',
+      'Mayor avance vs AA',
+      `${growth?.region || '--'} muestra el mejor avance contra año anterior con ${diffFmt(growth?.difAA, k)}.`,
+      diffFmt(growth?.difAA, k),
+      'vs Año Anterior'
+    ),
+    makeInsight(
+      insightSeverity(decline?.difAA, k),
+      '↘',
+      'Mayor retroceso vs AA',
+      `${decline?.region || '--'} requiere seguimiento por retroceso de ${diffFmt(decline?.difAA, k)} contra año anterior.`,
+      diffFmt(decline?.difAA, k),
+      'vs Año Anterior'
+    ),
+    makeInsight(
+      insightSeverity(trend.mom, k),
+      '〽',
+      'Pulso mensual',
+      trend.last ? `${trend.last.m} cerró en ${fmt(trend.last.real, k)} con variación MoM de ${diffFmt(trend.mom, k)}. Mejor brecha mensual: ${trend.bestGap?.m || '--'}.` : 'No hay meses suficientes para evaluar tendencia.',
+      diffFmt(trend.mom, k),
+      'MoM'
+    ),
+    makeInsight(
+      'green',
+      '★',
+      'Tienda referente',
+      `${topStore?.tienda || '--'} es la tienda referente del filtro actual con ${fmt(topStore?.real, k)}.`,
+      topStore?.tienda || '--',
+      topStore ? `${topStore.region} · ${topStore.ceco}` : ''
+    ),
+    makeInsight(
+      'red',
+      '🚨',
+      'Tienda crítica',
+      `${bottomStore?.tienda || '--'} aparece como principal oportunidad con ${fmt(bottomStore?.real, k)}.`,
+      bottomStore?.tienda || '--',
+      bottomStore ? `${bottomStore.region} · ${bottomStore.ceco}` : ''
+    )
+  ];
+  renderInsightCards(items);
+
+  const narrative = [
+    `${goodRegions} de ${regs.length} regiones cumplen o superan la meta para ${meta.short}.`,
+    `${riskRegions} regiones están en riesgo ejecutivo y ${riskStores} tiendas quedan bajo meta en el filtro actual.`,
+    `${leader?.region || 'La región líder'} debe usarse como benchmark operativo.`,
+    `${opportunity?.region || 'La región con mayor brecha'} debe concentrar el primer plan de acción.`,
+    trend.mom === null ? 'Sin lectura MoM suficiente.' : `La tendencia mensual muestra ${trend.mom >= 0 ? 'mejora' : 'deterioro'} de ${diffFmt(trend.mom, k)}.`
+  ];
+  $('#recommendations').innerHTML = `
+    <div class="executive-reading">
+      <div><span>Cómo estamos</span><strong>${fmt(national.real, k)}</strong><em>${diffFmt(national.dMeta, k)} vs meta</em></div>
+      <div><span>Oportunidad</span><strong>${opportunity?.region || '--'}</strong><em>${diffFmt(opportunity?.difMeta, k)}</em></div>
+      <div><span>Benchmark</span><strong>${leader?.region || '--'}</strong><em>${fmt(leader?.real, k)}</em></div>
+      <div><span>Tiendas bajo meta</span><strong>${riskStores}</strong><em>filtro actual</em></div>
+    </div>
+    <div class="insight-summary">
+      ${narrative.map(t => `<p>${t}</p>`).join('')}
+    </div>`;
+}
+
 function render() {
   ensureState();
   renderControls();
