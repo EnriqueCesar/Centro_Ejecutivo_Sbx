@@ -1,17 +1,21 @@
-# Centro Ejecutivo SBX v5.2 Pro
+# Centro Ejecutivo SBX v5.3
 
-Versión lista para GitHub Pages.
+Versión ejecutiva limpia lista para GitHub Pages.
 
-## Ajustes incluidos
+## Ajustes v5.3
 
-- Tabla ejecutiva por tienda más limpia: se ocultan Región/Ciudad/Estado en el nivel tienda.
-- Se mantiene el nivel región con KPIs ejecutivos.
-- PWA activada: manifest actualizado, service worker y botón de instalación cuando el navegador lo permita.
-- Mantiene diseño Starbucks Premium, tendencias, Top/Bottom, insights y recomendaciones.
-- Incluye el Excel más reciente en `data/Centro_Ejecutivo_Sbx.xlsx`.
+- Encabezado más elegante: **Centro Ejecutivo SBX**.
+- Se ocultan acciones superiores excepto **Exportar**.
+- Filtros más limpios y sin badge visible de periodo.
+- KPI ADT renombrado a **Ordenes**.
+- Se retira el score `100/100` del resumen principal.
+- Tabla por tienda más limpia: sin Región/Ciudad/Estado visible.
+- Tabla por región sin columna **Tiendas**.
+- Objetivo mensual de **Bebida** integrado.
+- Tendencia dinámica con mayor altura, valores visibles y líneas estilo ejecutivo.
+- Segundas Cx y TPLH mantienen comparación contra objetivo regional/mensual disponible.
+- PWA activa con `manifest.json` y `sw.js`.
 
 ## Publicación
 
-Sube el contenido del ZIP a la raíz del repositorio `Centro_Ejecutivo_Sbx` y espera la actualización de GitHub Pages.
-
-> Si el navegador conserva caché de una versión anterior, usa Ctrl+F5 o limpia datos del sitio.
+Subir todo el contenido del ZIP a la raíz del repositorio de GitHub Pages.

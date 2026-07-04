@@ -21,7 +21,7 @@ const KPI_CONFIG = {
   bebida:{label:'Bebida', short:'Bebida', kind:'percent', goal:'Bebida', higher:true, axis:'Calidad / ejecución de bebida', action:'Audita estándares de preparación y calibración por turno.'},
   tplh:{label:'TPLH', short:'TPLH', kind:'number', goal:'TPLH', higher:true, axis:'Transacciones por labor hour', action:'Optimiza cobertura, roles por franja y productividad de piso.'},
   segundas:{label:'Segundas Cx', short:'Segundas', kind:'number', goal:'Segundas Cx', higher:true, axis:'Segundas conexiones', action:'Activa impulso de segunda conexión y venta sugerida.'},
-  adt:{label:'ADT Δ 26-25', short:'ADT', kind:'number', goal:'ADT', higher:true, axis:'Diferencia ADT 26 vs 25', action:'Prioriza recuperación de tráfico, horarios pico y activaciones locales.'}
+  adt:{label:'Ordenes', short:'Ordenes', kind:'number', goal:'ADT', higher:true, axis:'Órdenes comparables', action:'Prioriza recuperación de tráfico, horarios pico y activaciones locales.'}
 };
 const $ = s => document.querySelector(s);
 let DB = null;
@@ -61,6 +61,8 @@ function selectedMonths(){ return STATE.months.includes('Todos') ? availableMont
 function selectedRegions(){ return STATE.regions.includes('Todas') ? (DB.regions || []) : STATE.regions; }
 function storeInfo(ceco){ return STORE_META.get(norm(ceco)) || {}; }
 function objective(kpi, month){
+  const bebidaObj = {Ene:.630,Feb:.635,Mar:.640,Abr:.650,May:.655,Jun:.660,Jul:.670,Ago:.680,Sep:.690,Oct:.700,Nov:.710,Dic:.720};
+  if (kpi === 'bebida' && bebidaObj[month] !== undefined) return bebidaObj[month];
   const key = KPI_CONFIG[kpi]?.goal || kpi;
   const row = DB.objectives?.[month] || {};
   return num(row[key] ?? row[KPI_CONFIG[kpi]?.label] ?? row[KPI_CONFIG[kpi]?.short] ?? row[kpi]);
@@ -224,7 +226,7 @@ function renderControls(){
   const regs = DB.regions || [];
   $('#regionChips').innerHTML = `<button class="chip all ${STATE.regions.includes('Todas')?'active':''}" data-region="Todas">Todas</button>` + regs.map(r => `<button class="chip ${STATE.regions.includes(r)?'active':''}" data-region="${r}">${r}</button>`).join('');
   $('#regionChips').onclick = e => { const b=e.target.closest('[data-region]'); if(!b) return; toggleMulti(STATE.regions, b.dataset.region, 'Todas'); STATE.level='region'; STATE.selectedRegion=null; render(); };
-  $('#periodBadge').textContent = `${STATE.months.includes('Todos')?'TODOS':STATE.months.join(', ')} ${latestYear()}`;
+  const pb = $('#periodBadge'); if (pb) pb.textContent = `${STATE.months.includes('Todos')?'YTD':STATE.months.join(', ')} ${latestYear()}`;
 }
 function toggleMulti(arr, val, all){
   if (val === all) { arr.splice(0, arr.length, all); return; }
@@ -243,11 +245,12 @@ function renderSummary(){
   const n = nationalAgg(); const k = currentKind(); const regs = aggregateRegions();
   const best = [...regs].sort((a,b)=>b.real-a.real)[0];
   const worst = [...regs].sort((a,b)=>(a.difMeta??999)-(b.difMeta??999))[0];
-  const scope = STATE.regions.includes('Todas') ? 'Nacional' : STATE.regions.join(' + ');
-  $('#scopeLabel').textContent = `${scope} · ${STATE.months.includes('Todos')?'Todos los meses':STATE.months.join(', ')}`;
-  $('#summaryHeadline').textContent = `${KPI_CONFIG[STATE.kpi]?.label || STATE.kpi}: ${fmt(n.real,k)} · ${n.score}/100`;
+  const scope = STATE.regions.includes('Todas') ? 'Nacional' : (STATE.regions.length > 2 ? `${STATE.regions.length} regiones seleccionadas` : STATE.regions.join(' + '));
+  $('#scopeLabel').textContent = `${scope} · ${STATE.months.includes('Todos')?'YTD':STATE.months.join(', ')}`;
+  $('#summaryHeadline').textContent = `${KPI_CONFIG[STATE.kpi]?.label || STATE.kpi}: ${fmt(n.real,k)}`;
   $('#summaryText').textContent = best && worst ? `${best.region} lidera con ${fmt(best.real,k)}. La mayor oportunidad está en ${worst.region} (${diffFmt(worst.difMeta,k)} vs meta).` : 'No hay datos suficientes para el filtro actual.';
-  $('#summaryIcon').textContent = n.score>=80?'✓':n.score>=65?'!':'↓';
+  const icon = $('#summaryIcon');
+  if (icon && !icon.dataset.logoReady) { icon.innerHTML = '<img src="assets/img/centro-ejecutivo-logo.jpg" alt="CE">'; icon.dataset.logoReady='1'; }
 }
 function renderCards(){
   const n = nationalAgg(), k = currentKind();
@@ -320,8 +323,8 @@ function renderTable(){
   if (STATE.search) rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(STATE.search));
   const {key, dir} = STATE.sort; rows.sort((a,b)=>{ const av=a[key], bv=b[key]; const res = (num(av) ?? String(av)).toString().localeCompare((num(bv) ?? String(bv)).toString(), 'es-MX', {numeric:true}); return dir==='asc'?res:-res; });
   const isStore = rows[0]?.ceco !== undefined;
-  $('#tableSubtitle').textContent = `${rows.length} registros · ${KPI_CONFIG[STATE.kpi].label} · ${KPI_CONFIG[STATE.kpi].axis}${isStore ? ' · vista limpia sin Región/Ciudad' : ''}`;
-  const headers = isStore ? [['tienda','Tienda'],['ceco','CC'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['score','Score'],['status','Estado']] : [['region','Región'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['stores','Tiendas'],['complies','Cumplen'],['risk','Riesgo'],['score','Score'],['status','Estado']];
+  $('#tableSubtitle').textContent = `${rows.length} registros · ${KPI_CONFIG[STATE.kpi].label} · ${KPI_CONFIG[STATE.kpi].axis}`;
+  const headers = isStore ? [['tienda','Tienda'],['ceco','CC'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['score','Score'],['status','Estado']] : [['region','Región'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['complies','Cumplen'],['risk','Riesgo'],['score','Score'],['status','Estado']];
   $('#executiveTable').innerHTML = `<thead><tr><th>#</th>${headers.map(h=>`<th data-sort="${h[0]}">${h[1]}${STATE.sort.key===h[0]?(STATE.sort.dir==='asc'?' ▲':' ▼'):''}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr data-region="${r.region||''}" data-ceco="${r.ceco||''}"><td>${i+1}</td>${headers.map(([key])=>`<td class="${key==='region'||key==='tienda'?'main-name':''}">${cellValue(r,key,k)}</td>`).join('')}</tr>`).join('')}</tbody>`;
   document.querySelectorAll('#executiveTable th[data-sort]').forEach(th => th.onclick = () => { const k=th.dataset.sort; STATE.sort = {key:k, dir: STATE.sort.key===k && STATE.sort.dir==='desc' ? 'asc':'desc'}; renderTable(); });
   document.querySelectorAll('#executiveTable tr[data-region]').forEach(tr => tr.onclick = () => { if(tr.dataset.region){ STATE.regions=[tr.dataset.region]; STATE.level='store'; STATE.selectedRegion=tr.dataset.region; render(); } });
@@ -350,15 +353,19 @@ function renderTrend(){
   if (!all.length) { $('#trendChart').innerHTML = '<p class="map-note">Sin datos suficientes para construir tendencia.</p>'; return; }
   let min=Math.min(...all), max=Math.max(...all); if (min===max) { min-=1; max+=1; }
   const pad=(max-min)*.12; min-=pad; max+=pad; const span=max-min;
-  const W=920,H=300, left=58, top=22, right=28, bottom=52, cw=W-left-right, ch=H-top-bottom;
+  const W=980,H=390, left=66, top=30, right=34, bottom=66, cw=W-left-right, ch=H-top-bottom;
   const x=i => left + (points.length<=1?0:i*(cw/(points.length-1)));
   const y=v => top + ch - (((v-min)/span)*ch);
   const pathFor = key => points.map((p,i)=> num(p[key])===null ? null : `${i===0?'M':'L'} ${x(i).toFixed(1)} ${y(p[key]).toFixed(1)}`).filter(Boolean).join(' ');
-  const dotFor = (key,cls) => points.map((p,i)=> num(p[key])===null ? '' : `<circle class="line-dot ${cls}" cx="${x(i)}" cy="${y(p[key])}" r="4"><title>${p.m}: ${key==='gap'?diffFmt(p[key],k):fmt(p[key],k)}</title></circle>`).join('');
+  const dotFor = (key,cls) => points.map((p,i)=> {
+    const val = num(p[key]); if (val===null) return '';
+    const text = key==='gap'?diffFmt(val,k):fmt(val,k);
+    return `<circle class="line-dot ${cls}" cx="${x(i)}" cy="${y(val)}" r="5"><title>${p.m}: ${text}</title></circle><text class="line-value ${cls}" x="${x(i)}" y="${y(val)-12}" text-anchor="middle">${text}</text>`;
+  }).join('');
   $('#trendTitle').textContent = `Tendencia dinámica · ${KPI_CONFIG[STATE.kpi].label}`;
   $('#axisHint').textContent = KPI_CONFIG[STATE.kpi].axis;
   const legend = series.map(s=>`<span class="legend-dot ${s.cls}"></span>${s.label}`).join(' ');
-  $('#trendChart').innerHTML = `<div class="line-legend">${legend}</div><span class="axis-note">Rango ${fmt(min,k)} → ${fmt(max,k)}</span><svg class="line-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+  $('#trendChart').innerHTML = `<div class="line-legend">${legend}</div><span class="axis-note">Rango ${fmt(min,k)} → ${fmt(max,k)}</span><svg class="line-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
     <g class="grid-lines">${[0,1,2,3].map(i=>`<line x1="${left}" x2="${W-right}" y1="${top+i*ch/3}" y2="${top+i*ch/3}"/>`).join('')}</g>
     <g class="month-labels">${points.map((p,i)=>`<text x="${x(i)}" y="${H-18}" text-anchor="middle">${p.m}</text>`).join('')}</g>
     ${series.map(s=>`<path class="line-path ${s.cls}" d="${pathFor(s.key)}"></path>${dotFor(s.key,s.cls)}`).join('')}
@@ -421,4 +428,4 @@ function setupPWA(){
 }
 setupPWA();
 
-boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo v5.2 Pro: ${err.message}</pre>`; });
+boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo v5.3: ${err.message}</pre>`; });
