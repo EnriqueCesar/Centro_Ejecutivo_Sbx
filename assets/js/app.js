@@ -345,9 +345,9 @@ function renderTable(){
   $('#tableSubtitle').textContent = `${rows.length} registros · ${KPI_CONFIG[STATE.kpi].label} · ${KPI_CONFIG[STATE.kpi].axis}`;
   let headers;
   if (isStore) {
-    headers = [['tienda','Tienda'],['ceco','CC'],['real','Real'],['meta', STATE.kpi==='adt'?'Ordenes Ppto':'Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['score','Score'],['status','Estado']];
+    headers = [['tienda','Tienda'],['ceco','CC'],['real','Real'],['meta', STATE.kpi==='adt'?'Ordenes ppto 26':'Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['score','Score'],['status','Estado']];
   } else if (STATE.kpi === 'adt') {
-    headers = [['region','Región'],['real','ADT_26'],['meta','Ordenes_Ppto_26'],['aa','ADT_25'],['difAA','Dif AA'],['complies','Tiendas que cumplen'],['status','Semáforo']];
+    headers = [['region','Región'],['real','ADT 26'],['meta','Ordenes ppto 26'],['aa','ADT 25'],['difAA','Dif AA'],['complies','Tiendas que cumplen'],['status','Semáforo']];
   } else {
     headers = [['region','Región'],['real','Real'],['meta','Meta'],['aa','AA'],['difMeta','Dif Meta'],['difAA','Dif AA'],['complies','Cumplen'],['risk','Riesgo'],['score','Score'],['status','Estado']];
   }
@@ -393,12 +393,12 @@ function toSegments(points, key, x, y){
 }
 function renderTrend(){
   const k=currentKind();
-  const months=MONTHS; // v5.5: proyección anual; Real termina en último mes con dato real válido.
+  const months=DB?.months?.length ? DB.months : MONTHS; // v5.6: lectura ejecutiva Ene-Jun desde Excel validado.
   const regsFilter = selectedRegions();
   const vals = months.map(m => {
     const regs=aggregateRegions(STATE.kpi,[m]).filter(r => regsFilter.includes(r.region) || STATE.regions.includes('Todas'));
     const capturedRows = aggregateStoreRows(STATE.kpi, [m], regsFilter);
-    // Regla crítica v5.5 auditada: Real sólo se grafica si existe captura real válida.
+    // Regla crítica v5.6 auditada: Real sólo se grafica si existe captura real válida.
     // No se sustituyen blancos/null/undefined por 0, por lo tanto la línea termina en el último mes capturado.
     const real = capturedRows.length ? avg(capturedRows.map(r=>r.real)) : null;
     const aa = avg(regs.map(r=>r.aa));
@@ -493,7 +493,7 @@ function renderRecommendations(){
 function setupPWA(){
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW no registrado', err));
+      navigator.serviceWorker.register('./service-worker.js').catch(err => console.warn('SW no registrado', err));
     });
   }
   window.addEventListener('beforeinstallprompt', event => {
@@ -510,4 +510,4 @@ function setupPWA(){
 }
 setupPWA();
 
-boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo SBX v5.5 Auditada: ${err.message}</pre>`; });
+boot().catch(err => { console.error(err); document.body.innerHTML = `<pre style="padding:30px;color:#b00000">Error cargando Centro Ejecutivo SBX v5.6 Ejecutiva PWA: ${err.message}</pre>`; });

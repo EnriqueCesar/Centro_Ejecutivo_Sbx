@@ -1,0 +1,41 @@
+{
+  "version": "v5.6_Ejecutiva_PWA",
+  "excel": "Centro_Ejecutivo_Sbx.xlsx",
+  "records": {
+    "conexion": 942,
+    "bebida": 942,
+    "tplh": 960,
+    "segundas": 960,
+    "adt": 953
+  },
+  "stores": 968,
+  "regions": [
+    "Bajío",
+    "Centro Centro",
+    "Centro Norte",
+    "Centro Poniente",
+    "Centro Sur",
+    "Noroeste",
+    "Norte",
+    "Norte Centro",
+    "Occidente",
+    "Sur",
+    "Sureste"
+  ],
+  "adt26Records": 953,
+  "budget26Records": 946,
+  "blankBudgetCellsJanJunIgnored": 53,
+  "monthsUsed": [
+    "Ene",
+    "Feb",
+    "Mar",
+    "Abr",
+    "May",
+    "Jun"
+  ],
+  "notes": [
+    "ADT 26 conectado desde ADT_26",
+    "Ordenes ppto 26 conectado desde Ordenes_ppto_26",
+    "PWA preparada con manifest, service-worker.js e iconos PNG"
+  ]
+}
