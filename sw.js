@@ -1,4 +1,4 @@
-const CACHE = 'centro-ejecutivo-sbx-v5-6-pwa';
+const CACHE = 'centro-ejecutivo-sbx-v5-7-pwa';
 const APP_SHELL = [
   './',
   './index.html',

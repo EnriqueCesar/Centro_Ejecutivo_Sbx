@@ -1,41 +1,82 @@
 {
-  "version": "v5.6_Ejecutiva_PWA",
-  "excel": "Centro_Ejecutivo_Sbx.xlsx",
-  "records": {
-    "conexion": 942,
-    "bebida": 942,
-    "tplh": 960,
-    "segundas": 960,
-    "adt": 953
+  "version": "v5.7-ordenes-ppto-fix",
+  "checks": {
+    "nodeSyntax": "ok",
+    "budgetRecords": 943,
+    "adtRecords": 953,
+    "junBudgetEqualsAdtStores": 132,
+    "junBudgetDiffersStores": 800,
+    "blankBudgetJunStores": 21,
+    "pptoSource": "Ordenes_ppto_26",
+    "adt26Source": "ADT_26",
+    "blankHandling": "null/excluded from averages"
   },
-  "stores": 968,
-  "regions": [
-    "Bajío",
-    "Centro Centro",
-    "Centro Norte",
-    "Centro Poniente",
-    "Centro Sur",
-    "Noroeste",
-    "Norte",
-    "Norte Centro",
-    "Occidente",
-    "Sur",
-    "Sureste"
-  ],
-  "adt26Records": 953,
-  "budget26Records": 946,
-  "blankBudgetCellsJanJunIgnored": 53,
-  "monthsUsed": [
-    "Ene",
-    "Feb",
-    "Mar",
-    "Abr",
-    "May",
-    "Jun"
-  ],
-  "notes": [
-    "ADT 26 conectado desde ADT_26",
-    "Ordenes ppto 26 conectado desde Ordenes_ppto_26",
-    "PWA preparada con manifest, service-worker.js e iconos PNG"
-  ]
+  "sampleRegionJun": {
+    "Bajío": {
+      "stores": 87,
+      "adt26": 383.5070260199571,
+      "ordenesPpto26": 456.4017718715393,
+      "adt25": 371.04991935267793
+    },
+    "Centro Centro": {
+      "stores": 85,
+      "adt26": 399.4943211179273,
+      "ordenesPpto26": 453.81031746031744,
+      "adt25": 385.02506808234244
+    },
+    "Centro Norte": {
+      "stores": 68,
+      "adt26": 377.381221719457,
+      "ordenesPpto26": 457.0573529411765,
+      "adt25": 370.705
+    },
+    "Centro Poniente": {
+      "stores": 97,
+      "adt26": 349.85888123726016,
+      "ordenesPpto26": 414.48865979381446,
+      "adt25": 351.45539145850506
+    },
+    "Centro Sur": {
+      "stores": 96,
+      "adt26": 362.72699652777777,
+      "ordenesPpto26": 437.3434027777778,
+      "adt25": 359.8063966049383
+    },
+    "Noroeste": {
+      "stores": 75,
+      "adt26": 374.67344444444444,
+      "ordenesPpto26": 444.1442922374429,
+      "adt25": 364.5526436781609
+    },
+    "Norte": {
+      "stores": 90,
+      "adt26": 435.15982905982906,
+      "ordenesPpto26": 488.5670411985019,
+      "adt25": 441.81903703703705
+    },
+    "Norte Centro": {
+      "stores": 60,
+      "adt26": 398.66305555555556,
+      "ordenesPpto26": 462.09999999999997,
+      "adt25": 403.38547892720305
+    },
+    "Occidente": {
+      "stores": 87,
+      "adt26": 489.88922205563887,
+      "ordenesPpto26": 562.200233216725,
+      "adt25": 484.0082197119831
+    },
+    "Sur": {
+      "stores": 66,
+      "adt26": 413.279797979798,
+      "ordenesPpto26": 487.3015384615384,
+      "adt25": 386.3257151727166
+    },
+    "Sureste": {
+      "stores": 80,
+      "adt26": 367.2282407407407,
+      "ordenesPpto26": 430.4801801801802,
+      "adt25": 376.80752717391306
+    }
+  }
 }

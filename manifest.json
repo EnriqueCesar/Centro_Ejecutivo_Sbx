@@ -1,9 +1,9 @@
 {
-  "name": "Centro Ejecutivo SBX v5.6",
+  "name": "Centro Ejecutivo SBX v5.7",
   "short_name": "Centro SBX",
   "description": "Centro Ejecutivo SBX con tabla ejecutiva por región, validación ADT 26 vs Ordenes ppto 26 y modo PWA instalable.",
-  "id": "./?v=5.6",
-  "start_url": "./?source=pwa&v=5.6",
+  "id": "./?v=5.7",
+  "start_url": "./?source=pwa&v=5.7",
   "scope": "./",
   "display": "standalone",
   "display_override": [

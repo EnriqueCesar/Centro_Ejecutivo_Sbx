@@ -87,6 +87,16 @@ function budgetFor(kpi, ceco, year, month){
   if (kpi !== 'adt') return objective(kpi, month);
   return num(DB.kpis?.adt?.budgetRecords?.[ceco]?.[String(year)]?.[month]);
 }
+function isYtdView(){ return STATE.months.includes('Todos'); }
+function budgetYtdFor(ceco, year){
+  const rec = DB.kpis?.adt?.budgetRecords?.[ceco]?.[String(year)] || {};
+  const direct = num(rec.YTD_26 ?? rec.ytd_26 ?? rec.YTD);
+  if (direct !== null) return direct;
+  return avg((DB.kpis?.adt?.budgetMonths || MONTHS).filter(m => MONTHS.includes(m)).map(m => rec[m]));
+}
+function budgetAvgForMonths(ceco, year, months){
+  return avg(months.map(m => budgetFor('adt', ceco, year, m)));
+}
 function metricFor(row, kpi=STATE.kpi){
   if (kpi === 'adt') {
     if (row.real === null || row.aa === null) return null;
@@ -136,7 +146,13 @@ function aggregateStoreRows(kpi=STATE.kpi, months=selectedMonths(), regions=sele
       aa = avg(months.map(m => valueFor(kpi, ceco, aaYear, m)));
     }
     if (real === null) return;
-    const meta = kpi === 'adt' ? avg(comparableMonths.map(m => budgetFor(kpi, ceco, year, m))) : avg(comparableMonths.map(m => objective(kpi, m)));
+    // v5.7: Ordenes ppto 26 se alimenta exclusivamente de Ordenes_ppto_26.
+    // En vista Todos/YTD se usa YTD_26 si existe; si está vacío, se promedian sólo meses válidos.
+    // Las celdas blancas permanecen como null y nunca se convierten en cero.
+    const useYtdBudget = kpi === 'adt' && isYtdView() && months.length > 1;
+    const meta = kpi === 'adt'
+      ? (useYtdBudget ? budgetYtdFor(ceco, year) : budgetAvgForMonths(ceco, year, comparableMonths))
+      : avg(comparableMonths.map(m => objective(kpi, m)));
     const difMeta = meta === null ? null : real-meta;
     const difAA = aa === null ? null : real-aa;
     const metric = kpi === 'adt' ? real-aa : real;
