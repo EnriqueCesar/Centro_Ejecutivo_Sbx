@@ -1,7 +1,0 @@
-Centro Ejecutivo SBX - v5.6 Ejecutiva PWA
-Validación ejecutiva por región lista.
-Tiendas: 968 | Regiones: Bajío, Centro Centro, Centro Norte, Centro Poniente, Centro Sur, Noroeste, Norte, Norte Centro, Occidente, Sur, Sureste
-ADT 26: fuente ADT_26, meses Ene-Jun.
-Ordenes ppto 26: fuente Ordenes_ppto_26, meses Ene-Jun; blancos ignorados.
-Se regeneró data/kpi-data.json desde Centro_Ejecutivo_Sbx.xlsx.
-Se preparó PWA con manifest.json, service-worker.js, sw.js de compatibilidad e iconos.
